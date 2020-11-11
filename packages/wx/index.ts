@@ -52,3 +52,6 @@ export { OutNewsMsg } from './src/entity/message/output/OutNewsMsg'
 export { OutTextMsg } from './src/entity/message/output/OutTextMsg'
 export { OutVideoMsg } from './src/entity/message/output/OutVideoMsg'
 export { OutVoiceMsg } from './src/entity/message/output/OutVoiceMsg'
+
+export { InMsgParser } from './src/InMsgParser'
+export { IMsgAdapter, MsgAdapter } from './src/MsgAdapter'
