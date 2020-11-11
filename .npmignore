@@ -1,0 +1,12 @@
+docs
+assets
+sample
+**/*.ts
+*.ts
+# configuration
+.gitee
+.github
+.vscode
+.prettierrc
+.travis.yml
+tsconfig.json

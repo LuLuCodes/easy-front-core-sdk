@@ -1,0 +1,21 @@
+{
+  "name": "@easy-front-core-sdk/cache",
+  "version": "1.0.0",
+  "description": "核心模块-缓存",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "tsc": "tsc",
+    "watch": "tsc --watch",
+    "prettier": "prettier --check 'src/**/*.ts'",
+    "test": "jest --passWithNoTests"
+  },
+  "author": "qian.qing@aliyun.com",
+  "license": "MIT",
+  "dependencies": {
+    "ioredis": "^4.19.2"
+  },
+  "devDependencies": {
+    "@types/ioredis": "^4.17.7"
+  }
+}
