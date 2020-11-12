@@ -74,10 +74,10 @@ export class TemplateMsgAPI {
 
   /**
    * 获取模板ID
-   * @param templateIdShort 模板库中模板的编号
    * @param wxCore
+   * @param templateIdShort 模板库中模板的编号
    */
-  public static async getTemplateId(templateIdShort: string, wxCore?: WXCore) {
+  public static async getTemplateId(wxCore: WXCore, templateIdShort: string) {
     const token = await wxCore.getAccessToken()
     const url = util.format(this.getTemplateIdUrl, token)
     const data = await this._http.post(url, {
@@ -115,7 +115,7 @@ export class TemplateMsgAPI {
    * 获取模板列表
    * @param wxCore
    */
-  public static async getAllTemplate(wxCore?: WXCore) {
+  public static async getAllTemplate(wxCore: WXCore) {
     const token = await wxCore.getAccessToken()
     const url = util.format(this.getAllTemplateUrl, token)
     const data = await this._http.post(url)
