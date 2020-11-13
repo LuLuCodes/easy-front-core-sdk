@@ -28,6 +28,7 @@ import { OutMusicMsg } from './entity/message/output/OutMusicMsg'
 import { OutNewsMsg } from './entity/message/output/OutNewsMsg'
 import { OutVideoMsg } from './entity/message/output/OutVideoMsg'
 import { OutVoiceMsg } from './entity/message/output/OutVoiceMsg'
+import { OutCustomMsg } from './entity/message/output/OutCustomMsg'
 
 import { InMsgParser } from './InMsgParser'
 import { IMsgAdapter } from './MsgAdapter'
@@ -147,6 +148,8 @@ export class WeChat {
           responseMsg = (<OutVideoMsg>outMsg).toXml()
         } else if (outMsg instanceof OutVoiceMsg) {
           responseMsg = (<OutVoiceMsg>outMsg).toXml()
+        } else if (outMsg instanceof OutCustomMsg) {
+          responseMsg = (<OutCustomMsg>outMsg).toXml()
         } else if (typeof outMsg === 'string') {
           responseMsg = outMsg
         }
