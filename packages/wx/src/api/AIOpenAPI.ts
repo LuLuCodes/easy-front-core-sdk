@@ -3,6 +3,9 @@ import { WXCore } from '../WXCore'
 import { Http } from '@easy-front-core-sdk/kits'
 import { Lang } from '../Enums'
 
+/**
+ * @description AI智能接口
+ */
 export class AIOpenAPI {
   private static addVoiceUrl: string = 'http://api.weixin.qq.com/cgi-bin/media/voice/addvoicetorecofortext?access_token=%s&format=&voice_id=%s&lang=%s'
   private static queryTextUrl: string = 'http://api.weixin.qq.com/cgi-bin/media/voice/queryrecoresultfortext?access_token=%s&voice_id=%s&lang=%s'
