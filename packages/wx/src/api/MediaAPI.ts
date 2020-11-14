@@ -49,7 +49,7 @@ export class MediaArticles {
 /**
  * @description 素材管理
  */
-export class MediaApi {
+export class MediaAPI {
   private static uploadUrl: string = 'https://api.weixin.qq.com/cgi-bin/media/upload?access_token=%s&type=%s'
   private static getMediaUrl: string = 'https://api.weixin.qq.com/cgi-bin/media/get?access_token=%s&media_id=%s'
   private static getJssdkMediaUrl: string = 'https://api.weixin.qq.com/cgi-bin/media/get/jssdk?access_token=%s'

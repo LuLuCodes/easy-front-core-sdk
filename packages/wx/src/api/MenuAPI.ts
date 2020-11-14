@@ -13,6 +13,7 @@ export class MenuAPI {
   private static addConditionalUrl = 'https://api.weixin.qq.com/cgi-bin/menu/addconditional?access_token=%s'
   private static delConditionalUrl = 'https://api.weixin.qq.com/cgi-bin/menu/delconditional?access_token=%s'
   private static tryMatchUrl = 'https://api.weixin.qq.com/cgi-bin/menu/trymatch?access_token=%s'
+
   private static _http = Http.getInstance()
   /**
    * 创建菜单
