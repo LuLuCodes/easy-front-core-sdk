@@ -1,7 +1,10 @@
 {
-  "name": "@easy-front-core-sdk/cache",
+  "name": "@easy-front-core-sdk/miniprogram",
   "version": "1.0.0",
-  "description": "核心模块-缓存",
+  "description": "核心模块-微信小程序",
+  "author": "qian.qing@aliyun.com <qian.qing@aliyun.com>",
+  "homepage": "https://github.com/LuLuCodes/easy-front-core-sdk#readme",
+  "license": "MIT",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
@@ -10,8 +13,6 @@
     "prettier": "prettier --check 'src/**/*.ts'",
     "test": "jest --passWithNoTests"
   },
-  "author": "qian.qing@aliyun.com <qian.qing@aliyun.com>",
-  "license": "MIT",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/LuLuCodes/easy-front-core-sdk.git"
@@ -20,9 +21,7 @@
     "url": "https://github.com/LuLuCodes/easy-front-core-sdk/issues"
   },
   "dependencies": {
-    "ioredis": "^4.19.2"
-  },
-  "devDependencies": {
-    "@types/ioredis": "^4.17.7"
+    "@easy-front-core-sdk/cache": "^1.0.0",
+    "@easy-front-core-sdk/kits": "^1.0.0"
   }
 }

@@ -2,9 +2,16 @@
   "name": "@easy-front-core-sdk/wx",
   "version": "1.0.0",
   "description": "核心模块-微信公众号",
-  "author": "joneqian <qian.qing@aliyun.com>",
+  "author": "qian.qing@aliyun.com <qian.qing@aliyun.com>",
   "homepage": "https://github.com/LuLuCodes/easy-front-core-sdk#readme",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/LuLuCodes/easy-front-core-sdk.git"
+  },
+  "bugs": {
+    "url": "https://github.com/LuLuCodes/easy-front-core-sdk/issues"
+  },
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {

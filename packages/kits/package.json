@@ -4,10 +4,20 @@
   "description": "核心模块-工具集",
   "main": "dist/index.js",
   "scripts": {
+    "tsc": "tsc",
+    "watch": "tsc --watch",
+    "prettier": "prettier --check 'src/**/*.ts'",
     "test": "jest --passWithNoTests"
   },
-  "author": "qian.qing@aliyun.com",
+  "author": "qian.qing@aliyun.com <qian.qing@aliyun.com>",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/LuLuCodes/easy-front-core-sdk.git"
+  },
+  "bugs": {
+    "url": "https://github.com/LuLuCodes/easy-front-core-sdk/issues"
+  },
   "dependencies": {
     "axios": "^0.21.0",
     "concat-stream": "^2.0.0",
