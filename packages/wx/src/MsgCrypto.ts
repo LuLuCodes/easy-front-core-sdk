@@ -1,12 +1,6 @@
 import * as crypto from 'crypto'
 import * as xml2js from 'xml2js'
-
-interface ApiConfig {
-  appId: string
-  appScrect: string
-  token?: string
-  encodingAesKey?: string
-}
+import { IApiConfig } from './WXCore'
 
 export class MsgCrypto {
   static xmlParser = new xml2js.Builder({
@@ -27,7 +21,7 @@ export class MsgCrypto {
   timestamp: string
   nonce: string
 
-  constructor(config: ApiConfig, msgSignature: string, timestamp: string, nonce: string) {
+  constructor(config: IApiConfig, msgSignature: string, timestamp: string, nonce: string) {
     this.aesModel = 'aes-256-cbc'
     this.token = config.token
     this.appId = config.appId

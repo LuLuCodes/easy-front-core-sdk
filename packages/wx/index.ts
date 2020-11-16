@@ -1,5 +1,5 @@
 export { ScopeEnum, Lang, JsApiType, CheckAction, CheckOperator, MessageStatus, MediaType, OCRType, ImgProcessingType } from './src/Enums'
-export { WXCoreFactory, WXCore, ApiConfig } from './src/WXCore'
+export { WXCoreFactory, WXCore, IApiConfig } from './src/WXCore'
 export { WeChat } from './src/WeChat'
 export { InMsgParser } from './src/InMsgParser'
 export { IMsgAdapter, MsgAdapter } from './src/MsgAdapter'

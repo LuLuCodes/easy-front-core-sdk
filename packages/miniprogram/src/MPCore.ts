@@ -2,7 +2,7 @@ import * as util from 'util'
 import { RedisCache, IRedisConfig } from '@easy-front-core-sdk/cache'
 import { Http } from '@easy-front-core-sdk/kits'
 
-export interface ApiConfig {
+export interface IApiConfig {
   appId: string
   appScrect: string
   token?: string
@@ -11,21 +11,22 @@ export interface ApiConfig {
 
 export class MPCoreFactory {
   private static CORE_MAP: Map<string, MPCore> = new Map<string, MPCore>()
-  private static RedisConfig: IRedisConfig
-  public static setRedis(redisConfig: IRedisConfig) {
-    this.RedisConfig = redisConfig
-  }
 
-  public static getCore(apiConfig: ApiConfig) {
-    if (!this.RedisConfig) {
-      throw new Error('please call setRedis to init redis')
-    }
+  public static putCore(apiConfig: IApiConfig, redisConfig: IRedisConfig) {
     let mpCore: MPCore = this.CORE_MAP.get(apiConfig.appId)
     if (mpCore) {
       return mpCore
     }
-    mpCore = new MPCore(apiConfig, this.RedisConfig)
+    mpCore = new MPCore(apiConfig, redisConfig)
     this.CORE_MAP.set(apiConfig.appId, mpCore)
+    return mpCore
+  }
+
+  public static getCore(appId: string) {
+    let mpCore: MPCore = this.CORE_MAP.get(appId)
+    if (!mpCore) {
+      throw new Error('需事先调用 MPCoreFactory.putCore(apiConfig: IApiConfig, redisConfig: IRedisConfig) 将 appId 对应的 config 对象存入后,才可以使用 MPCoreFactory.getCore方法')
+    }
     return mpCore
   }
 
@@ -39,7 +40,7 @@ export class MPCore {
   private _cache = null
   private _http = Http.getInstance()
   private _apiConfig = null
-  constructor(apiConfig: ApiConfig, redisConfig: IRedisConfig) {
+  constructor(apiConfig: IApiConfig, redisConfig: IRedisConfig) {
     this._cache = new RedisCache(redisConfig)
     this._apiConfig = apiConfig
   }
@@ -62,7 +63,7 @@ export class MPCore {
    *  @param apiConfig
    */
   private async getAvailableAccessToken(): Promise<string | undefined> {
-    return await this._cache.get(`access_token_${this._apiConfig.appId}`)
+    return await this._cache.get(`mp_access_token_${this._apiConfig.appId}`)
   }
 
   /**
@@ -70,7 +71,7 @@ export class MPCore {
    *  @param apiConfig
    */
   public async getAccessTokenExpiresIn(): Promise<number | undefined> {
-    return await this._cache.ttl(`access_token_${this._apiConfig.appId}`)
+    return await this._cache.ttl(`mp_access_token_${this._apiConfig.appId}`)
   }
 
   /**
@@ -84,7 +85,7 @@ export class MPCore {
       if (data.errcode) {
         throw new Error(data.errmsg)
       }
-      this._cache.set(`access_token_${this._apiConfig.appId}`, data.access_token, 'EX', data.expires_in)
+      this._cache.set(`mp_access_token_${this._apiConfig.appId}`, data.access_token, 'EX', data.expires_in - 100)
       return data.access_token
     } else {
       throw new Error('获取accessToken异常')
@@ -94,7 +95,7 @@ export class MPCore {
   /**
    *  获取新的 apiConfig
    */
-  public getApiConfig(): ApiConfig {
+  public getApiConfig(): IApiConfig {
     return this._apiConfig
   }
 }

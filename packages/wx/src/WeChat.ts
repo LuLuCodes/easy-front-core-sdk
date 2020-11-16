@@ -1,6 +1,7 @@
-import { WXCore, ApiConfig } from './WXCore'
+import { WXCore, IApiConfig } from './WXCore'
 import { JsApiType } from './Enums'
-import { Cryptogram, MsgCrypto } from '@easy-front-core-sdk/kits'
+import { MsgCrypto } from './MsgCrypto'
+import { Cryptogram } from '@easy-front-core-sdk/kits'
 import { parseString } from 'xml2js'
 
 import { InMsg } from './entity/message/input/InMsg'
@@ -87,7 +88,7 @@ export class WeChat {
         }
         let result = res.xml
         let cryptoKit: MsgCrypto
-        const apiCofig: ApiConfig = wxCore.getApiConfig()
+        const apiCofig: IApiConfig = wxCore.getApiConfig()
         //判断消息加解密方式
         if (apiCofig.encodingAesKey) {
           cryptoKit = new MsgCrypto(apiCofig, msgSignature || '', timestamp || '', nonce || '')

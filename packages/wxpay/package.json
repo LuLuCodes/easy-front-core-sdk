@@ -1,0 +1,27 @@
+{
+  "name": "@easy-front-core-sdk/wxpay",
+  "version": "1.0.0",
+  "description": "核心模块-微信支付",
+  "author": "qian.qing@aliyun.com <qian.qing@aliyun.com>",
+  "homepage": "https://github.com/LuLuCodes/easy-front-core-sdk#readme",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/LuLuCodes/easy-front-core-sdk.git"
+  },
+  "bugs": {
+    "url": "https://github.com/LuLuCodes/easy-front-core-sdk/issues"
+  },
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "tsc": "tsc",
+    "watch": "tsc --watch",
+    "prettier": "prettier --check 'src/**/*.ts'",
+    "test": "jest --passWithNoTests"
+  },
+  "dependencies": {
+    "@easy-front-core-sdk/cache": "^1.0.0",
+    "@easy-front-core-sdk/kits": "^1.0.0"
+  }
+}

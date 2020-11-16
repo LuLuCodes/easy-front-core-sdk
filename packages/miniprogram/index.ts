@@ -1,4 +1,4 @@
-export { MPCoreFactory, MPCore, ApiConfig } from './src/MPCore'
+export { MPCoreFactory, MPCore, IApiConfig } from './src/MPCore'
 
 export { BasicAPI } from './src/api/BasicAPI'
 export { SecurityAPI } from './src/api/SecurityAPI'

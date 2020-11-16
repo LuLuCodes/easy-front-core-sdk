@@ -3,7 +3,7 @@ import { RedisCache, IRedisConfig } from '@easy-front-core-sdk/cache'
 import { Http } from '@easy-front-core-sdk/kits'
 import { JsApiType } from './Enums'
 
-export interface ApiConfig {
+export interface IApiConfig {
   appId: string
   appScrect: string
   token?: string
@@ -12,21 +12,22 @@ export interface ApiConfig {
 
 export class WXCoreFactory {
   private static CORE_MAP: Map<string, WXCore> = new Map<string, WXCore>()
-  private static RedisConfig: IRedisConfig
-  public static setRedis(redisConfig: IRedisConfig) {
-    this.RedisConfig = redisConfig
-  }
 
-  public static getCore(apiConfig: ApiConfig) {
-    if (!this.RedisConfig) {
-      throw new Error('please call setRedis to init redis')
-    }
+  public static putCore(apiConfig: IApiConfig, redisConfig: IRedisConfig) {
     let wxCore: WXCore = this.CORE_MAP.get(apiConfig.appId)
     if (wxCore) {
       return wxCore
     }
-    wxCore = new WXCore(apiConfig, this.RedisConfig)
+    wxCore = new WXCore(apiConfig, redisConfig)
     this.CORE_MAP.set(apiConfig.appId, wxCore)
+    return wxCore
+  }
+
+  public static getCore(appId: string) {
+    let wxCore: WXCore = this.CORE_MAP.get(appId)
+    if (!wxCore) {
+      throw new Error('需事先调用 WXCoreFactory.putCore(apiConfig: IApiConfig, redisConfig: IRedisConfig) 将 appId 对应的 config 对象存入后,才可以使用 WXCoreFactory.getCore方法')
+    }
     return wxCore
   }
 
@@ -41,7 +42,7 @@ export class WXCore {
   private _cache = null
   private _http = Http.getInstance()
   private _apiConfig = null
-  constructor(apiConfig: ApiConfig, redisConfig: IRedisConfig) {
+  constructor(apiConfig: IApiConfig, redisConfig: IRedisConfig) {
     this._cache = new RedisCache(redisConfig)
     this._apiConfig = apiConfig
   }
@@ -64,7 +65,7 @@ export class WXCore {
    *  @param apiConfig
    */
   private async getAvailableAccessToken(): Promise<string | undefined> {
-    return await this._cache.get(`access_token_${this._apiConfig.appId}`)
+    return await this._cache.get(`wx_access_token_${this._apiConfig.appId}`)
   }
 
   /**
@@ -72,7 +73,7 @@ export class WXCore {
    *  @param apiConfig
    */
   public async getAccessTokenExpiresIn(): Promise<number | undefined> {
-    return await this._cache.ttl(`access_token_${this._apiConfig.appId}`)
+    return await this._cache.ttl(`wx_access_token_${this._apiConfig.appId}`)
   }
 
   /**
@@ -86,7 +87,7 @@ export class WXCore {
       if (data.errcode) {
         throw new Error(data.errmsg)
       }
-      this._cache.set(`access_token_${this._apiConfig.appId}`, data.access_token, 'EX', data.expires_in)
+      this._cache.set(`wx_access_token_${this._apiConfig.appId}`, data.access_token, 'EX', data.expires_in - 100)
       return data.access_token
     } else {
       throw new Error('获取accessToken异常')
@@ -98,7 +99,7 @@ export class WXCore {
    * @param type
    */
   public async getTicket(type: JsApiType) {
-    let jsTicket: string = await this._cache.get(`js_ticket_${this._apiConfig.appId}`)
+    let jsTicket: string = await this._cache.get(`wx_js_ticket_${this._apiConfig.appId}`)
     if (jsTicket) {
       return jsTicket
     }
@@ -110,7 +111,7 @@ export class WXCore {
       if (data.errcode) {
         throw new Error(data.errmsg)
       }
-      this._cache.set(`js_ticket_${this._apiConfig.appId}`, data.ticket, 'EX', data.expires_in)
+      this._cache.set(`wx_js_ticket_${this._apiConfig.appId}`, data.ticket, 'EX', data.expires_in - 100)
       return data.ticket
     } else {
       throw new Error('获取jsTicket异常')
@@ -120,7 +121,7 @@ export class WXCore {
   /**
    *  获取新的 apiConfig
    */
-  public getApiConfig(): ApiConfig {
+  public getApiConfig(): IApiConfig {
     return this._apiConfig
   }
 }
