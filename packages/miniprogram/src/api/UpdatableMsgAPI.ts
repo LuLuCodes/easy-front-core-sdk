@@ -5,7 +5,7 @@ import { Http } from '@easy-front-core-sdk/kits'
 /**
  * @description 动态消息接口
  */
-export class UpdatableMessageAPI {
+export class UpdatableMsgAPI {
   private static createActivieyIdUrl: string = 'https://api.weixin.qq.com/cgi-bin/message/wxopen/activityid/create?access_token=%s'
   private static setUpdatableMsgUrl: string = 'https://api.weixin.qq.com/cgi-bin/message/wxopen/updatablemsg/send?access_token=%s'
 
