@@ -26,6 +26,19 @@ export class AxiosHttp implements IHttpInstance {
     })
   }
 
+  getToResponse(url: string, options?: any): Promise<any> {
+    return new Promise((resolve) => {
+      axios
+        .get(url, options)
+        .then((response) => {
+          resolve(response)
+        })
+        .catch((error) => {
+          resolve(error.response)
+        })
+    })
+  }
+
   post(url: string, data?: any, options?: any): Promise<any> {
     return new Promise((resolve, reject) => {
       axios
@@ -39,6 +52,19 @@ export class AxiosHttp implements IHttpInstance {
         })
         .catch((error) => {
           reject(error)
+        })
+    })
+  }
+
+  postToResponse(url: string, data: string, options?: any): Promise<any> {
+    return new Promise((resolve) => {
+      axios
+        .post(url, data, options)
+        .then((response) => {
+          resolve(response)
+        })
+        .catch((error) => {
+          resolve(error.response)
         })
     })
   }
@@ -60,6 +86,19 @@ export class AxiosHttp implements IHttpInstance {
     })
   }
 
+  putToResponse(url: string, data: string, options?: any): Promise<any> {
+    return new Promise((resolve) => {
+      axios
+        .put(url, data, options)
+        .then((response) => {
+          resolve(response)
+        })
+        .catch((error) => {
+          resolve(error.response)
+        })
+    })
+  }
+
   delete(url: string, options?: any): Promise<any> {
     return new Promise((resolve, reject) => {
       axios
@@ -73,6 +112,19 @@ export class AxiosHttp implements IHttpInstance {
         })
         .catch((error) => {
           resolve(error)
+        })
+    })
+  }
+
+  deleteToResponse(url: string, options?: any): Promise<any> {
+    return new Promise((resolve) => {
+      axios
+        .delete(url, options)
+        .then((response) => {
+          resolve(response)
+        })
+        .catch((error) => {
+          resolve(error.response)
         })
     })
   }
