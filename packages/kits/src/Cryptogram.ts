@@ -150,4 +150,18 @@ export class Cryptogram {
     decipherIv.final()
     return decryptStr
   }
+
+  /**
+   * RSA公钥加密
+   */
+  public static publicEncrypt(key: crypto.RsaPublicKey | crypto.RsaPrivateKey | crypto.KeyLike, data: string) {
+    return crypto.publicEncrypt(key, Buffer.from(data))
+  }
+
+  /**
+   * RSA私钥加密
+   */
+  public static privateDecrypt(private_key: crypto.RsaPrivateKey | crypto.KeyLike, data: string) {
+    return crypto.privateDecrypt(private_key, Buffer.from(data))
+  }
 }

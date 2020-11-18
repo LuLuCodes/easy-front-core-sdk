@@ -22,6 +22,10 @@
   },
   "dependencies": {
     "@easy-front-core-sdk/cache": "^1.0.0",
-    "@easy-front-core-sdk/kits": "^1.0.0"
+    "@easy-front-core-sdk/kits": "^1.0.0",
+    "urlencode": "^1.1.0"
+  },
+  "devDependencies": {
+    "@types/urlencode": "^1.1.2"
   }
 }
