@@ -1,7 +1,7 @@
 import * as fs from 'fs'
 import * as urlencode from 'urlencode'
 import { Kit, Cryptogram, Http } from '@easy-front-core-sdk/kits'
-import { SIGN_TYPE, SIGN_KEY_TYPE } from './Enums'
+import { SIGN_TYPE, SIGN_KEY_TYPE, REQUEST_METHOD } from './Enums'
 
 /**商户号配置
  * @param mchId         商户号
@@ -20,29 +20,6 @@ export interface IApiConfig {
   certPath?: string
   key?: Buffer
   platSerialNo?: string
-}
-
-enum RequestMethod {
-  /**
-   * 上传实质是 post 请求
-   */
-  UPLOAD = 'POST',
-  /**
-   * post 请求
-   */
-  POST = 'POST',
-  /**
-   * get 请求
-   */
-  GET = 'GET',
-  /**
-   * delete 请求
-   */
-  DELETE = 'DELETE',
-  /**
-   * put 请求
-   */
-  PUT = 'PUT',
 }
 
 export class WXPayCoreFactory {
@@ -101,13 +78,13 @@ export class WXPayCore {
 
   /**
    * 构建请求签名参数
-   * @param method {RequestMethod} Http 请求方式
+   * @param method {REQUEST_METHOD} Http 请求方式
    * @param url 请求接口 /v3/certificates
    * @param timestamp 获取发起请求时的系统当前时间戳
    * @param nonceStr 随机字符串
    * @param body 请求报文主体
    */
-  private buildReqSignMessage(method: RequestMethod, url: string, timestamp: string, nonceStr: string, body: string): string {
+  private buildReqSignMessage(method: REQUEST_METHOD, url: string, timestamp: string, nonceStr: string, body: string): string {
     return this.buildSignMessage([method, url, timestamp, nonceStr, body])
   }
 
@@ -200,14 +177,14 @@ export class WXPayCore {
   /**
    * 构建接口所需的 Authorization
    *
-   * @param method    {RequestMethod} 请求方法
+   * @param method    {REQUEST_METHOD} 请求方法
    * @param urlSuffix 可通过 WxApiType 来获取，URL挂载参数需要自行拼接
    * @param mchId     商户Id
    * @param serialNo  商户 API 证书序列号
    * @param key       商户key.pem 证书
    * @param body      接口请求参数
    */
-  private async buildAuthorization(method: RequestMethod, urlSuffix: string, mchId: string, serialNo: string, key: Buffer, body: string): Promise<string> {
+  private async buildAuthorization(method: REQUEST_METHOD, urlSuffix: string, mchId: string, serialNo: string, key: Buffer, body: string): Promise<string> {
     let timestamp: string = parseInt((Date.now() / 1000).toString()).toString()
 
     let authType: string = 'WECHATPAY2-SHA256-RSA2048'
@@ -244,7 +221,7 @@ export class WXPayCore {
     if (params && params.size > 0) {
       urlSuffix = urlSuffix.concat('?').concat(this.createLinkString(params, '&', true, false))
     }
-    let authorization = await this.buildAuthorization(RequestMethod.GET, urlSuffix, this._apiConfig.mchId, this._apiConfig.serialNo, this._apiConfig.key, '')
+    let authorization = await this.buildAuthorization(REQUEST_METHOD.GET, urlSuffix, this._apiConfig.mchId, this._apiConfig.serialNo, this._apiConfig.key, '')
 
     return await this._http.getToResponse(urlPrefix.concat(urlSuffix), {
       headers: this.getHeaders(authorization),
@@ -258,7 +235,7 @@ export class WXPayCore {
    * @param data          接口请求参数
    */
   public async post(urlPrefix: string, urlSuffix: string, data: string): Promise<any> {
-    let authorization = await this.buildAuthorization(RequestMethod.POST, urlSuffix, this._apiConfig.mchId, this._apiConfig.serialNo, this._apiConfig.key, data)
+    let authorization = await this.buildAuthorization(REQUEST_METHOD.POST, urlSuffix, this._apiConfig.mchId, this._apiConfig.serialNo, this._apiConfig.key, data)
 
     return await this._http.postToResponse(urlPrefix.concat(urlSuffix), data, {
       headers: this.getHeaders(authorization),
@@ -272,7 +249,7 @@ export class WXPayCore {
    * @param data          接口请求参数
    */
   public async put(urlPrefix: string, urlSuffix: string, data: string): Promise<any> {
-    let authorization = await this.buildAuthorization(RequestMethod.PUT, urlSuffix, this._apiConfig.mchId, this._apiConfig.serialNo, this._apiConfig.key, data)
+    let authorization = await this.buildAuthorization(REQUEST_METHOD.PUT, urlSuffix, this._apiConfig.mchId, this._apiConfig.serialNo, this._apiConfig.key, data)
 
     return await this._http.postToResponse(urlPrefix.concat(urlSuffix), data, {
       headers: this.getHeaders(authorization),
@@ -285,7 +262,7 @@ export class WXPayCore {
    * @param urlSuffix     请求接口后缀，可通过 WXPAY_API_URL 来获取
    */
   public async delete(urlPrefix: string, urlSuffix: string): Promise<any> {
-    let authorization = await this.buildAuthorization(RequestMethod.DELETE, urlSuffix, this._apiConfig.mchId, this._apiConfig.serialNo, this._apiConfig.key, '')
+    let authorization = await this.buildAuthorization(REQUEST_METHOD.DELETE, urlSuffix, this._apiConfig.mchId, this._apiConfig.serialNo, this._apiConfig.key, '')
 
     return await this._http.deleteToResponse(urlPrefix.concat(urlSuffix), {
       headers: this.getHeaders(authorization),
@@ -300,7 +277,7 @@ export class WXPayCore {
    * @param data          请求参数
    */
   public async upload(urlPrefix: string, urlSuffix: string, filePath: string, data: string): Promise<any> {
-    let authorization = await this.buildAuthorization(RequestMethod.UPLOAD, urlSuffix, this._apiConfig.mchId, this._apiConfig.serialNo, this._apiConfig.key, data)
+    let authorization = await this.buildAuthorization(REQUEST_METHOD.UPLOAD, urlSuffix, this._apiConfig.mchId, this._apiConfig.serialNo, this._apiConfig.key, data)
 
     let headers = this.getHeaders(authorization)
     headers['Content-type'] = 'multipart/form-data'

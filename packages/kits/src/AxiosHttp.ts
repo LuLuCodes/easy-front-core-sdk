@@ -39,7 +39,7 @@ export class AxiosHttp implements IHttpInstance {
     })
   }
 
-  post(url: string, data?: any, options?: any): Promise<any> {
+  post(url: string, data: any, options?: any): Promise<any> {
     return new Promise((resolve, reject) => {
       axios
         .post(url, data, options)
@@ -56,7 +56,7 @@ export class AxiosHttp implements IHttpInstance {
     })
   }
 
-  postToResponse(url: string, data: string, options?: any): Promise<any> {
+  postToResponse(url: string, data: any, options?: any): Promise<any> {
     return new Promise((resolve) => {
       axios
         .post(url, data, options)
@@ -69,7 +69,7 @@ export class AxiosHttp implements IHttpInstance {
     })
   }
 
-  put(url: string, data: string, options?: any): Promise<any> {
+  put(url: string, data: any, options?: any): Promise<any> {
     return new Promise((resolve, reject) => {
       axios
         .put(url, data, options)
@@ -86,10 +86,40 @@ export class AxiosHttp implements IHttpInstance {
     })
   }
 
-  putToResponse(url: string, data: string, options?: any): Promise<any> {
+  putToResponse(url: string, data: any, options?: any): Promise<any> {
     return new Promise((resolve) => {
       axios
         .put(url, data, options)
+        .then((response) => {
+          resolve(response)
+        })
+        .catch((error) => {
+          resolve(error.response)
+        })
+    })
+  }
+
+  patch(url: string, data: any, options?: any): Promise<any> {
+    return new Promise((resolve, reject) => {
+      axios
+        .patch(url, data, options)
+        .then((response) => {
+          if (response.status === 200) {
+            resolve(response.data)
+          } else {
+            reject(`error code ${response.status}`)
+          }
+        })
+        .catch((error) => {
+          resolve(error)
+        })
+    })
+  }
+
+  patchToResponse(url: string, data: any, options?: any): Promise<any> {
+    return new Promise((resolve) => {
+      axios
+        .patch(url, data, options)
         .then((response) => {
           resolve(response)
         })
@@ -129,7 +159,7 @@ export class AxiosHttp implements IHttpInstance {
     })
   }
 
-  postWithCert(url: string, data: string, certFileContent: Buffer, passphrase: string): Promise<any> {
+  postWithCert(url: string, data: any, certFileContent: Buffer, passphrase: string): Promise<any> {
     return new Promise((resolve, reject) => {
       let httpsAgent = new https.Agent({
         pfx: certFileContent,
@@ -151,7 +181,7 @@ export class AxiosHttp implements IHttpInstance {
     })
   }
 
-  upload(url: string, filePath: string, params?: string): Promise<any> {
+  upload(url: string, filePath: string, params?: any): Promise<any> {
     return new Promise((resolve, reject) => {
       let formData = new FormData()
       formData.append('media', fs.createReadStream(filePath))
@@ -181,7 +211,7 @@ export class AxiosHttp implements IHttpInstance {
     })
   }
 
-  uploadToResponse(url: string, filePath: string, params?: string, options?: any): Promise<any> {
+  uploadToResponse(url: string, filePath: string, params?: any, options?: any): Promise<any> {
     return new Promise((resolve) => {
       let formData = new FormData()
       formData.append('file', fs.createReadStream(filePath))
