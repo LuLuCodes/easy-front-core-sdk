@@ -20,7 +20,6 @@ export class UserAPI {
   private static getJoinQrCodeUrl: string = 'https://qyapi.weixin.qq.com/cgi-bin/corp/get_join_qrcode?access_token=%s&size_type=%s'
   private static getMobileHashCodeUrl: string = 'https://qyapi.weixin.qq.com/cgi-bin/user/get_mobile_hashcode?access_token=%s'
   private static getUserIdByMobileUrl: string = 'https://qyapi.weixin.qq.com/cgi-bin/user/getuserid?access_token=%s'
-
   private static getActiveStatUrl: string = 'https://qyapi.weixin.qq.com/cgi-bin/user/get_active_stat?access_token=%s'
 
   private static _http = Http.getInstance()
