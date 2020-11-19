@@ -31,14 +31,13 @@ export class SubscribeMsgAPI {
       kidList: kidList,
       sceneDesc: sceneDesc,
     })
-    if (data) {
-      if (data.errcode) {
-        throw new Error(data.errmsg)
-      }
-      return data
-    } else {
+    if (!data) {
       throw new Error('接口异常')
     }
+    if (data.errcode) {
+      throw new Error(data.errmsg)
+    }
+    return data
   }
 
   /**
@@ -52,14 +51,13 @@ export class SubscribeMsgAPI {
     const data = await this._http.post(url, {
       priTmplId: priTmplId,
     })
-    if (data) {
-      if (data.errcode) {
-        throw new Error(data.errmsg)
-      }
-      return data
-    } else {
+    if (!data) {
       throw new Error('接口异常')
     }
+    if (data.errcode) {
+      throw new Error(data.errmsg)
+    }
+    return data
   }
 
   /**
@@ -70,14 +68,13 @@ export class SubscribeMsgAPI {
     const token = await mpCore.getAccessToken()
     const url = util.format(this.getCategoryUrl, token)
     const data = await this._http.get(url)
-    if (data) {
-      if (data.errcode) {
-        throw new Error(data.errmsg)
-      }
-      return data
-    } else {
+    if (!data) {
       throw new Error('接口异常')
     }
+    if (data.errcode) {
+      throw new Error(data.errmsg)
+    }
+    return data
   }
 
   /**
@@ -89,14 +86,13 @@ export class SubscribeMsgAPI {
     const token = await mpCore.getAccessToken()
     const url = util.format(this.getPubTemplateKeyWordsUrl, token, tid)
     const data = await this._http.get(url)
-    if (data) {
-      if (data.errcode) {
-        throw new Error(data.errmsg)
-      }
-      return data
-    } else {
+    if (!data) {
       throw new Error('接口异常')
     }
+    if (data.errcode) {
+      throw new Error(data.errmsg)
+    }
+    return data
   }
 
   /**
@@ -116,14 +112,13 @@ export class SubscribeMsgAPI {
     const token = await mpCore.getAccessToken()
     const url = util.format(this.getPubTemplateTitlesUrl, token, ids.join(','), start, limit)
     const data = await this._http.get(url)
-    if (data) {
-      if (data.errcode) {
-        throw new Error(data.errmsg)
-      }
-      return data
-    } else {
+    if (!data) {
       throw new Error('接口异常')
     }
+    if (data.errcode) {
+      throw new Error(data.errmsg)
+    }
+    return data
   }
 
   /**
@@ -134,14 +129,13 @@ export class SubscribeMsgAPI {
     const token = await mpCore.getAccessToken()
     const url = util.format(this.getTemplateUrl, token)
     const data = await this._http.get(url)
-    if (data) {
-      if (data.errcode) {
-        throw new Error(data.errmsg)
-      }
-      return data
-    } else {
+    if (!data) {
       throw new Error('接口异常')
     }
+    if (data.errcode) {
+      throw new Error(data.errmsg)
+    }
+    return data
   }
 
   /**
@@ -161,13 +155,12 @@ export class SubscribeMsgAPI {
       page: page,
       data: params,
     })
-    if (data) {
-      if (data.errcode) {
-        throw new Error(data.errmsg)
-      }
-      return data
-    } else {
+    if (!data) {
       throw new Error('接口异常')
     }
+    if (data.errcode) {
+      throw new Error(data.errmsg)
+    }
+    return data
   }
 }

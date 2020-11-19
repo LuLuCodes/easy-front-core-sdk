@@ -30,14 +30,13 @@ export class MemberCardAPI {
     const url = util.format(this.activateUrl, token)
 
     const data = await this._http.post(url, cardJson)
-    if (data) {
-      if (data.errcode) {
-        throw new Error(data.errmsg)
-      }
-      return data
-    } else {
+    if (!data) {
       throw new Error('接口异常')
     }
+    if (data.errcode) {
+      throw new Error(data.errmsg)
+    }
+    return data
   }
 
   /**
@@ -50,14 +49,13 @@ export class MemberCardAPI {
     const url = util.format(this.setActivateUserFormUrl, token)
 
     const data = await this._http.post(url, cardJson)
-    if (data) {
-      if (data.errcode) {
-        throw new Error(data.errmsg)
-      }
-      return data
-    } else {
+    if (!data) {
       throw new Error('接口异常')
     }
+    if (data.errcode) {
+      throw new Error(data.errmsg)
+    }
+    return data
   }
 
   /**
@@ -72,14 +70,13 @@ export class MemberCardAPI {
     const data = await this._http.post(url, {
       activate_ticket: activateTicket,
     })
-    if (data) {
-      if (data.errcode) {
-        throw new Error(data.errmsg)
-      }
-      return data
-    } else {
+    if (!data) {
       throw new Error('接口异常')
     }
+    if (data.errcode) {
+      throw new Error(data.errmsg)
+    }
+    return data
   }
 
   /**
@@ -91,14 +88,13 @@ export class MemberCardAPI {
     const token = await wxCore.getAccessToken()
     const url = util.format(this.updateUserUrl, token)
     const data = await this._http.post(url, cardJson)
-    if (data) {
-      if (data.errcode) {
-        throw new Error(data.errmsg)
-      }
-      return data
-    } else {
+    if (!data) {
       throw new Error('接口异常')
     }
+    if (data.errcode) {
+      throw new Error(data.errmsg)
+    }
+    return data
   }
 
   /**
@@ -114,14 +110,13 @@ export class MemberCardAPI {
       card_id: cardId,
       code: code,
     })
-    if (data) {
-      if (data.errcode) {
-        throw new Error(data.errmsg)
-      }
-      return data
-    } else {
+    if (!data) {
       throw new Error('接口异常')
     }
+    if (data.errcode) {
+      throw new Error(data.errmsg)
+    }
+    return data
   }
 
   /**
@@ -133,14 +128,13 @@ export class MemberCardAPI {
     const token = await wxCore.getAccessToken()
     const url = util.format(this.payGiftCardAddUrl, token)
     const data = await this._http.post(url, cardJson)
-    if (data) {
-      if (data.errcode) {
-        throw new Error(data.errmsg)
-      }
-      return data
-    } else {
+    if (!data) {
       throw new Error('接口异常')
     }
+    if (data.errcode) {
+      throw new Error(data.errmsg)
+    }
+    return data
   }
 
   /**
@@ -154,14 +148,13 @@ export class MemberCardAPI {
     const data = await this._http.post(url, {
       rule_id: ruleId,
     })
-    if (data) {
-      if (data.errcode) {
-        throw new Error(data.errmsg)
-      }
-      return data
-    } else {
+    if (!data) {
       throw new Error('接口异常')
     }
+    if (data.errcode) {
+      throw new Error(data.errmsg)
+    }
+    return data
   }
 
   /**
@@ -175,14 +168,13 @@ export class MemberCardAPI {
     const data = await this._http.post(url, {
       rule_id: ruleId,
     })
-    if (data) {
-      if (data.errcode) {
-        throw new Error(data.errmsg)
-      }
-      return data
-    } else {
+    if (!data) {
       throw new Error('接口异常')
     }
+    if (data.errcode) {
+      throw new Error(data.errmsg)
+    }
+    return data
   }
 
   /**
@@ -202,14 +194,13 @@ export class MemberCardAPI {
       offset: offset,
       count: count,
     })
-    if (data) {
-      if (data.errcode) {
-        throw new Error(data.errmsg)
-      }
-      return data
-    } else {
+    if (!data) {
       throw new Error('接口异常')
     }
+    if (data.errcode) {
+      throw new Error(data.errmsg)
+    }
+    return data
   }
 
   /**
@@ -227,14 +218,13 @@ export class MemberCardAPI {
       end_date: endDate,
       cond_source: condSource,
     })
-    if (data) {
-      if (data.errcode) {
-        throw new Error(data.errmsg)
-      }
-      return data
-    } else {
+    if (!data) {
       throw new Error('接口异常')
     }
+    if (data.errcode) {
+      throw new Error(data.errmsg)
+    }
+    return data
   }
 
   /**
@@ -252,13 +242,12 @@ export class MemberCardAPI {
       end_date: endDate,
       card_id: cardId,
     })
-    if (data) {
-      if (data.errcode) {
-        throw new Error(data.errmsg)
-      }
-      return data
-    } else {
+    if (!data) {
       throw new Error('接口异常')
     }
+    if (data.errcode) {
+      throw new Error(data.errmsg)
+    }
+    return data
   }
 }

@@ -23,14 +23,13 @@ export class BasicAPI {
     const { appId, appScrect } = mpCore.getApiConfig()
     const url = util.format(this.code2SessionUrl, appId, appScrect, jsCode)
     const data = await this._http.get(url)
-    if (data) {
-      if (data.errcode) {
-        throw new Error(data.errmsg)
-      }
-      return data
-    } else {
+    if (!data) {
       throw new Error('接口异常')
     }
+    if (data.errcode) {
+      throw new Error(data.errmsg)
+    }
+    return data
   }
 
   /**
@@ -43,14 +42,13 @@ export class BasicAPI {
     const token = await mpCore.getAccessToken()
     const url = util.format(this.getPaidUnionidByTransactionIdUrl, token, openId, transactionId)
     const data = await this._http.get(url)
-    if (data) {
-      if (data.errcode) {
-        throw new Error(data.errmsg)
-      }
-      return data
-    } else {
+    if (!data) {
       throw new Error('接口异常')
     }
+    if (data.errcode) {
+      throw new Error(data.errmsg)
+    }
+    return data
   }
 
   /**
@@ -64,13 +62,12 @@ export class BasicAPI {
     const token = await mpCore.getAccessToken()
     const url = util.format(this.getPaidUnionidByMchIdUrl, token, openId, mchId, outTradeNo)
     const data = await this._http.get(url)
-    if (data) {
-      if (data.errcode) {
-        throw new Error(data.errmsg)
-      }
-      return data
-    } else {
+    if (!data) {
       throw new Error('接口异常')
     }
+    if (data.errcode) {
+      throw new Error(data.errmsg)
+    }
+    return data
   }
 }

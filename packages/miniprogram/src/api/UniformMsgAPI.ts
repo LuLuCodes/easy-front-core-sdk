@@ -24,13 +24,12 @@ export class UniformMsgAPI {
       mp_template_msg: mpTemplateMsg,
       weapp_template_msg: weappTemplateMsg,
     })
-    if (data) {
-      if (data.errcode) {
-        throw new Error(data.errmsg)
-      }
-      return data
-    } else {
+    if (!data) {
       throw new Error('接口异常')
     }
+    if (data.errcode) {
+      throw new Error(data.errmsg)
+    }
+    return data
   }
 }

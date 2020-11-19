@@ -24,14 +24,13 @@ export class AIOpenAPI {
     const token = await wxCore.getAccessToken()
     const url = util.format(this.addVoiceUrl, token, voiceId, lang)
     const data = await this._http.upload(url, filePath)
-    if (data) {
-      if (data.errcode) {
-        throw new Error(data.errmsg)
-      }
-      return data
-    } else {
+    if (!data) {
       throw new Error('接口异常')
     }
+    if (data.errcode) {
+      throw new Error(data.errmsg)
+    }
+    return data
   }
 
   /**
@@ -43,15 +42,14 @@ export class AIOpenAPI {
   public static async queryText(wxCore: WXCore, voiceId: string, lang: Lang) {
     const token = await wxCore.getAccessToken()
     const url = util.format(this.queryTextUrl, token, voiceId, lang)
-    const data = await this._http.post(url)
-    if (data) {
-      if (data.errcode) {
-        throw new Error(data.errmsg)
-      }
-      return data
-    } else {
+    const data = await this._http.post(url, {})
+    if (!data) {
       throw new Error('接口异常')
     }
+    if (data.errcode) {
+      throw new Error(data.errmsg)
+    }
+    return data
   }
 
   /**
@@ -65,13 +63,12 @@ export class AIOpenAPI {
     const token = await wxCore.getAccessToken()
     const url = util.format(this.translateUrl, token, lfrom, lto)
     const data = await this._http.upload(url, filePath)
-    if (data) {
-      if (data.errcode) {
-        throw new Error(data.errmsg)
-      }
-      return data
-    } else {
+    if (!data) {
       throw new Error('接口异常')
     }
+    if (data.errcode) {
+      throw new Error(data.errmsg)
+    }
+    return data
   }
 }

@@ -24,14 +24,13 @@ export class MenuAPI {
     const token = await wxCore.getAccessToken()
     const url = util.format(this.createMenuUrl, token)
     const data = await this._http.post(url, menuJson)
-    if (data) {
-      if (data.errcode) {
-        throw new Error(data.errmsg)
-      }
-      return data
-    } else {
+    if (!data) {
       throw new Error('接口异常')
     }
+    if (data.errcode) {
+      throw new Error(data.errmsg)
+    }
+    return data
   }
 
   /**
@@ -42,14 +41,13 @@ export class MenuAPI {
     const token = await wxCore.getAccessToken()
     const url = util.format(this.getMenuUrl, token)
     const data = await this._http.get(url)
-    if (data) {
-      if (data.errcode) {
-        throw new Error(data.errmsg)
-      }
-      return data
-    } else {
+    if (!data) {
       throw new Error('接口异常')
     }
+    if (data.errcode) {
+      throw new Error(data.errmsg)
+    }
+    return data
   }
 
   /**
@@ -59,15 +57,14 @@ export class MenuAPI {
   public static async getCurrentSelfmenuInfo(wxCore: WXCore) {
     const token = await wxCore.getAccessToken()
     const url = util.format(this.getCurrentSelfmenuInfoUrl, token)
-    const data = await this._http.post(url)
-    if (data) {
-      if (data.errcode) {
-        throw new Error(data.errmsg)
-      }
-      return data
-    } else {
+    const data = await this._http.get(url)
+    if (!data) {
       throw new Error('接口异常')
     }
+    if (data.errcode) {
+      throw new Error(data.errmsg)
+    }
+    return data
   }
 
   /**
@@ -78,14 +75,13 @@ export class MenuAPI {
     const token = await wxCore.getAccessToken()
     const url = util.format(this.deleteMenuUrl, token)
     const data = await this._http.get(url)
-    if (data) {
-      if (data.errcode) {
-        throw new Error(data.errmsg)
-      }
-      return data
-    } else {
+    if (!data) {
       throw new Error('接口异常')
     }
+    if (data.errcode) {
+      throw new Error(data.errmsg)
+    }
+    return data
   }
 
   /**
@@ -97,14 +93,13 @@ export class MenuAPI {
     const token = await wxCore.getAccessToken()
     const url = util.format(this.addConditionalUrl, token)
     const data = await this._http.post(url, menuJson)
-    if (data) {
-      if (data.errcode) {
-        throw new Error(data.errmsg)
-      }
-      return data
-    } else {
+    if (!data) {
       throw new Error('接口异常')
     }
+    if (data.errcode) {
+      throw new Error(data.errmsg)
+    }
+    return data
   }
 
   /**
@@ -118,14 +113,13 @@ export class MenuAPI {
     const data = await this._http.post(url, {
       menuid,
     })
-    if (data) {
-      if (data.errcode) {
-        throw new Error(data.errmsg)
-      }
-      return data
-    } else {
+    if (!data) {
       throw new Error('接口异常')
     }
+    if (data.errcode) {
+      throw new Error(data.errmsg)
+    }
+    return data
   }
 
   /**
@@ -139,13 +133,12 @@ export class MenuAPI {
     const data = await this._http.post(url, {
       user_id: openId,
     })
-    if (data) {
-      if (data.errcode) {
-        throw new Error(data.errmsg)
-      }
-      return data
-    } else {
+    if (!data) {
       throw new Error('接口异常')
     }
+    if (data.errcode) {
+      throw new Error(data.errmsg)
+    }
+    return data
   }
 }

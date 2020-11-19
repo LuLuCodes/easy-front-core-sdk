@@ -36,14 +36,13 @@ export class SnsAccessTokenAPI {
   public static async getSnsAccessToken(wxCore: WXCore, code: string) {
     const url = util.format(this.accessTokenUrl, wxCore.getApiConfig().appId, wxCore.getApiConfig().appScrect, code)
     const data = await this._http.get(url)
-    if (data) {
-      if (data.errcode) {
-        throw new Error(data.errmsg)
-      }
-      return data
-    } else {
+    if (!data) {
       throw new Error('接口异常')
     }
+    if (data.errcode) {
+      throw new Error(data.errmsg)
+    }
+    return data
   }
 
   /**
@@ -54,14 +53,13 @@ export class SnsAccessTokenAPI {
   public static async refreshAccessToken(wxCore: WXCore, refreshToken: string) {
     const url = util.format(this.refreshTokenUrl, wxCore.getApiConfig().appId, refreshToken)
     const data = await this._http.get(url)
-    if (data) {
-      if (data.errcode) {
-        throw new Error(data.errmsg)
-      }
-      return data
-    } else {
+    if (!data) {
       throw new Error('接口异常')
     }
+    if (data.errcode) {
+      throw new Error(data.errmsg)
+    }
+    return data
   }
   /**
    *  检验授权凭证（access_token）是否有效
@@ -71,14 +69,13 @@ export class SnsAccessTokenAPI {
   public static async checkAccessToken(accessToken: string, openId: string) {
     const url = util.format(this.checkTokenUrl, accessToken, openId)
     const data = await this._http.get(url)
-    if (data) {
-      if (data.errcode) {
-        throw new Error(data.errmsg)
-      }
-      return data
-    } else {
+    if (!data) {
       throw new Error('接口异常')
     }
+    if (data.errcode) {
+      throw new Error(data.errmsg)
+    }
+    return data
   }
 
   /**
@@ -90,13 +87,12 @@ export class SnsAccessTokenAPI {
   public static async getUserInfo(accessToken: string, openId: string, lang: Lang) {
     const url = util.format(this.userInfoUrl, accessToken, openId, lang)
     const data = await this._http.get(url)
-    if (data) {
-      if (data.errcode) {
-        throw new Error(data.errmsg)
-      }
-      return data
-    } else {
+    if (!data) {
       throw new Error('接口异常')
     }
+    if (data.errcode) {
+      throw new Error(data.errmsg)
+    }
+    return data
   }
 }

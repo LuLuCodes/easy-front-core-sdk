@@ -21,14 +21,13 @@ export class TemplateMsgAPI {
     const token = await wxCore.getAccessToken()
     const url = util.format(this.sendTemplateUrl, token)
     const data = await this._http.post(url, tempJson)
-    if (data) {
-      if (data.errcode) {
-        throw new Error(data.errmsg)
-      }
-      return data
-    } else {
+    if (!data) {
       throw new Error('接口异常')
     }
+    if (data.errcode) {
+      throw new Error(data.errmsg)
+    }
+    return data
   }
 
   /**
@@ -44,14 +43,13 @@ export class TemplateMsgAPI {
       industry_id1: industry_id1,
       industry_id2: industry_id2,
     })
-    if (data) {
-      if (data.errcode) {
-        throw new Error(data.errmsg)
-      }
-      return data
-    } else {
+    if (!data) {
       throw new Error('接口异常')
     }
+    if (data.errcode) {
+      throw new Error(data.errmsg)
+    }
+    return data
   }
 
   /**
@@ -62,14 +60,13 @@ export class TemplateMsgAPI {
     const token = await wxCore.getAccessToken()
     const url = util.format(this.getIndustryUrl, token)
     const data = await this._http.get(url)
-    if (data) {
-      if (data.errcode) {
-        throw new Error(data.errmsg)
-      }
-      return data
-    } else {
+    if (!data) {
       throw new Error('接口异常')
     }
+    if (data.errcode) {
+      throw new Error(data.errmsg)
+    }
+    return data
   }
 
   /**
@@ -83,14 +80,13 @@ export class TemplateMsgAPI {
     const data = await this._http.post(url, {
       template_id_short: templateIdShort,
     })
-    if (data) {
-      if (data.errcode) {
-        throw new Error(data.errmsg)
-      }
-      return data
-    } else {
+    if (!data) {
       throw new Error('接口异常')
     }
+    if (data.errcode) {
+      throw new Error(data.errmsg)
+    }
+    return data
   }
 
   /**
@@ -101,14 +97,13 @@ export class TemplateMsgAPI {
     const token = await wxCore.getAccessToken()
     let url = util.format(this.delTemplateUrl, token)
     const data = await this._http.post(url, { template_id: templateId })
-    if (data) {
-      if (data.errcode) {
-        throw new Error(data.errmsg)
-      }
-      return data
-    } else {
+    if (!data) {
       throw new Error('接口异常')
     }
+    if (data.errcode) {
+      throw new Error(data.errmsg)
+    }
+    return data
   }
 
   /**
@@ -118,14 +113,13 @@ export class TemplateMsgAPI {
   public static async getAllTemplate(wxCore: WXCore) {
     const token = await wxCore.getAccessToken()
     const url = util.format(this.getAllTemplateUrl, token)
-    const data = await this._http.post(url)
-    if (data) {
-      if (data.errcode) {
-        throw new Error(data.errmsg)
-      }
-      return data
-    } else {
+    const data = await this._http.get(url)
+    if (!data) {
       throw new Error('接口异常')
     }
+    if (data.errcode) {
+      throw new Error(data.errmsg)
+    }
+    return data
   }
 }

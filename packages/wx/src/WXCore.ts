@@ -83,15 +83,14 @@ export class WXCore {
   public async refreshAccessToken(): Promise<string> {
     const url = util.format(this._accesstokenUrl, this._apiConfig.appId, this._apiConfig.appScrect)
     const data = await this._http.get(url)
-    if (data) {
-      if (data.errcode) {
-        throw new Error(data.errmsg)
-      }
-      this._cache.set(`wx_access_token_${this._apiConfig.appId}`, data.access_token, 'EX', data.expires_in - 100)
-      return data.access_token
-    } else {
+    if (!data) {
       throw new Error('获取accessToken异常')
     }
+    if (data.errcode) {
+      throw new Error(data.errmsg)
+    }
+    this._cache.set(`wx_access_token_${this._apiConfig.appId}`, data.access_token, 'EX', data.expires_in - 100)
+    return data.access_token
   }
 
   /**
@@ -107,15 +106,14 @@ export class WXCore {
     const token = await this.getAccessToken()
     let url = util.format(this.ticketUrl, token, type)
     let data = await this._http.get(url)
-    if (data) {
-      if (data.errcode) {
-        throw new Error(data.errmsg)
-      }
-      this._cache.set(`wx_js_ticket_${this._apiConfig.appId}`, data.ticket, 'EX', data.expires_in - 100)
-      return data.ticket
-    } else {
+    if (!data) {
       throw new Error('获取jsTicket异常')
     }
+    if (data.errcode) {
+      throw new Error(data.errmsg)
+    }
+    this._cache.set(`wx_js_ticket_${this._apiConfig.appId}`, data.ticket, 'EX', data.expires_in - 100)
+    return data.ticket
   }
 
   /**

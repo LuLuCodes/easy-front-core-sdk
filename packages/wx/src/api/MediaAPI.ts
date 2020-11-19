@@ -73,14 +73,13 @@ export class MediaAPI {
     const token = await wxCore.getAccessToken()
     const url = util.format(this.uploadUrl, token, mediaType)
     const data = await this._http.upload(url, filePath)
-    if (data) {
-      if (data.errcode) {
-        throw new Error(data.errmsg)
-      }
-      return data
-    } else {
+    if (!data) {
       throw new Error('接口异常')
     }
+    if (data.errcode) {
+      throw new Error(data.errmsg)
+    }
+    return data
   }
 
   /**
@@ -92,14 +91,13 @@ export class MediaAPI {
     const token = await wxCore.getAccessToken()
     const url = util.format(this.getMediaUrl, token, mediaId)
     const data = await this._http.get(url)
-    if (data) {
-      if (data.errcode) {
-        throw new Error(data.errmsg)
-      }
-      return data
-    } else {
+    if (!data) {
       throw new Error('接口异常')
     }
+    if (data.errcode) {
+      throw new Error(data.errmsg)
+    }
+    return data
   }
 
   /**
@@ -113,14 +111,13 @@ export class MediaAPI {
     const token = await wxCore.getAccessToken()
     const url = util.format(this.getJssdkMediaUrl, token, mediaId)
     const data = await this._http.get(url)
-    if (data) {
-      if (data.errcode) {
-        throw new Error(data.errmsg)
-      }
-      return data
-    } else {
+    if (!data) {
       throw new Error('接口异常')
     }
+    if (data.errcode) {
+      throw new Error(data.errmsg)
+    }
+    return data
   }
 
   /**
@@ -135,14 +132,13 @@ export class MediaAPI {
     const data = await this._http.post(url, {
       articles: mediaArticles,
     })
-    if (data) {
-      if (data.errcode) {
-        throw new Error(data.errmsg)
-      }
-      return data
-    } else {
+    if (!data) {
       throw new Error('接口异常')
     }
+    if (data.errcode) {
+      throw new Error(data.errmsg)
+    }
+    return data
   }
 
   /**
@@ -161,14 +157,13 @@ export class MediaAPI {
       index: index,
       articles: mediaArticles,
     })
-    if (data) {
-      if (data.errcode) {
-        throw new Error(data.errmsg)
-      }
-      return data
-    } else {
+    if (!data) {
       throw new Error('接口异常')
     }
+    if (data.errcode) {
+      throw new Error(data.errmsg)
+    }
+    return data
   }
 
   /**
@@ -182,14 +177,13 @@ export class MediaAPI {
     const token = await wxCore.getAccessToken()
     const url = util.format(this.uploadImgUrl, token)
     const data = await this._http.upload(url, filePath)
-    if (data) {
-      if (data.errcode) {
-        throw new Error(data.errmsg)
-      }
-      return data
-    } else {
+    if (!data) {
       throw new Error('接口异常')
     }
+    if (data.errcode) {
+      throw new Error(data.errmsg)
+    }
+    return data
   }
 
   /**
@@ -203,14 +197,13 @@ export class MediaAPI {
     const token = await wxCore.getAccessToken()
     const url = util.format(this.addMaterialUrl, token, mediaType)
     const data = await this._http.upload(url, filePath)
-    if (data) {
-      if (data.errcode) {
-        throw new Error(data.errmsg)
-      }
-      return data
-    } else {
+    if (!data) {
       throw new Error('接口异常')
     }
+    if (data.errcode) {
+      throw new Error(data.errmsg)
+    }
+    return data
   }
 
   /**
@@ -231,14 +224,13 @@ export class MediaAPI {
         introduction: introduction,
       })
     )
-    if (data) {
-      if (data.errcode) {
-        throw new Error(data.errmsg)
-      }
-      return data
-    } else {
+    if (!data) {
       throw new Error('接口异常')
     }
+    if (data.errcode) {
+      throw new Error(data.errmsg)
+    }
+    return data
   }
 
   /**
@@ -252,14 +244,13 @@ export class MediaAPI {
     const data = await this._http.post(url, {
       media_id: mediaId,
     })
-    if (data) {
-      if (data.errcode) {
-        throw new Error(data.errmsg)
-      }
-      return data
-    } else {
+    if (!data) {
       throw new Error('接口异常')
     }
+    if (data.errcode) {
+      throw new Error(data.errmsg)
+    }
+    return data
   }
 
   /**
@@ -273,14 +264,13 @@ export class MediaAPI {
     const data = await this._http.post(url, {
       media_id: mediaId,
     })
-    if (data) {
-      if (data.errcode) {
-        throw new Error(data.errmsg)
-      }
-      return data
-    } else {
+    if (!data) {
       throw new Error('接口异常')
     }
+    if (data.errcode) {
+      throw new Error(data.errmsg)
+    }
+    return data
   }
 
   /**
@@ -291,14 +281,13 @@ export class MediaAPI {
     const token = await wxCore.getAccessToken()
     const url = util.format(this.getMaterialCountUrl, token)
     const data = await this._http.get(url)
-    if (data) {
-      if (data.errcode) {
-        throw new Error(data.errmsg)
-      }
-      return data
-    } else {
+    if (!data) {
       throw new Error('接口异常')
     }
+    if (data.errcode) {
+      throw new Error(data.errmsg)
+    }
+    return data
   }
 
   /**
@@ -325,13 +314,12 @@ export class MediaAPI {
       offset: offset,
       count: count,
     })
-    if (data) {
-      if (data.errcode) {
-        throw new Error(data.errmsg)
-      }
-      return data
-    } else {
+    if (!data) {
       throw new Error('接口异常')
     }
+    if (data.errcode) {
+      throw new Error(data.errmsg)
+    }
+    return data
   }
 }

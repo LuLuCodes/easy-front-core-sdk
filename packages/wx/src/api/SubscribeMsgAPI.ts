@@ -32,13 +32,12 @@ export class SubscribeMsgAPI {
     const token = await wxCore.getAccessToken()
     const url = util.format(this.sdenSubscribeUrl, token)
     const data = await this._http.post(url, subscribeMsg)
-    if (data) {
-      if (data.errcode) {
-        throw new Error(data.errmsg)
-      }
-      return data
-    } else {
+    if (!data) {
       throw new Error('接口异常')
     }
+    if (data.errcode) {
+      throw new Error(data.errmsg)
+    }
+    return data
   }
 }

@@ -24,14 +24,13 @@ export class PoiAPI {
     const token = await wxCore.getAccessToken()
     const url = util.format(this.addPoiUrl, token)
     const data = await this._http.post(url, poiJson)
-    if (data) {
-      if (data.errcode) {
-        throw new Error(data.errmsg)
-      }
-      return data
-    } else {
+    if (!data) {
       throw new Error('接口异常')
     }
+    if (data.errcode) {
+      throw new Error(data.errmsg)
+    }
+    return data
   }
 
   /**
@@ -45,14 +44,13 @@ export class PoiAPI {
     const data = await this._http.post(url, {
       poi_id: poiId,
     })
-    if (data) {
-      if (data.errcode) {
-        throw new Error(data.errmsg)
-      }
-      return data
-    } else {
+    if (!data) {
       throw new Error('接口异常')
     }
+    if (data.errcode) {
+      throw new Error(data.errmsg)
+    }
+    return data
   }
 
   /**
@@ -71,14 +69,13 @@ export class PoiAPI {
       begin: begin,
       limit: limit,
     })
-    if (data) {
-      if (data.errcode) {
-        throw new Error(data.errmsg)
-      }
-      return data
-    } else {
+    if (!data) {
       throw new Error('接口异常')
     }
+    if (data.errcode) {
+      throw new Error(data.errmsg)
+    }
+    return data
   }
 
   /**
@@ -90,14 +87,13 @@ export class PoiAPI {
     const token = await wxCore.getAccessToken()
     const url = util.format(this.updatePoiUrl, token)
     const data = await this._http.post(url, poiJson)
-    if (data) {
-      if (data.errcode) {
-        throw new Error(data.errmsg)
-      }
-      return data
-    } else {
+    if (!data) {
       throw new Error('接口异常')
     }
+    if (data.errcode) {
+      throw new Error(data.errmsg)
+    }
+    return data
   }
 
   /**
@@ -111,14 +107,13 @@ export class PoiAPI {
     const data = await this._http.post(url, {
       poi_id: poiId,
     })
-    if (data) {
-      if (data.errcode) {
-        throw new Error(data.errmsg)
-      }
-      return data
-    } else {
+    if (!data) {
       throw new Error('接口异常')
     }
+    if (data.errcode) {
+      throw new Error(data.errmsg)
+    }
+    return data
   }
 
   /**
@@ -129,13 +124,12 @@ export class PoiAPI {
     const token = await wxCore.getAccessToken()
     const url = util.format(this.getWxCategoryUrl, token)
     const data = await this._http.get(url)
-    if (data) {
-      if (data.errcode) {
-        throw new Error(data.errmsg)
-      }
-      return data
-    } else {
+    if (!data) {
       throw new Error('接口异常')
     }
+    if (data.errcode) {
+      throw new Error(data.errmsg)
+    }
+    return data
   }
 }

@@ -5,7 +5,7 @@ import { Http } from '@easy-front-core-sdk/kits'
 export interface IApiConfig {
   corpId: string
   corpSecret: string
-  agentId?: string
+  agentId: string
   token?: string
   encodingAesKey?: string
 }
@@ -14,7 +14,7 @@ export class CPWXCoreFactory {
   private static CORE_MAP: Map<string, CPWXCore> = new Map<string, CPWXCore>()
 
   public static putCore(apiConfig: IApiConfig, redisConfig: IRedisConfig) {
-    let cpWXCore: CPWXCore = this.CORE_MAP.get(apiConfig.corpId)
+    let cpWXCore: CPWXCore = this.CORE_MAP.get(`${apiConfig.corpId}_${apiConfig.agentId}`)
     if (cpWXCore) {
       return cpWXCore
     }
@@ -23,8 +23,8 @@ export class CPWXCoreFactory {
     return cpWXCore
   }
 
-  public static getCore(corpId: string) {
-    let cpWXCore: CPWXCore = this.CORE_MAP.get(corpId)
+  public static getCore(corpId: string, agentId: string) {
+    let cpWXCore: CPWXCore = this.CORE_MAP.get(`${corpId}_${agentId}`)
     if (!cpWXCore) {
       throw new Error(
         '需事先调用 CPWXCoreFactory.putCore(apiConfig: IApiConfig, redisConfig: IRedisConfig) 将 corpId 对应的 config 对象存入后,才可以使用 CPWXCoreFactory.getCore方法'
@@ -33,8 +33,8 @@ export class CPWXCoreFactory {
     return cpWXCore
   }
 
-  public static removeCore(appId: string): boolean {
-    return this.CORE_MAP.delete(appId)
+  public static removeCore(corpId: string, agentId: string): boolean {
+    return this.CORE_MAP.delete(`${corpId}_${agentId}`)
   }
 }
 
@@ -66,7 +66,7 @@ export class CPWXCore {
    *  @param apiConfig
    */
   private async getAvailableAccessToken(): Promise<string | undefined> {
-    return await this._cache.get(`cp_wx_access_token_${this._apiConfig.corpId}`)
+    return await this._cache.get(`cp_wx_access_token_${this._apiConfig.corpId}_${this._apiConfig.agentId}`)
   }
 
   /**
@@ -74,7 +74,7 @@ export class CPWXCore {
    *  @param apiConfig
    */
   public async getAccessTokenExpiresIn(): Promise<number | undefined> {
-    return await this._cache.ttl(`cp_wx_access_token_${this._apiConfig.corpId}`)
+    return await this._cache.ttl(`cp_wx_access_token_${this._apiConfig.corpId}_${this._apiConfig.agentId}`)
   }
 
   /**
@@ -84,15 +84,14 @@ export class CPWXCore {
   public async refreshAccessToken(): Promise<string> {
     const url = util.format(this._accesstokenUrl, this._apiConfig.corpId, this._apiConfig.corpSecret)
     const data = await this._http.get(url)
-    if (data) {
-      if (data.errcode) {
-        throw new Error(data.errmsg)
-      }
-      this._cache.set(`cp_wx_access_token_${this._apiConfig.corpId}`, data.access_token, 'EX', data.expires_in - 100)
-      return data.access_token
-    } else {
+    if (!data) {
       throw new Error('获取accessToken异常')
     }
+    if (data.errcode) {
+      throw new Error(data.errmsg)
+    }
+    this._cache.set(`cp_wx_access_token_${this._apiConfig.corpId}_${this._apiConfig.agentId}`, data.access_token, 'EX', data.expires_in - 100)
+    return data.access_token
   }
 
   /**

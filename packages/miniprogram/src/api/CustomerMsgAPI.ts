@@ -26,14 +26,13 @@ export class CustomerMsgAPI {
       headers: { 'Content-type': 'application/json' },
       responseType: 'arraybuffer',
     })
-    if (data) {
-      if (data.errcode) {
-        throw new Error(data.errmsg)
-      }
-      return data
-    } else {
+    if (!data) {
       throw new Error('接口异常')
     }
+    if (data.errcode) {
+      throw new Error(data.errmsg)
+    }
+    return data
   }
 
   /**
@@ -66,14 +65,13 @@ export class CustomerMsgAPI {
     }
 
     const data = await this._http.post(url, obj)
-    if (data) {
-      if (data.errcode) {
-        throw new Error(data.errmsg)
-      }
-      return data
-    } else {
+    if (!data) {
       throw new Error('接口异常')
     }
+    if (data.errcode) {
+      throw new Error(data.errmsg)
+    }
+    return data
   }
 
   /**
@@ -89,14 +87,13 @@ export class CustomerMsgAPI {
       touser: openId,
       command: command,
     })
-    if (data) {
-      if (data.errcode) {
-        throw new Error(data.errmsg)
-      }
-      return data
-    } else {
+    if (!data) {
       throw new Error('接口异常')
     }
+    if (data.errcode) {
+      throw new Error(data.errmsg)
+    }
+    return data
   }
 
   /**
@@ -109,13 +106,12 @@ export class CustomerMsgAPI {
     const token = await mpCore.getAccessToken()
     const url = util.format(this.uploadUrl, token, mediaType)
     const data = await this._http.upload(url, filePath)
-    if (data) {
-      if (data.errcode) {
-        throw new Error(data.errmsg)
-      }
-      return data
-    } else {
+    if (!data) {
       throw new Error('接口异常')
     }
+    if (data.errcode) {
+      throw new Error(data.errmsg)
+    }
+    return data
   }
 }

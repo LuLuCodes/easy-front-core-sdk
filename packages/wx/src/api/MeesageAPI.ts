@@ -24,14 +24,13 @@ export class MessageAPI {
     const token = await wxCore.getAccessToken()
     const url = util.format(this.sendByTagUrl, token)
     const data = await this._http.post(url, msgJson)
-    if (data) {
-      if (data.errcode) {
-        throw new Error(data.errmsg)
-      }
-      return data
-    } else {
+    if (!data) {
       throw new Error('接口异常')
     }
+    if (data.errcode) {
+      throw new Error(data.errmsg)
+    }
+    return data
   }
 
   /**
@@ -43,14 +42,13 @@ export class MessageAPI {
     const token = await wxCore.getAccessToken()
     const url = util.format(this.sendByOpenIdUrl, token)
     const data = await this._http.post(url, msgJson)
-    if (data) {
-      if (data.errcode) {
-        throw new Error(data.errmsg)
-      }
-      return data
-    } else {
+    if (!data) {
       throw new Error('接口异常')
     }
+    if (data.errcode) {
+      throw new Error(data.errmsg)
+    }
+    return data
   }
 
   /**
@@ -62,14 +60,13 @@ export class MessageAPI {
     const token = await wxCore.getAccessToken()
     const url = util.format(this.deleteUrl, token)
     const data = await this._http.post(url, msgJson)
-    if (data) {
-      if (data.errcode) {
-        throw new Error(data.errmsg)
-      }
-      return data
-    } else {
+    if (!data) {
       throw new Error('接口异常')
     }
+    if (data.errcode) {
+      throw new Error(data.errmsg)
+    }
+    return data
   }
 
   /**
@@ -81,14 +78,13 @@ export class MessageAPI {
     const token = await wxCore.getAccessToken()
     const url = util.format(this.previewUrl, token)
     const data = await this._http.post(url, msgJson)
-    if (data) {
-      if (data.errcode) {
-        throw new Error(data.errmsg)
-      }
-      return data
-    } else {
+    if (!data) {
       throw new Error('接口异常')
     }
+    if (data.errcode) {
+      throw new Error(data.errmsg)
+    }
+    return data
   }
 
   /**
@@ -102,14 +98,13 @@ export class MessageAPI {
     const data = await this._http.post(url, {
       msg_id: msgId,
     })
-    if (data) {
-      if (data.errcode) {
-        throw new Error(data.errmsg)
-      }
-      return data
-    } else {
+    if (!data) {
       throw new Error('接口异常')
     }
+    if (data.errcode) {
+      throw new Error(data.errmsg)
+    }
+    return data
   }
 
   /**
@@ -120,14 +115,13 @@ export class MessageAPI {
     const token = await wxCore.getAccessToken()
     const url = util.format(this.getSendSpeedUrl, token)
     const data = await this._http.get(url)
-    if (data) {
-      if (data.errcode) {
-        throw new Error(data.errmsg)
-      }
-      return data
-    } else {
+    if (!data) {
       throw new Error('接口异常')
     }
+    if (data.errcode) {
+      throw new Error(data.errmsg)
+    }
+    return data
   }
 
   /**
@@ -146,13 +140,12 @@ export class MessageAPI {
     const token = await wxCore.getAccessToken()
     const url = util.format(this.setSendSpeedUrl, token)
     const data = await this._http.post(url, { speed })
-    if (data) {
-      if (data.errcode) {
-        throw new Error(data.errmsg)
-      }
-      return data
-    } else {
+    if (!data) {
       throw new Error('接口异常')
     }
+    if (data.errcode) {
+      throw new Error(data.errmsg)
+    }
+    return data
   }
 }

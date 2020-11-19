@@ -81,15 +81,14 @@ export class MPCore {
   public async refreshAccessToken(): Promise<string> {
     const url = util.format(this._accesstokenUrl, this._apiConfig.appId, this._apiConfig.appScrect)
     const data = await this._http.get(url)
-    if (data) {
-      if (data.errcode) {
-        throw new Error(data.errmsg)
-      }
-      this._cache.set(`mp_access_token_${this._apiConfig.appId}`, data.access_token, 'EX', data.expires_in - 100)
-      return data.access_token
-    } else {
+    if (!data) {
       throw new Error('获取accessToken异常')
     }
+    if (data.errcode) {
+      throw new Error(data.errmsg)
+    }
+    this._cache.set(`mp_access_token_${this._apiConfig.appId}`, data.access_token, 'EX', data.expires_in - 100)
+    return data.access_token
   }
 
   /**

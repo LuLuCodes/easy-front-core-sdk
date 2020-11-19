@@ -22,14 +22,13 @@ export class SecurityAPI {
     const token = await mpCore.getAccessToken()
     const url = util.format(this.imgSecCheckUrl, token)
     const data = await this._http.upload(url, imgPath)
-    if (data) {
-      if (data.errcode) {
-        throw new Error(data.errmsg)
-      }
-      return data
-    } else {
+    if (!data) {
       throw new Error('接口异常')
     }
+    if (data.errcode) {
+      throw new Error(data.errmsg)
+    }
+    return data
   }
 
   /**
@@ -45,14 +44,13 @@ export class SecurityAPI {
       media_url: mediaUrl,
       media_type: mediaType,
     })
-    if (data) {
-      if (data.errcode) {
-        throw new Error(data.errmsg)
-      }
-      return data
-    } else {
+    if (!data) {
       throw new Error('接口异常')
     }
+    if (data.errcode) {
+      throw new Error(data.errmsg)
+    }
+    return data
   }
 
   /**
@@ -66,13 +64,12 @@ export class SecurityAPI {
     const data = await this._http.post(url, {
       content,
     })
-    if (data) {
-      if (data.errcode) {
-        throw new Error(data.errmsg)
-      }
-      return data
-    } else {
+    if (!data) {
       throw new Error('接口异常')
     }
+    if (data.errcode) {
+      throw new Error(data.errmsg)
+    }
+    return data
   }
 }
