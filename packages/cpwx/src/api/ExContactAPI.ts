@@ -30,7 +30,7 @@ export class ExContactAPI {
   private static getGroupWelcomeTemplateUrl = 'https://qyapi.weixin.qq.com/cgi-bin/externalcontact/group_welcome_template/get?access_token=%s'
   private static delGroupWelcomeTemplateUrl = 'https://qyapi.weixin.qq.com/cgi-bin/externalcontact/group_welcome_template/del?access_token=%s'
   private static getUnAssignedListUrl = 'https://qyapi.weixin.qq.com/cgi-bin/externalcontact/get_unassigned_list?access_token=%s'
-  private static getTransferResultUrl = 'https://qyapi.weixin.qq.com/cgi-bin/externalcontact/get_transfer_result?access_token=ACCESS_TOKEN'
+  private static getTransferResultUrl = 'https://qyapi.weixin.qq.com/cgi-bin/externalcontact/get_transfer_result?access_token=%s'
   private static transferContactUrl = 'https://qyapi.weixin.qq.com/cgi-bin/externalcontact/transfer?access_token=%s'
   private static transferGroupChatUrl = 'https://qyapi.weixin.qq.com/cgi-bin/externalcontact/groupchat/transfer?access_token=%s'
   private static getUserBehaviorDataUrl = 'https://qyapi.weixin.qq.com/cgi-bin/externalcontact/get_user_behavior_data?access_token=%s'

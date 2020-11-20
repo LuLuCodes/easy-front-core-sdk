@@ -5,6 +5,7 @@ export enum SYSTEM_AGENT_ID {
   ADDRESS_BOOK = 'ADDRESS_BOOK', // 通讯录
   EXTERNAL_CONTACT = 'EXTERNAL_CONTACT', // 外部联系人
   WE_DRIVE = 'WE_DRIVE', // 微盘
+  MEETING_ROOM = 'MEETING_ROOM', // 会议室
 }
 
 export enum MediaType {
