@@ -5,3 +5,10 @@ export enum SYSTEM_AGENT_ID {
   ADDRESS_BOOK = 'ADDRESS_BOOK',
   EXTERNAL_CONTACT = 'EXTERNAL_CONTACT',
 }
+
+export enum MediaType {
+  IMAGE = 'image',
+  VOICE = 'voice',
+  VIDEO = 'video',
+  FILE = 'file',
+}
