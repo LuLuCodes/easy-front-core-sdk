@@ -8,5 +8,7 @@ export { ExContactAPI } from './src/api/ExContactAPI'
 export { OauthAPI } from './src/api/OauthAPI'
 export { AgentAPI } from './src/api/AgentAPI'
 export { OADataAPI } from './src/api/OADataAPI'
+export { CalendarAPI } from './src/api/CalendarAPI'
+export { WeDriveAPI } from './src/api/WeDriveAPI'
 
 export { SYSTEM_AGENT_ID, MediaType } from './src/Enums'
