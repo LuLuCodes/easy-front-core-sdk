@@ -10,8 +10,6 @@ import { VoiceMsg } from '../entity/VoiceMsg'
 import { TextCardMsg } from '../entity/TextCardMsg'
 import { NewsMsg } from '../entity/NewsMsg'
 import { MpNewsMsg } from '../entity/MpNewsMsg'
-import { TaskCardMsg } from '../entity/TaskCardMsg'
-import { MiniProgramNoticeMsg } from '../entity/MiniProgramNoticeMsg'
 import { MarkDownMsg } from '../entity/MarkDownMsg'
 
 /**
