@@ -15,6 +15,7 @@ export { InvoiceAPI } from './src/api/InvoiceAPI'
 export { MediaAPI } from './src/api/MediaAPI'
 export { GroupRobotAPI } from './src/api/GroupRobotAPI'
 export { SendMsgAPI } from './src/api/SendMsgAPI'
+export { ChatAPI } from './src/api/ChatAPI'
 
 export { BaseMsg } from './src/entity/BaseMsg'
 export { ImageMsg, Image } from './src/entity/ImageMsg'
