@@ -215,14 +215,14 @@ export class MeetingRoomAPI {
    * 取消预定会议室
    * @param cpWXCore
    * @param meeting_id 会议的id
-   * @param keep_schedule 是否保留日程，0-同步删除 1-保留
+   * @param keepSchedule 是否保留日程，0-同步删除 1-保留
    */
-  public static async cancelBookMeetingRoom(cpWXCore: CPWXCore, meetingId: number, keep_schedule?: 0 | 1) {
+  public static async cancelBookMeetingRoom(cpWXCore: CPWXCore, meetingId: number, keepSchedule?: 0 | 1) {
     const token = await cpWXCore.getAccessToken()
     const url = util.format(this.cancelBookMeetingRoomUrl, token)
     const data = await this._http.post(url, {
       meeting_id: meetingId,
-      keep_schedule: keep_schedule,
+      keep_schedule: keepSchedule,
     })
     if (!data) {
       throw new Error('接口异常')

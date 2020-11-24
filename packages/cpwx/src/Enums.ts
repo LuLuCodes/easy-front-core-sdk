@@ -14,3 +14,17 @@ export enum MediaType {
   VIDEO = 'video',
   FILE = 'file',
 }
+
+export enum MessageType {
+  TEXT = 'text',
+  IMAGE = 'image',
+  VOICE = 'voice',
+  VIDEO = 'video',
+  FILE = 'file',
+  TEXTCARD = 'textcard',
+  NEWS = 'news',
+  MPNEWS = 'mpnews',
+  MARKDOWN = 'markdown',
+  MINIPROGRAM_NOTICE = 'miniprogram_notice',
+  TASKCARD = 'taskcard',
+}
