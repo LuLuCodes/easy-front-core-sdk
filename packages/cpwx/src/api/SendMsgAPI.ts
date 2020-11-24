@@ -20,6 +20,8 @@ import { MarkDownMsg } from '../entity/MarkDownMsg'
 export class SendMsgAPI {
   private static getStatisticsUrl: string = 'https://api.weixin.qq.com/cgi-bin/message/get_statistics?access_token=%s'
   private static sendMessageUrl: string = 'https://api.weixin.qq.com/cgi-bin/message/send?access_token=%s'
+  private static updateTaskCardUrl: string = 'https://qyapi.weixin.qq.com/cgi-bin/message/update_taskcard?access_token=%s'
+
   private static _http = Http.getInstance()
 
   /**
@@ -32,6 +34,32 @@ export class SendMsgAPI {
     const url = util.format(this.getStatisticsUrl, token)
     const data = await this._http.post(url, {
       time_type: timeType,
+    })
+    if (!data) {
+      throw new Error('接口异常')
+    }
+    if (data.errcode) {
+      throw new Error(data.errmsg)
+    }
+    return data
+  }
+
+  /**
+   * 更新任务卡片消息状态
+   * @param cpWXCore
+   * @param userIds 企业的成员ID列表（消息接收者，最多支持1000个）。
+   * @param agentId 应用的agentid
+   * @param taskId 发送任务卡片消息时指定的task_id
+   * @param clickedKey	 设置指定的按钮为选择状态，需要与发送消息时指定的btn:key一致
+   */
+  public static async updateTaskCard(cpWXCore: CPWXCore, userIds: Array<string>, agentId: number, taskId: string, clickedKey: string) {
+    const token = await cpWXCore.getAccessToken()
+    const url = util.format(this.updateTaskCardUrl, token)
+    const data = await this._http.post(url, {
+      userids: userIds,
+      agentid: agentId,
+      task_id: taskId,
+      clicked_key: clickedKey,
     })
     if (!data) {
       throw new Error('接口异常')
