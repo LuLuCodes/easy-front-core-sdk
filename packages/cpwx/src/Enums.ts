@@ -28,3 +28,8 @@ export enum MessageType {
   MINIPROGRAM_NOTICE = 'miniprogram_notice',
   TASKCARD = 'taskcard',
 }
+
+export enum JsApiType {
+  CORP = 'corp',
+  AGENT = 'agent',
+}

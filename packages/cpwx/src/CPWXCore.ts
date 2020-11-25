@@ -1,6 +1,7 @@
 import * as util from 'util'
 import { RedisCache, IRedisConfig } from '@easy-front-core-sdk/cache'
 import { Http } from '@easy-front-core-sdk/kits'
+import { JsApiType } from './Enums'
 
 export interface IApiConfig {
   corpId: string
@@ -40,6 +41,9 @@ export class CPWXCoreFactory {
 
 export class CPWXCore {
   private _accesstokenUrl: string = 'https://qyapi.weixin.qq.com/cgi-bin/gettoken?corpid=%s&corpsecret=%s'
+  private getCorpTicketUrl: string = 'https://qyapi.weixin.qq.com/cgi-bin/get_jsapi_ticket?access_token=%s'
+  private getAgentTicketUrl: string = 'https://qyapi.weixin.qq.com/cgi-bin/ticket/get?access_token=%s&type=agent_config'
+
   private _cache = null
   private _http = Http.getInstance()
   private _apiConfig = null
@@ -99,5 +103,32 @@ export class CPWXCore {
    */
   public getApiConfig(): IApiConfig {
     return this._apiConfig
+  }
+
+  /**
+   * 获取api_ticket
+   * @param type
+   */
+  public async getTicket(type: JsApiType) {
+    let agentId = this._apiConfig.agentId
+    let corpId = this._apiConfig.corpId
+    let key = agentId.concat(':').concat(corpId).concat(':').concat(type)
+    // 从缓存中获取
+    let jsTicket: string = await this._cache.get(`qywx_js_ticket_${key}`)
+    if (jsTicket) {
+      return jsTicket
+    }
+    // 通过接口获取
+    const token = await this.getAccessToken()
+    let url: string = util.format(type === JsApiType.CORP ? this.getCorpTicketUrl : this.getAgentTicketUrl, token)
+    let data = await this._http.get(url)
+    if (!data) {
+      throw new Error('获取jsTicket异常')
+    }
+    if (data.errcode) {
+      throw new Error(data.errmsg)
+    }
+    this._cache.set(`qywx_js_ticket_${key}`, data.ticket, 'EX', data.expires_in - 100)
+    return data.ticket
   }
 }

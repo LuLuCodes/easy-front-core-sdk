@@ -31,4 +31,4 @@ export { MpNewsMsg, MpNewsArticles, MpNews } from './src/entity/MpNewsMsg'
 export { TaskCardMsg, TaskCard, TaskCardBtn } from './src/entity/TaskCardMsg'
 export { MediaId } from './src/entity/MediaId'
 
-export { SYSTEM_AGENT_ID, MediaType, MessageType } from './src/Enums'
+export { SYSTEM_AGENT_ID, MediaType, MessageType, JsApiType } from './src/Enums'

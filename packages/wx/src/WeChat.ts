@@ -43,7 +43,7 @@ export class WeChat {
    * @param url
    * @param jsapi_ticket
    */
-  public static async jssdkSignature(InMsgParser, wxCore: WXCore, nonce_str: string, timestamp: string, url: string, jsapi_ticket?: string): Promise<string> {
+  public static async jssdkSignature(wxCore: WXCore, nonce_str: string, timestamp: string, url: string, jsapi_ticket?: string): Promise<string> {
     let jsTicket = jsapi_ticket || (await wxCore.getTicket(JsApiType.JSAPI))
     let str = 'jsapi_ticket=' + jsTicket + '&noncestr=' + nonce_str + '&timestamp=' + timestamp + '&url=' + url
     return Cryptogram.sha1(str)
