@@ -75,4 +75,20 @@ export class Kit {
       }
     })
   }
+
+  /**
+   * 将json对象转换成排序字符串
+   * @param obj
+   */
+  public static makeSortStr(params: object, omit = []) {
+    return Object.keys(params)
+      .sort()
+      .filter((key) => params[key] && omit.indexOf(key) === -1)
+      .map((key) => {
+        const value = typeof params[key] === 'object' ? JSON.stringify(params[key]) : params[key]
+        return `${String(key)}=${String(value)}`
+      })
+      .join('&')
+      .trim()
+  }
 }

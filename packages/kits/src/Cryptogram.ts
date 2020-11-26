@@ -118,8 +118,41 @@ export class Cryptogram {
    * @param data 待加密字符
    * @param privatekey 私钥key
    */
-  public static sha256WithRsa(data: string, privatekey: Buffer): string {
+  public static sha256WithRsa(data: string, privatekey: string | Buffer): string {
     return crypto.createSign('RSA-SHA256').update(data).sign(privatekey, 'base64')
+  }
+
+  /**
+   * SHA256withRSAByEncode
+   * @param data 待加密字符
+   * @param privatekey 私钥key
+   */
+  public static sha256WithRsaByEncode(data: string, privatekey: string | Buffer, encode: string): string {
+    return crypto
+      .createSign('RSA-SHA256')
+      .update(data, <crypto.Utf8AsciiLatin1Encoding>encode)
+      .sign(privatekey, 'base64')
+  }
+
+  /**
+   * SHA1WithRsa
+   * @param data 待加密字符
+   * @param privatekey 私钥key
+   */
+  public static sha1WithRsa(data: string, privatekey: string | Buffer): string {
+    return crypto.createSign('RSA-SHA1').update(data).sign(privatekey, 'base64')
+  }
+
+  /**
+   * SHA256withRSAByEncode
+   * @param data 待加密字符
+   * @param privatekey 私钥key
+   */
+  public static sha1WithRsaByEncode(data: string, privatekey: string | Buffer, encode: string): string {
+    return crypto
+      .createSign('RSA-SHA1')
+      .update(data, <crypto.Utf8AsciiLatin1Encoding>encode)
+      .sign(privatekey, 'base64')
   }
 
   /**
