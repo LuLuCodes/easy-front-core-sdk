@@ -118,20 +118,15 @@ export class Cryptogram {
    * @param data 待加密字符
    * @param privatekey 私钥key
    */
-  public static sha256WithRsa(data: string, privatekey: string | Buffer): string {
-    return crypto.createSign('RSA-SHA256').update(data).sign(privatekey, 'base64')
-  }
-
-  /**
-   * SHA256withRSAByEncode
-   * @param data 待加密字符
-   * @param privatekey 私钥key
-   */
-  public static sha256WithRsaByEncode(data: string, privatekey: string | Buffer, encode: string): string {
-    return crypto
-      .createSign('RSA-SHA256')
-      .update(data, <crypto.Utf8AsciiLatin1Encoding>encode)
-      .sign(privatekey, 'base64')
+  public static sha256WithRsa(data: string, privatekey: string | Buffer, encode?: 'utf8' | 'ascii' | 'latin1'): string {
+    if (encode) {
+      return crypto
+        .createSign('RSA-SHA256')
+        .update(data, <crypto.Utf8AsciiLatin1Encoding>encode)
+        .sign(privatekey, 'base64')
+    } else {
+      return crypto.createSign('RSA-SHA256').update(data).sign(privatekey, 'base64')
+    }
   }
 
   /**
@@ -139,20 +134,15 @@ export class Cryptogram {
    * @param data 待加密字符
    * @param privatekey 私钥key
    */
-  public static sha1WithRsa(data: string, privatekey: string | Buffer): string {
-    return crypto.createSign('RSA-SHA1').update(data).sign(privatekey, 'base64')
-  }
-
-  /**
-   * SHA256withRSAByEncode
-   * @param data 待加密字符
-   * @param privatekey 私钥key
-   */
-  public static sha1WithRsaByEncode(data: string, privatekey: string | Buffer, encode: string): string {
-    return crypto
-      .createSign('RSA-SHA1')
-      .update(data, <crypto.Utf8AsciiLatin1Encoding>encode)
-      .sign(privatekey, 'base64')
+  public static sha1WithRsa(data: string, privatekey: string | Buffer, encode?: 'utf8' | 'ascii' | 'latin1'): string {
+    if (encode) {
+      return crypto
+        .createSign('RSA-SHA1')
+        .update(data, <crypto.Utf8AsciiLatin1Encoding>encode)
+        .sign(privatekey, 'base64')
+    } else {
+      return crypto.createSign('RSA-SHA1').update(data).sign(privatekey, 'base64')
+    }
   }
 
   /**
@@ -161,8 +151,32 @@ export class Cryptogram {
    * @param signature 待验证的签名串
    * @param data 需要验证的字符串
    */
-  public static sha256WithRsaVerify(publicKey: Buffer, signature: string, data: string) {
-    return crypto.createVerify('RSA-SHA256').update(data).verify(publicKey, signature, 'base64')
+  public static sha256WithRsaVerify(publicKey: string | Buffer, signature: string, data: string, encode?: 'utf8' | 'ascii' | 'latin1') {
+    if (encode) {
+      return crypto
+        .createVerify('RSA-SHA256')
+        .update(data, <crypto.Utf8AsciiLatin1Encoding>encode)
+        .verify(publicKey, signature, 'base64')
+    } else {
+      return crypto.createVerify('RSA-SHA256').update(data).verify(publicKey, signature, 'base64')
+    }
+  }
+
+  /**
+   * SHA1withRSA 验证签名
+   * @param publicKey 公钥key
+   * @param signature 待验证的签名串
+   * @param data 需要验证的字符串
+   */
+  public static sha1WithRsaVerify(publicKey: string | Buffer, signature: string, data: string, encode?: 'utf8' | 'ascii' | 'latin1') {
+    if (encode) {
+      return crypto
+        .createVerify('RSA-SHA1')
+        .update(data, <crypto.Utf8AsciiLatin1Encoding>encode)
+        .verify(publicKey, signature, 'base64')
+    } else {
+      return crypto.createVerify('RSA-SHA1').update(data).verify(publicKey, signature, 'base64')
+    }
   }
 
   /**
