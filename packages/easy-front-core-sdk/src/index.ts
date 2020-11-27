@@ -1,0 +1,7 @@
+export * as alipay from '@easy-front-core-sdk/alipay'
+export * as cache from '@easy-front-core-sdk/cache'
+export * as cpwx from '@easy-front-core-sdk/cpwx'
+export * as kits from '@easy-front-core-sdk/kits'
+export * as miniprogram from '@easy-front-core-sdk/miniprogram'
+export * as wx from '@easy-front-core-sdk/wx'
+export * as wxpay from '@easy-front-core-sdk/wxpay'

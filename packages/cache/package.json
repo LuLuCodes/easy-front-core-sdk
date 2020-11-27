@@ -24,5 +24,9 @@
   },
   "devDependencies": {
     "@types/ioredis": "^4.17.7"
-  }
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "gitHead": "fba65df76a04d3916694f21151071dd977370e0e"
 }

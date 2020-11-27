@@ -23,5 +23,9 @@
   "dependencies": {
     "@easy-front-core-sdk/cache": "^1.0.0",
     "@easy-front-core-sdk/kits": "^1.0.0"
-  }
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "gitHead": "fba65df76a04d3916694f21151071dd977370e0e"
 }
