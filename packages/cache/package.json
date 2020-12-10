@@ -1,6 +1,6 @@
 {
   "name": "@easy-front-core-sdk/cache",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "核心模块-缓存",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",

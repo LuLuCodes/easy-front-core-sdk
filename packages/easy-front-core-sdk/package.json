@@ -1,6 +1,6 @@
 {
   "name": "easy-front-core-sdk",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "核心SDK",
   "author": "qian.qing@aliyun.com <qian.qing@aliyun.com>",
   "homepage": "https://github.com/LuLuCodes/easy-front-core-sdk#readme",
@@ -21,13 +21,13 @@
     "test": "jest --passWithNoTests"
   },
   "dependencies": {
-    "@easy-front-core-sdk/alipay": "^1.0.0",
-    "@easy-front-core-sdk/cache": "^1.0.0",
-    "@easy-front-core-sdk/cpwx": "^1.0.0",
-    "@easy-front-core-sdk/kits": "^1.0.0",
-    "@easy-front-core-sdk/miniprogram": "^1.0.0",
-    "@easy-front-core-sdk/wx": "^1.0.0",
-    "@easy-front-core-sdk/wxpay": "^1.0.0"
+    "@easy-front-core-sdk/alipay": "^1.0.1",
+    "@easy-front-core-sdk/cache": "^1.0.1",
+    "@easy-front-core-sdk/cpwx": "^1.0.1",
+    "@easy-front-core-sdk/kits": "^1.0.1",
+    "@easy-front-core-sdk/miniprogram": "^1.0.1",
+    "@easy-front-core-sdk/wx": "^1.0.1",
+    "@easy-front-core-sdk/wxpay": "^1.0.1"
   },
   "publishConfig": {
     "access": "public"

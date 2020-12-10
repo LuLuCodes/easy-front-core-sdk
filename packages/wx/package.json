@@ -1,6 +1,6 @@
 {
   "name": "@easy-front-core-sdk/wx",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "核心模块-微信公众号",
   "author": "qian.qing@aliyun.com <qian.qing@aliyun.com>",
   "homepage": "https://github.com/LuLuCodes/easy-front-core-sdk#readme",
@@ -21,8 +21,8 @@
     "test": "jest --passWithNoTests"
   },
   "dependencies": {
-    "@easy-front-core-sdk/cache": "^1.0.0",
-    "@easy-front-core-sdk/kits": "^1.0.0"
+    "@easy-front-core-sdk/cache": "^1.0.1",
+    "@easy-front-core-sdk/kits": "^1.0.1"
   },
   "publishConfig": {
     "access": "public"
