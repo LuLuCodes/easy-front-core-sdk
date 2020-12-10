@@ -54,7 +54,7 @@ export class BasicAPI {
    * @param operator  指定平台从某个运营商进行检测，允许的值：CHINANET（电信出口）、UNICOM（联通出口）、CAP（腾讯自建出口）、DEFAULT（根据ip来选择运营商）
 
    */
-  public static async check(wxCore: WXCore, action: CheckAction = CheckAction.ALL, operator: CheckOperator = CheckOperator.DEFAULT) {
+  public static async netCheck(wxCore: WXCore, action: CheckAction = CheckAction.ALL, operator: CheckOperator = CheckOperator.DEFAULT) {
     const token = await wxCore.getAccessToken()
     const url = util.format(this.checkUrl, token)
     const data = await this._http.post(url, {
@@ -94,7 +94,7 @@ export class BasicAPI {
    * 获取公众号的自动回复规则
    * @param accessToken
    */
-  public static async get(wxCore: WXCore) {
+  public static async getAutoReplyRules(wxCore: WXCore) {
     const token = await wxCore.getAccessToken()
     let url = util.format(this.getAutoReplyRulesUrl, token)
     const data = await this._http.get(url)
