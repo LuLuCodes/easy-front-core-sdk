@@ -5,23 +5,23 @@ import { MediaType } from '../Enums'
 
 export class MediaArticles {
   // 标题
-  private title: string
+  public title: string
   // 图文消息的封面图片素材id（必须是永久mediaID）
-  private thumb_media_id: string
+  public thumb_media_id: string
   // 作者
-  private author: string | undefined
+  public author: string | undefined
   // 图文消息的摘要，仅有单图文消息才有摘要，多图文此处为空
-  private digest: string | undefined
+  public digest: string | undefined
   // 是否显示封面，0为false，即不显示，1为true，即显示
-  private show_cover_pic: boolean
+  public show_cover_pic: boolean
   // 图文消息的具体内容，支持HTML标签，必须少于2万字符，小于1M，且此处会去除JS
-  private content: string
+  public content: string
   // 图文消息的原文地址，即点击“阅读原文”后的URL
-  private content_source_url: string
+  public content_source_url: string
   // 是否打开评论，0不打开，1打开
-  private need_open_comment: number | undefined
+  public need_open_comment: number | undefined
   // 是否粉丝才可评论，0所有人可评论，1粉丝才可评论
-  private only_fans_can_comment: number | undefined
+  public only_fans_can_comment: number | undefined
 
   constructor(
     title: string,
@@ -123,7 +123,7 @@ export class MediaAPI {
   /**
    * 新增永久图文素材
    * @param wxCore
-   * @param mediaId
+   * @param mediaArticles
    */
   public static async addNews(wxCore: WXCore, mediaArticles: MediaArticles[]) {
     const token = await wxCore.getAccessToken()
