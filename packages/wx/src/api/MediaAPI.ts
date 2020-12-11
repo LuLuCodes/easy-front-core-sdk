@@ -3,6 +3,7 @@ import { WXCore } from '../WXCore'
 import { Http } from '@easy-front-core-sdk/kits'
 import { MediaType } from '../Enums'
 
+// 永久图文素材
 export class MediaArticles {
   // 标题
   public title: string
