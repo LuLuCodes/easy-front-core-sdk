@@ -61,6 +61,7 @@ export class SnsAccessTokenAPI {
     }
     return data
   }
+
   /**
    *  检验授权凭证（access_token）是否有效
    *  @param accessToken

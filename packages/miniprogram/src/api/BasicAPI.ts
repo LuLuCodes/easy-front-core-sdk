@@ -6,11 +6,32 @@ import { Http } from '@easy-front-core-sdk/kits'
  * 小程序基础接口
  */
 export class BasicAPI {
+  private static checkSessionKeyUrl: string = 'https://api.weixin.qq.com/wxa/checksession?access_token=%s&signature=%s&openid=%s&sig_method=%s'
   private static code2SessionUrl: string = 'https://api.weixin.qq.com/sns/jscode2session?appid=%s&secret=%s&js_code=%s&grant_type=authorization_code'
   private static getPaidUnionidByTransactionIdUrl: string = 'https://api.weixin.qq.com/wxa/getpaidunionid?access_token=%s&openid=%s&transaction_id=%s'
   private static getPaidUnionidByMchIdUrl: string = 'https://api.weixin.qq.com/wxa/getpaidunionid?access_token=%s&openid=%s&mch_id=%s&out_trade_no=%s'
 
   private static _http = Http.getInstance()
+
+  /**
+   * 校验服务器所保存的登录态 session_key 是否合法
+   * @param mpCore
+   * @param openId 用户唯一标识符
+   * @param signature 用户登录态签名
+   * @param sigMethod 用户登录态签名的哈希方法
+   */
+  public static async checkSessionKey(mpCore: MPCore, openId: string, signature: string, sigMethod: string) {
+    const token = await mpCore.getAccessToken()
+    let url = util.format(this.checkSessionKeyUrl, token, signature, openId, sigMethod)
+    const data = await this._http.get(url)
+    if (!data) {
+      throw new Error('接口异常')
+    }
+    if (data.errcode) {
+      throw new Error(data.errmsg)
+    }
+    return data
+  }
 
   /**
    * 登录凭证校验
