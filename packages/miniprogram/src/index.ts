@@ -7,5 +7,6 @@ export { CustomerMsgAPI } from './api/CustomerMsgAPI'
 export { UniformMsgAPI } from './api/UniformMsgAPI'
 export { OCRAPI } from './api/OCRAPI'
 export { SubscribeMsgAPI } from './api/SubscribeMsgAPI'
+export { QrCodeAPI } from './api/QrCodeAPI'
 
 export { MiniProgramMediaType, MiniProgramCustomerMsgType, OCRType } from './Enums'
