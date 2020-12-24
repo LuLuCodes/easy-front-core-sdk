@@ -69,6 +69,13 @@ export class WXPayCore {
   }
 
   /**
+   *  获取新的 apiConfig
+   */
+  public getApiConfig(): IApiConfig {
+    return this._apiConfig
+  }
+
+  /**
    * 构建签名参数
    * @param {Array<string>} data 待构建签名的参数
    * @returns {string}           返回待签名字符串
