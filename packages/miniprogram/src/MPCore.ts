@@ -22,8 +22,16 @@ export class MPCoreFactory {
     return mpCore
   }
 
-  public static getCore(appId: string) {
-    let mpCore: MPCore = this.CORE_MAP.get(appId)
+  public static getCore(appId?: string) {
+    let mpCore: MPCore = null
+    if (appId) {
+      mpCore = this.CORE_MAP.get(appId)
+    } else {
+      const keys = [...this.CORE_MAP.keys()]
+      if (keys[0]) {
+        mpCore = this.CORE_MAP.get(keys[0])
+      }
+    }
     if (!mpCore) {
       throw new Error('需事先调用 MPCoreFactory.putCore(apiConfig: IApiConfig, redisConfig: IRedisConfig) 将 appId 对应的 config 对象存入后,才可以使用 MPCoreFactory.getCore方法')
     }

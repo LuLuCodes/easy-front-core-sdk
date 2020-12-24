@@ -28,7 +28,7 @@ export class WXCoreFactory {
     if (appId) {
       wxCore = this.CORE_MAP.get(appId)
     } else {
-      const keys = this.CORE_MAP.keys()
+      const keys = [...this.CORE_MAP.keys()]
       if (keys[0]) {
         wxCore = this.CORE_MAP.get(keys[0])
       }
