@@ -23,8 +23,16 @@ export class WXCoreFactory {
     return wxCore
   }
 
-  public static getCore(appId: string) {
-    let wxCore: WXCore = this.CORE_MAP.get(appId)
+  public static getCore(appId?: string) {
+    let wxCore: WXCore = null
+    if (appId) {
+      wxCore = this.CORE_MAP.get(appId)
+    } else {
+      const keys = this.CORE_MAP.keys()
+      if (keys[0]) {
+        wxCore = this.CORE_MAP.get(keys[0])
+      }
+    }
     if (!wxCore) {
       throw new Error('需事先调用 WXCoreFactory.putCore(apiConfig: IApiConfig, redisConfig: IRedisConfig) 将 appId 对应的 config 对象存入后,才可以使用 WXCoreFactory.getCore方法')
     }

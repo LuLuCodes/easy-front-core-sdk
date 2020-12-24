@@ -35,8 +35,16 @@ export class WXPayCoreFactory {
     return wxpayCore
   }
 
-  public static getCore(mchId: string) {
-    let wxpayCore: WXPayCore = this.CORE_MAP.get(mchId)
+  public static getCore(mchId?: string) {
+    let wxpayCore: WXPayCore = null
+    if (mchId) {
+      wxpayCore = this.CORE_MAP.get(mchId)
+    } else {
+      const keys = this.CORE_MAP.keys()
+      if (keys[0]) {
+        wxpayCore = this.CORE_MAP.get(keys[0])
+      }
+    }
     if (!wxpayCore) {
       throw new Error('需事先调用 WXPayCoreFactory.putCore(apiConfig: IApiConfig) 将 mchId 对应的 config 对象存入后,才可以使用 WXPayCoreFactory.getCore方法')
     }
