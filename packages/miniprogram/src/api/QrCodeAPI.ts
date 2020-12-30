@@ -22,10 +22,16 @@ export class QrCodeAPI {
   public static async createQRCode(mpCore: MPCore, path: string, width: number = 430) {
     const token = await mpCore.getAccessToken()
     const url = util.format(this.createQRCodeUrl, token)
-    const data = await this._http.post(url, {
-      path: path,
-      width: width,
-    })
+    const data = await this._http.post(
+      url,
+      {
+        path: path,
+        width: width,
+      },
+      {
+        responseType: 'arraybuffer',
+      }
+    )
     if (!data) {
       throw new Error('接口异常')
     }
@@ -55,13 +61,19 @@ export class QrCodeAPI {
   ) {
     const token = await mpCore.getAccessToken()
     const url = util.format(this.getWxAcodeUrl, token)
-    const data = await this._http.post(url, {
-      path: path,
-      width: width,
-      auto_color: autoColor,
-      line_color: lineColor,
-      is_hyaline: isHyaline,
-    })
+    const data = await this._http.post(
+      url,
+      {
+        path: path,
+        width: width,
+        auto_color: autoColor,
+        line_color: lineColor,
+        is_hyaline: isHyaline,
+      },
+      {
+        responseType: 'arraybuffer',
+      }
+    )
     if (!data) {
       throw new Error('接口异常')
     }
@@ -93,14 +105,20 @@ export class QrCodeAPI {
   ) {
     const token = await mpCore.getAccessToken()
     const url = util.format(this.getUnlimitedUrl, token)
-    const data = await this._http.post(url, {
-      scene: scene,
-      page: page,
-      width: width,
-      auto_color: autoColor,
-      line_color: lineColor,
-      is_hyaline: isHyaline,
-    })
+    const data = await this._http.post(
+      url,
+      {
+        scene: scene,
+        page: page,
+        width: width,
+        auto_color: autoColor,
+        line_color: lineColor,
+        is_hyaline: isHyaline,
+      },
+      {
+        responseType: 'arraybuffer',
+      }
+    )
     if (!data) {
       throw new Error('接口异常')
     }
