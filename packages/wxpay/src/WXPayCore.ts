@@ -18,7 +18,9 @@ export interface IApiConfig {
   api3Screct: string
   serialNo: string
   certPath?: string
+  certp12Path?: string
   key?: Buffer
+  keyp12?: Buffer
   platSerialNo?: string
 }
 
@@ -65,6 +67,9 @@ export class WXPayCore {
     this._apiConfig = apiConfig
     if (this._apiConfig.certPath) {
       this._apiConfig.key = fs.readFileSync(this._apiConfig.certPath)
+    }
+    if (this._apiConfig.certp12Path) {
+      this._apiConfig.keyp12 = fs.readFileSync(this._apiConfig.certp12Path)
     }
   }
 
