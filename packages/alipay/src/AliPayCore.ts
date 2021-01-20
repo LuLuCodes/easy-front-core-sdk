@@ -416,6 +416,13 @@ export class AliPayCore {
     }
   }
 
+  /**
+   *  获取新的 apiConfig
+   */
+  public getApiConfig(): IApiConfig {
+    return this._apiConfig
+  }
+
   private validateBasicParams(method: MethodType, publicParams: PublicParams): PublicParams {
     return {
       app_id: this._apiConfig.appId,
