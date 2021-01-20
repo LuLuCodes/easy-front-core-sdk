@@ -13,8 +13,8 @@ import { GateWay, MethodType, GoodsType, SignType, Algorithm, NormalResponseCode
  */
 export interface IApiConfig {
   appId: string // 应用ID
-  appPrivKey?: string // 应用私钥
-  alipayPubKey?: string // 支付宝公钥
+  appPrivKey?: Buffer // 应用私钥
+  alipayPubKey?: Buffer // 支付宝公钥
   appPrivKeyFile?: string // 应用私钥文件路径
   alipayPubKeyFile?: string // 支付宝公钥文件路径
   gatewayUrl?: GateWay // 接口网关地址
