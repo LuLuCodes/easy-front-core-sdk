@@ -366,21 +366,29 @@ export class AliPayCoreCoreFactory {
   private static CORE_MAP: Map<string, AliPayCore> = new Map<string, AliPayCore>()
 
   public static putCore(apiConfig: IApiConfig) {
-    let alipayCore: AliPayCore = this.CORE_MAP.get(apiConfig.appId)
-    if (alipayCore) {
-      return alipayCore
+    let aliPayCore: AliPayCore = this.CORE_MAP.get(apiConfig.appId)
+    if (aliPayCore) {
+      return aliPayCore
     }
-    alipayCore = new AliPayCore(apiConfig)
-    this.CORE_MAP.set(apiConfig.appId, alipayCore)
-    return alipayCore
+    aliPayCore = new AliPayCore(apiConfig)
+    this.CORE_MAP.set(apiConfig.appId, aliPayCore)
+    return aliPayCore
   }
 
-  public static getCore(appId: string) {
-    let alipayCore: AliPayCore = this.CORE_MAP.get(appId)
-    if (!alipayCore) {
+  public static getCore(appId?: string) {
+    let aliPayCore: AliPayCore = null
+    if (appId) {
+      aliPayCore = this.CORE_MAP.get(appId)
+    } else {
+      const keys = [...this.CORE_MAP.keys()]
+      if (keys[0]) {
+        aliPayCore = this.CORE_MAP.get(keys[0])
+      }
+    }
+    if (!aliPayCore) {
       throw new Error('需事先调用 AliPayCoreCoreFactory.putCore(apiConfig: IApiConfig) 将 appId 对应的 config 对象存入后,才可以使用 AliPayCoreCoreFactory.getCore方法')
     }
-    return alipayCore
+    return aliPayCore
   }
 
   public static removeCore(appId: string): boolean {
