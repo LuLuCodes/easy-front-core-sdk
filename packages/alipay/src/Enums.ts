@@ -20,7 +20,7 @@ export enum MethodType {
   TRADE_PRECREATE = 'alipay.trade.precreate',
   TRADE_REFUND_QUERY = 'alipay.trade.fastpay.refund.query',
   BILL_DOWNLOAD_QUERY = 'alipay.data.dataservice.bill.downloadurl.query',
-  FUND_TRANS_TOACCOUNT_TRANSFER = 'alipay.fund.trans.toaccount.transfer',
+  FUND_TRANS_UNI_TRANSFER = 'alipay.fund.trans.uni.transfer',
 
   // self define
   VERIFY_PAYMENT = 'verify.payment.status',

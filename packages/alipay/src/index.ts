@@ -14,7 +14,7 @@ export {
   BillQueryParams,
   TradePrecreateParams,
   TradeSettleParams,
-  ToaccountTransferParams,
+  UniTransferParams,
   PaymentResponseCode,
   VerifyPamentResult,
   VerifyPamentParams,

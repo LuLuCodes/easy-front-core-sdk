@@ -250,22 +250,27 @@ export interface TradeSettleParams {
 }
 
 /**单笔转账到支付宝账户接口
- * @param out_biz_no        商户转账唯一订单号
- * @param payee_type        收款方账户类型
- * @param payee_account     收款方账户
- * @param amount            转账金额
- * @param payer_show_name   付款方姓名
- * @param payee_real_name   收款方真实姓名
- * @param remark            转账备注
+ * @param out_biz_no            商户转账唯一订单号
+ * @param trans_amount          订单总金额
+ * @param product_code          业务产品码
+ * @param biz_scene             描述特定的业务场景
+ * @param order_title           转账业务的标题
+ * @param original_order_id     原支付宝业务单号
+ * @param payee_info            收款方信息
+ * @param remark                业务备注
+ * @param business_params       转账业务请求的扩展参数
+
  */
-export interface ToaccountTransferParams {
+export interface UniTransferParams {
   out_biz_no: string
-  payee_type: string
-  payee_account: string
-  amount: string
-  payer_show_name?: string
-  payee_real_name?: string
+  trans_amount: number
+  product_code: string
+  biz_scene?: string
+  order_title?: string
+  original_order_id?: string
+  payee_info: any
   remark?: string
+  business_params?: string
 }
 
 // App支付同步通知状态码
@@ -314,7 +319,7 @@ export type APIParams =
   | BillQueryParams
   | TradePrecreateParams
   | TradeSettleParams
-  | ToaccountTransferParams
+  | UniTransferParams
 
 export const ResponseMessage = {
   0: '请求成功',
@@ -348,7 +353,7 @@ export enum APIList {
   'alipay.trade.order.settle' = '交易结算',
   'alipay.trade.fastpay.refund.query' = '交易退款查询',
   'alipay.trade.app.pay' = '生成创建订单所需参数',
-  'alipay.fund.trans.toaccount.transfer' = '单笔转账到支付宝账户接口',
+  'alipay.fund.trans.uni.transfer' = '单笔转账到支付宝账户接口',
   'alipay.data.dataservice.bill.downloadurl.query' = '查询账单下载地址接口',
   'async.notify' = '异步通知', // 自定义
 }
@@ -622,8 +627,8 @@ export class AliPayCore {
     return this.makeResponse(data, publicParams)
   }
 
-  public async toaccountTransfer(apiParams: ToaccountTransferParams, publicParams?: PublicParams) {
-    const url = this.makeRequest(MethodType.FUND_TRANS_TOACCOUNT_TRANSFER, apiParams, publicParams)
+  public async uniTransfer(apiParams: UniTransferParams, publicParams?: PublicParams) {
+    const url = this.makeRequest(MethodType.FUND_TRANS_UNI_TRANSFER, apiParams, publicParams)
     const data = await this._http.get(url)
     return this.makeResponse(data, publicParams)
   }
