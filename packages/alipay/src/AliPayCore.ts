@@ -273,6 +273,16 @@ export interface UniTransferParams {
   business_params?: string
 }
 
+/**查询转账订单接口
+ * @param out_biz_no        商户转账唯一订单号
+ * @param order_id          支付宝转账单据号
+
+ */
+export interface TransOrderQueryParams {
+  out_biz_no?: string
+  order_id?: string
+}
+
 // App支付同步通知状态码
 export enum PaymentResponseCode {
   SUCCESS = '9000',
@@ -320,6 +330,7 @@ export type APIParams =
   | TradePrecreateParams
   | TradeSettleParams
   | UniTransferParams
+  | TransOrderQueryParams
 
 export const ResponseMessage = {
   0: '请求成功',
@@ -629,6 +640,12 @@ export class AliPayCore {
 
   public async uniTransfer(apiParams: UniTransferParams, publicParams?: PublicParams) {
     const url = this.makeRequest(MethodType.FUND_TRANS_UNI_TRANSFER, apiParams, publicParams)
+    const data = await this._http.get(url)
+    return this.makeResponse(data, publicParams)
+  }
+
+  public async transOrderQuery(apiParams: TransOrderQueryParams, publicParams?: PublicParams) {
+    const url = this.makeRequest(MethodType.FUND_TRANS_ORDER_QUERY, apiParams, publicParams)
     const data = await this._http.get(url)
     return this.makeResponse(data, publicParams)
   }

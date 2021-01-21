@@ -15,6 +15,7 @@ export {
   TradePrecreateParams,
   TradeSettleParams,
   UniTransferParams,
+  TransOrderQueryParams,
   PaymentResponseCode,
   VerifyPamentResult,
   VerifyPamentParams,
