@@ -6,17 +6,25 @@ import { GateWay, MethodType, GoodsType, SignType, Algorithm, NormalResponseCode
 /**应用配置
  * @param appId         应用ID
  * @param appPrivKey     应用私钥
- * @param alipayPubKey    支付宝公钥
+ * @param appPubKey    应用公钥
  * @param appPrivKeyFile     应用私钥文件路径
- * @param alipayPubKeyFile    支付宝公钥文件路径
+ * @param appPubKeyFile    应用公钥文件路径
+ * @param alipayRootCert    支付宝根证书
+ * @param alipayRootCertFile    支付宝根证书路径
+ * @param appCertSn   // 应用公钥证书 SN
+ * @param appRootCertSn   // 支付宝根证书 SN
  * @param gatewayUrl      接口网关地址
  */
 export interface IApiConfig {
   appId: string // 应用ID
-  appPrivKey?: Buffer // 应用私钥
-  alipayPubKey?: Buffer // 支付宝公钥
+  appPrivKey?: string | Buffer // 应用私钥
+  appPubKey?: string | Buffer // 应用公钥
   appPrivKeyFile?: string // 应用私钥文件路径
-  alipayPubKeyFile?: string // 支付宝公钥文件路径
+  appPubKeyFile?: string // 应用公钥文件路径
+  alipayRootCert?: string | Buffer // 支付宝根证书
+  alipayRootCertFile?: string // 支付宝根证书路径
+  appCertSn?: string // 应用公钥证书 SN
+  appRootCertSn?: string // 支付宝根证书 SN
   gatewayUrl?: GateWay // 接口网关地址
 }
 
@@ -84,6 +92,8 @@ export interface PublicParams {
   version?: string
   notify_url?: string
   biz_content?: string
+  app_cert_sn?: string
+  alipay_root_cert_sn?: string
 }
 
 /**查询订单参数
@@ -413,23 +423,29 @@ export class AliPayCoreCoreFactory {
 }
 
 export class AliPayCore {
-  private _apiConfig = null
+  private _apiConfig: IApiConfig = null
   private _http = Http.getInstance()
   constructor(apiConfig: IApiConfig) {
     this._apiConfig = apiConfig
     if (this._apiConfig.appPrivKeyFile) {
       this._apiConfig.appPrivKey = fs.readFileSync(this._apiConfig.appPrivKeyFile)
     }
-    if (this._apiConfig.alipayPubKeyFile) {
-      this._apiConfig.alipayPubKey = fs.readFileSync(this._apiConfig.alipayPubKeyFile)
+    if (this._apiConfig.appPubKeyFile) {
+      this._apiConfig.appPubKey = fs.readFileSync(this._apiConfig.appPubKeyFile)
+    }
+
+    if (this._apiConfig.alipayRootCertFile) {
+      this._apiConfig.alipayRootCert = fs.readFileSync(this._apiConfig.alipayRootCertFile)
     }
 
     if (this._apiConfig.appPrivKey.indexOf('BEGIN RSA PRIVATE KEY') === -1 && this._apiConfig.appPrivKey.indexOf('BEGIN PRIVATE KEY') === -1) {
       this._apiConfig.appPrivKey = `${PrivKey.BEGIN}${this._apiConfig.appPrivKey}${PrivKey.END}`
     }
-    if (this._apiConfig.alipayPubKey.indexOf('BEGIN PUBLIC KEY') === -1) {
-      this._apiConfig.alipayPubKey = `${PublicKey.BEGIN}${this._apiConfig.alipayPubKey}${PublicKey.END}`
+    if (this._apiConfig.appPubKey.indexOf('BEGIN PUBLIC KEY') === -1) {
+      this._apiConfig.appPubKey = `${PublicKey.BEGIN}${this._apiConfig.appPubKey}${PublicKey.END}`
     }
+    this._apiConfig.appCertSn = Kit.getSN(this._apiConfig.appPubKey, false)
+    this._apiConfig.appRootCertSn = Kit.getSN(this._apiConfig.alipayRootCert, true)
   }
 
   /**
@@ -459,7 +475,7 @@ export class AliPayCore {
     return Algorithm[signType]
   }
 
-  private makeSign(privKey: string, params: PublicParams, omit = ['sign']) {
+  private makeSign(privKey: string | Buffer, params: PublicParams, omit = ['sign']) {
     const signStr = Kit.makeSortStr(params, omit)
     const algorithm = this.getSignAlgorithm(params.sign_type)
     if (algorithm === Algorithm.RSA2) {
@@ -491,10 +507,10 @@ export class AliPayCore {
     const resp = Kit.makeSortStr(respData, omit)
     const algorithm = this.getSignAlgorithm(options.sign_type)
     if (algorithm === Algorithm.RSA2) {
-      return Cryptogram.sha256WithRsaVerify(this._apiConfig.alipayPubKeyFile, respSign, resp, options.charset)
+      return Cryptogram.sha256WithRsaVerify(this._apiConfig.appPubKey, respSign, resp, options.charset)
     }
     if (algorithm === Algorithm.RSA) {
-      return Cryptogram.sha1WithRsaVerify(this._apiConfig.alipayPubKeyFile, respSign, resp, options.charset)
+      return Cryptogram.sha1WithRsaVerify(this._apiConfig.appPubKey, respSign, resp, options.charset)
     }
   }
 
@@ -645,7 +661,11 @@ export class AliPayCore {
   }
 
   public async transOrderQuery(apiParams: TransOrderQueryParams, publicParams?: PublicParams) {
-    const url = this.makeRequest(MethodType.FUND_TRANS_ORDER_QUERY, apiParams, publicParams)
+    const url = this.makeRequest(MethodType.FUND_TRANS_ORDER_QUERY, apiParams, {
+      ...publicParams,
+      app_cert_sn: this._apiConfig.appCertSn,
+      alipay_root_cert_sn: this._apiConfig.appRootCertSn,
+    })
     const data = await this._http.get(url)
     return this.makeResponse(data, publicParams)
   }

@@ -4,6 +4,8 @@
 import { parseString, Builder } from 'xml2js'
 import * as uuid from 'uuid'
 import * as crypto from 'crypto'
+import bignumber_js_1 from 'bignumber.js'
+const x509_1 = require('@fidm/x509')
 
 export class Kit {
   /**
@@ -90,5 +92,51 @@ export class Kit {
       })
       .join('&')
       .trim()
+  }
+
+  /** 从上传的证书内容或Buffer读取序列号 */
+  public static getSN(fileData: string | Buffer, isRoot: boolean = false): string {
+    if (typeof fileData == 'string') {
+      fileData = Buffer.from(fileData)
+    }
+    if (isRoot) {
+      return this.getRootCertSN(fileData)
+    }
+    const certificate = x509_1.Certificate.fromPEM(fileData)
+    return this.getCertSN(certificate)
+  }
+
+  /** 读取序列号 */
+  public static getCertSN(certificate: any): string {
+    const { issuer, serialNumber } = certificate
+    const principalName = issuer.attributes
+      .reduceRight((prev, curr) => {
+        const { shortName, value } = curr
+        const result = `${prev}${shortName}=${value},`
+        return result
+      }, '')
+      .slice(0, -1)
+    const decimalNumber = new bignumber_js_1(serialNumber, 16).toString(10)
+    const SN = crypto
+      .createHash('md5')
+      .update(principalName + decimalNumber, 'utf8')
+      .digest('hex')
+    return SN
+  }
+  /** 读取根证书序列号 */
+  public static getRootCertSN(rootContent: Buffer): string {
+    const certificates = x509_1.Certificate.fromPEMs(rootContent)
+    let rootCertSN = ''
+    certificates.forEach((item) => {
+      if (item.signatureOID.startsWith('1.2.840.113549.1.1')) {
+        const SN = this.getCertSN(item)
+        if (rootCertSN.length === 0) {
+          rootCertSN += SN
+        } else {
+          rootCertSN += `_${SN}`
+        }
+      }
+    })
+    return rootCertSN
   }
 }
