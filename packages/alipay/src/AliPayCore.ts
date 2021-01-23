@@ -379,6 +379,7 @@ export enum APIList {
   'alipay.trade.fastpay.refund.query' = '交易退款查询',
   'alipay.trade.app.pay' = '生成创建订单所需参数',
   'alipay.fund.trans.uni.transfer' = '单笔转账到支付宝账户接口',
+  'alipay.fund.trans.order.query' = '查询转账订单接口',
   'alipay.data.dataservice.bill.downloadurl.query' = '查询账单下载地址接口',
   'async.notify' = '异步通知', // 自定义
 }
