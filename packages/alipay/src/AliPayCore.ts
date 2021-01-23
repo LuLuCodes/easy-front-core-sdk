@@ -478,6 +478,8 @@ export class AliPayCore {
       notify_url: publicParams.notify_url,
       sign: '',
       biz_content: '',
+      app_cert_sn: this._apiConfig.appCertSn,
+      alipay_root_cert_sn: this._apiConfig.alipayRootCertSn,
     }
   }
 
@@ -671,11 +673,7 @@ export class AliPayCore {
   }
 
   public async transOrderQuery(apiParams: TransOrderQueryParams, publicParams?: PublicParams) {
-    const url = this.makeRequest(MethodType.FUND_TRANS_ORDER_QUERY, apiParams, {
-      ...publicParams,
-      app_cert_sn: this._apiConfig.appCertSn,
-      alipay_root_cert_sn: this._apiConfig.alipayRootCertSn,
-    })
+    const url = this.makeRequest(MethodType.FUND_TRANS_ORDER_QUERY, apiParams, publicParams)
     const data = await this._http.get(url)
     return this.makeResponse(data, publicParams)
   }
