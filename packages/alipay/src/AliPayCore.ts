@@ -518,12 +518,12 @@ export class AliPayCore {
 
   private verifySign(respSign: string, respData: any, omit: string[], options: { sign_type: SignType; charset: 'utf8' | 'ascii' | 'latin1' }): boolean {
     const resp = Kit.makeSortStr(respData, omit)
-    const algorithm = this.getSignAlgorithm(options.sign_type)
+    const algorithm = options.sign_type ? this.getSignAlgorithm(options.sign_type) : Algorithm.RSA2
     if (algorithm === Algorithm.RSA2) {
-      return Cryptogram.sha256WithRsaVerify(this._apiConfig.alipayPubKey, respSign, resp, options.charset)
+      return Cryptogram.sha256WithRsaVerify(this._apiConfig.alipayPubKey, respSign, resp, options.charset || 'utf8')
     }
     if (algorithm === Algorithm.RSA) {
-      return Cryptogram.sha1WithRsaVerify(this._apiConfig.alipayPubKey, respSign, resp, options.charset)
+      return Cryptogram.sha1WithRsaVerify(this._apiConfig.alipayPubKey, respSign, resp, options.charset || 'utf8')
     }
   }
 
@@ -549,9 +549,11 @@ export class AliPayCore {
     if (!respSign) {
       throw new Error('缺少签名')
     }
-    const validateSuccess = this.verifySign(respSign, respData, ['sign', 'sign_type'], { sign_type: publicParams.sign_type, charset: publicParams.charset })
-    if (!validateSuccess) {
-      return { code: NormalResponseCode.SIGNATURE_ERROR, message: ResponseMessage[NormalResponseCode.SIGNATURE_ERROR], data: respData }
+    if (!respData.sub_code) {
+      const validateSuccess = this.verifySign(respSign, respData, ['sign', 'sign_type'], { sign_type: publicParams.sign_type, charset: publicParams.charset })
+      if (!validateSuccess) {
+        return { code: NormalResponseCode.SIGNATURE_ERROR, message: ResponseMessage[NormalResponseCode.SIGNATURE_ERROR], data: respData }
+      }
     }
     return { code: respData.code, message: ResponseMessage[respData.code], data: respData }
   }
