@@ -6,25 +6,29 @@ import { GateWay, MethodType, GoodsType, SignType, Algorithm, NormalResponseCode
 /**应用配置
  * @param appId         应用ID
  * @param appPrivKey     应用私钥
- * @param appPubKey    应用公钥
  * @param appPrivKeyFile     应用私钥文件路径
+ * @param appPubKey    应用公钥
  * @param appPubKeyFile    应用公钥文件路径
+ * @param alipayPubKey    支付宝公钥
+ * @param alipayPubKeyFile    支付宝公钥文件路径
  * @param alipayRootCert    支付宝根证书
  * @param alipayRootCertFile    支付宝根证书路径
- * @param appCertSn   // 应用公钥证书 SN
- * @param appRootCertSn   // 支付宝根证书 SN
+ * @param appCertSn   应用公钥证书 SN
+ * @param appRootCertSn   支付宝根证书 SN
  * @param gatewayUrl      接口网关地址
  */
 export interface IApiConfig {
   appId: string // 应用ID
-  appPrivKey?: string | Buffer // 应用私钥
-  appPubKey?: string | Buffer // 应用公钥
+  appPrivKey?: string // 应用私钥
   appPrivKeyFile?: string // 应用私钥文件路径
+  appPubKey?: string // 应用公钥
   appPubKeyFile?: string // 应用公钥文件路径
-  alipayRootCert?: string | Buffer // 支付宝根证书
+  alipayPubKey?: string // 支付宝公钥
+  alipayPubKeyFile?: string // 支付宝公钥文件路径
+  alipayRootCert?: string // 支付宝根证书
   alipayRootCertFile?: string // 支付宝根证书路径
   appCertSn?: string // 应用公钥证书 SN
-  appRootCertSn?: string // 支付宝根证书 SN
+  alipayRootCertSn?: string // 支付宝根证书 SN
   gatewayUrl?: GateWay // 接口网关地址
 }
 
@@ -379,15 +383,6 @@ export enum APIList {
   'async.notify' = '异步通知', // 自定义
 }
 
-enum PrivKey {
-  BEGIN = '-----BEGIN RSA PRIVATE KEY-----\n',
-  END = '\n-----END RSA PRIVATE KEY-----',
-}
-
-enum PublicKey {
-  BEGIN = '-----BEGIN PUBLIC KEY-----\n',
-  END = '\n-----END PUBLIC KEY-----',
-}
 export class AliPayCoreCoreFactory {
   private static CORE_MAP: Map<string, AliPayCore> = new Map<string, AliPayCore>()
 
@@ -428,24 +423,39 @@ export class AliPayCore {
   constructor(apiConfig: IApiConfig) {
     this._apiConfig = apiConfig
     if (this._apiConfig.appPrivKeyFile) {
-      this._apiConfig.appPrivKey = fs.readFileSync(this._apiConfig.appPrivKeyFile)
+      this._apiConfig.appPrivKey = fs.readFileSync(this._apiConfig.appPrivKeyFile, 'ascii')
     }
     if (this._apiConfig.appPubKeyFile) {
-      this._apiConfig.appPubKey = fs.readFileSync(this._apiConfig.appPubKeyFile)
+      this._apiConfig.appPubKey = fs.readFileSync(this._apiConfig.appPubKeyFile, 'ascii')
+    }
+    if (this._apiConfig.alipayPubKeyFile) {
+      this._apiConfig.alipayPubKey = fs.readFileSync(this._apiConfig.alipayPubKeyFile, 'ascii')
     }
 
     if (this._apiConfig.alipayRootCertFile) {
-      this._apiConfig.alipayRootCert = fs.readFileSync(this._apiConfig.alipayRootCertFile)
+      this._apiConfig.alipayRootCert = fs.readFileSync(this._apiConfig.alipayRootCertFile, 'ascii')
     }
 
-    if (this._apiConfig.appPrivKey.indexOf('BEGIN RSA PRIVATE KEY') === -1 && this._apiConfig.appPrivKey.indexOf('BEGIN PRIVATE KEY') === -1) {
-      this._apiConfig.appPrivKey = `${PrivKey.BEGIN}${this._apiConfig.appPrivKey}${PrivKey.END}`
-    }
-    if (this._apiConfig.appPubKey.indexOf('BEGIN PUBLIC KEY') === -1) {
-      this._apiConfig.appPubKey = `${PublicKey.BEGIN}${this._apiConfig.appPubKey}${PublicKey.END}`
-    }
+    this._apiConfig.appPrivKey = this.formatKey(this._apiConfig.appPrivKey, 'RSA PRIVATE KEY')
+    this._apiConfig.alipayPubKey = this.formatKey(this._apiConfig.alipayPubKey, 'PUBLIC KEY')
     this._apiConfig.appCertSn = Kit.getSN(this._apiConfig.appPubKey, false)
-    this._apiConfig.appRootCertSn = Kit.getSN(this._apiConfig.alipayRootCert, true)
+    this._apiConfig.alipayRootCertSn = Kit.getSN(this._apiConfig.alipayRootCert, true)
+  }
+  // 格式化 key
+  private formatKey(key: string, type: string): string {
+    const item = key.split('\n').map((val) => val.trim())
+
+    // 删除包含 `RSA PRIVATE KEY / PUBLIC KEY` 等字样的第一行
+    if (item[0].includes(type)) {
+      item.shift()
+    }
+
+    // 删除包含 `RSA PRIVATE KEY / PUBLIC KEY` 等字样的最后一行
+    if (item[item.length - 1].includes(type)) {
+      item.pop()
+    }
+
+    return `-----BEGIN ${type}-----\n${item.join('')}\n-----END ${type}-----`
   }
 
   /**
@@ -507,10 +517,10 @@ export class AliPayCore {
     const resp = Kit.makeSortStr(respData, omit)
     const algorithm = this.getSignAlgorithm(options.sign_type)
     if (algorithm === Algorithm.RSA2) {
-      return Cryptogram.sha256WithRsaVerify(this._apiConfig.appPubKey, respSign, resp, options.charset)
+      return Cryptogram.sha256WithRsaVerify(this._apiConfig.alipayPubKey, respSign, resp, options.charset)
     }
     if (algorithm === Algorithm.RSA) {
-      return Cryptogram.sha1WithRsaVerify(this._apiConfig.appPubKey, respSign, resp, options.charset)
+      return Cryptogram.sha1WithRsaVerify(this._apiConfig.alipayPubKey, respSign, resp, options.charset)
     }
   }
 
@@ -664,7 +674,7 @@ export class AliPayCore {
     const url = this.makeRequest(MethodType.FUND_TRANS_ORDER_QUERY, apiParams, {
       ...publicParams,
       app_cert_sn: this._apiConfig.appCertSn,
-      alipay_root_cert_sn: this._apiConfig.appRootCertSn,
+      alipay_root_cert_sn: this._apiConfig.alipayRootCertSn,
     })
     const data = await this._http.get(url)
     return this.makeResponse(data, publicParams)
