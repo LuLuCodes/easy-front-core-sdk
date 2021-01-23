@@ -438,7 +438,7 @@ export class AliPayCore {
     }
 
     this._apiConfig.appPrivKey = this.formatKey(this._apiConfig.appPrivKey, 'RSA PRIVATE KEY')
-    this._apiConfig.alipayPubKey = this.formatKey(this._apiConfig.alipayPubKey, 'PUBLIC KEY')
+    // this._apiConfig.alipayPubKey = this.formatKey(this._apiConfig.alipayPubKey, 'PUBLIC KEY')
     this._apiConfig.appCertSn = Kit.getSN(this._apiConfig.appPubKey, false)
     this._apiConfig.alipayRootCertSn = Kit.getSN(this._apiConfig.alipayRootCert, true)
   }
@@ -517,6 +517,17 @@ export class AliPayCore {
   }
 
   private verifySign(respSign: string, respData: any, omit: string[], options: { sign_type: SignType; charset: 'utf8' | 'ascii' | 'latin1' }): boolean {
+    // const resp = Kit.makeSortStr(respData, omit)
+    const algorithm = options.sign_type ? this.getSignAlgorithm(options.sign_type) : Algorithm.RSA2
+    if (algorithm === Algorithm.RSA2) {
+      return Cryptogram.sha256WithRsaVerify(this._apiConfig.alipayPubKey, respSign, JSON.stringify(respData), options.charset || 'utf8')
+    }
+    if (algorithm === Algorithm.RSA) {
+      return Cryptogram.sha1WithRsaVerify(this._apiConfig.alipayPubKey, respSign, JSON.stringify(respData), options.charset || 'utf8')
+    }
+  }
+
+  private verifyNotifySign(respSign: string, respData: any, omit: string[], options: { sign_type: SignType; charset: 'utf8' | 'ascii' | 'latin1' }): boolean {
     const resp = Kit.makeSortStr(respData, omit)
     const algorithm = options.sign_type ? this.getSignAlgorithm(options.sign_type) : Algorithm.RSA2
     if (algorithm === Algorithm.RSA2) {
@@ -627,8 +638,8 @@ export class AliPayCore {
   }
 
   public makeNotifyResponse(params: NotifyParams) {
-    const { async_notify_response, sign, sign_type } = params
-    const validateSuccess = this.verifySign(sign, async_notify_response, ['sign', 'sign_type'], { sign_type: sign_type, charset: 'utf8' })
+    const { sign, sign_type, ...async_notify_response } = params
+    const validateSuccess = this.verifyNotifySign(sign, async_notify_response, ['sign', 'sign_type'], { sign_type: sign_type, charset: 'utf8' })
     const code = validateSuccess ? NormalResponseCode.OK : NormalResponseCode.SIGNATURE_ERROR
     return { code, message: ResponseMessage[code], data: async_notify_response }
   }
