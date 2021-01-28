@@ -5,7 +5,7 @@ import { IApiConfig } from './OpenCPWXCore'
 export class MsgCryptoConfig {
   receiveId: string
   token: string
-  encodingAesKey: Buffer
+  encodingAesKey: string
 }
 export class MsgCrypto {
   static xmlParser = new xml2js.Builder({

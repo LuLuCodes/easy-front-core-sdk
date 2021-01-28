@@ -5,10 +5,14 @@ import { Http } from '@easy-front-core-sdk/kits'
 export interface Suite {
   suite_id: string
   suite_secret: string
+  token: string
+  encodingAesKey: string
 }
 export interface IApiConfig {
   corpid: string
   provider_secret: string
+  token: string
+  encodingAesKey: string
   suite_map?: Map<string, Suite>
 }
 
@@ -16,31 +20,31 @@ export class OpenCPWXCoreFactory {
   private static CORE_MAP: Map<string, OpenCPWXCore> = new Map<string, OpenCPWXCore>()
 
   public static putCore(apiConfig: IApiConfig, redisConfig: IRedisConfig) {
-    let openWXCore: OpenCPWXCore = this.CORE_MAP.get(apiConfig.corpid)
-    if (openWXCore) {
-      return openWXCore
+    let openCPWXCore: OpenCPWXCore = this.CORE_MAP.get(apiConfig.corpid)
+    if (openCPWXCore) {
+      return openCPWXCore
     }
-    openWXCore = new OpenCPWXCore(apiConfig, redisConfig)
-    this.CORE_MAP.set(apiConfig.corpid, openWXCore)
-    return openWXCore
+    openCPWXCore = new OpenCPWXCore(apiConfig, redisConfig)
+    this.CORE_MAP.set(apiConfig.corpid, openCPWXCore)
+    return openCPWXCore
   }
 
   public static getCore(corpid?: string) {
-    let openWXCore: OpenCPWXCore = null
+    let openCPWXCore: OpenCPWXCore = null
     if (corpid) {
-      openWXCore = this.CORE_MAP.get(corpid)
+      openCPWXCore = this.CORE_MAP.get(corpid)
     } else {
       const keys = [...this.CORE_MAP.keys()]
       if (keys[0]) {
-        openWXCore = this.CORE_MAP.get(keys[0])
+        openCPWXCore = this.CORE_MAP.get(keys[0])
       }
     }
-    if (!openWXCore) {
+    if (!openCPWXCore) {
       throw new Error(
         '需事先调用 OpenCPWXCoreFactory.putCore(apiConfig: IApiConfig, redisConfig: IRedisConfig) 将 appId 对应的 config 对象存入后,才可以使用 OpenCPWXCoreFactory.getCore方法'
       )
     }
-    return openWXCore
+    return openCPWXCore
   }
 
   public static removeCore(corpid: string): boolean {
