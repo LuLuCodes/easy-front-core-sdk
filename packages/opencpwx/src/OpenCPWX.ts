@@ -30,19 +30,35 @@ export class OpenCPWX {
   public static checkSignature(core: OpenCPWXCore | Suite, signature: string, timestamp: string, nonce: string, echostr: string): string {
     //将 token、timestamp、nonce 三个参数进行字典序排序，并拼接成一个字符串
     let tempStr = ''
+    const decode_echostr = decodeURIComponent(echostr)
     if (core instanceof OpenCPWXCore) {
-      tempStr = [core.getApiConfig().token, timestamp, nonce].sort().join('')
+      tempStr = [core.getApiConfig().token, timestamp, nonce, decode_echostr].sort().join('')
     } else {
-      tempStr = [core.token, timestamp, nonce].sort().join('')
+      tempStr = [core.token, timestamp, nonce, decode_echostr].sort().join('')
     }
     //对传入的字符串进行加密
     let tempSignature = Cryptogram.sha1(tempStr)
     //校验签名
-    if (tempSignature === signature) {
-      return echostr
-    } else {
-      return '签名异常'
+    if (tempSignature !== signature) {
+      throw new Error('签名异常')
     }
+    let cryptoKit: MsgCrypto = null
+    let cryptoConfig: MsgCryptoConfig = null
+    if (core instanceof OpenCPWXCore) {
+      const apiCofig: IApiConfig = core.getApiConfig()
+      cryptoConfig = {
+        receiveId: apiCofig.corpid,
+        token: apiCofig.token,
+        encodingAesKey: apiCofig.encodingAesKey,
+      }
+    } else {
+      cryptoConfig = {
+        receiveId: core.suite_id,
+        token: core.token,
+        encodingAesKey: core.encodingAesKey,
+      }
+    }
+    return cryptoKit.decrypt(echostr)
   }
 
   /**
