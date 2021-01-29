@@ -26,6 +26,7 @@
     "@easy-front-core-sdk/cpwx": "^1.0.1",
     "@easy-front-core-sdk/kits": "^1.0.1",
     "@easy-front-core-sdk/miniprogram": "^1.0.1",
+    "@easy-front-core-sdk/opencpwx": "^1.1.6",
     "@easy-front-core-sdk/wx": "^1.0.1",
     "@easy-front-core-sdk/wxpay": "^1.0.1"
   },
