@@ -79,7 +79,7 @@ export class OpenCPWX {
           return
         }
         let result = res.xml
-
+        let isEncrypt: boolean = true
         let tempStr = ''
         const decode_echostr = decodeURIComponent(result.Encrypt)
         if (core instanceof OpenCPWXCore) {
@@ -119,6 +119,7 @@ export class OpenCPWX {
         let outMsg: OutMsg | string
         // 处理接收的消息
         if (inMsg instanceof InSuiteTicket) {
+          isEncrypt = false
           outMsg = await this.msgAdapter.processInSuiteTicketMsg(<InSuiteTicket>inMsg)
         } else if (inMsg instanceof InNotDefinedMsg) {
           outMsg = await this.msgAdapter.processIsNotDefinedMsg(<InNotDefinedMsg>inMsg)
@@ -135,7 +136,10 @@ export class OpenCPWX {
         } else if (typeof outMsg === 'string') {
           responseMsg = outMsg
         }
-        responseMsg = cryptoKit.encryptMsg(responseMsg)
+        if (isEncrypt) {
+          //判断消息加解密方式，如果未加密则使用明文，对明文消息进行加密
+          responseMsg = cryptoKit.encryptMsg(responseMsg)
+        }
         //返回给微信服务器
         resolve({ inMsg, outMsg: responseMsg })
       })
