@@ -58,6 +58,7 @@ export class OpenCPWX {
         encodingAesKey: core.encodingAesKey,
       }
     }
+    cryptoKit = new MsgCrypto(cryptoConfig, signature || '', timestamp || '', nonce || '')
     return cryptoKit.decrypt(echostr)
   }
 
@@ -78,6 +79,21 @@ export class OpenCPWX {
           return
         }
         let result = res.xml
+
+        let tempStr = ''
+        const decode_echostr = decodeURIComponent(result.Encrypt)
+        if (core instanceof OpenCPWXCore) {
+          tempStr = [core.getApiConfig().token, timestamp, nonce, decode_echostr].sort().join('')
+        } else {
+          tempStr = [core.token, timestamp, nonce, decode_echostr].sort().join('')
+        }
+        //对传入的字符串进行加密
+        let tempSignature = Cryptogram.sha1(tempStr)
+        //校验签名
+        if (tempSignature !== msgSignature) {
+          throw new Error('签名异常')
+        }
+
         let cryptoKit: MsgCrypto = null
         let cryptoConfig: MsgCryptoConfig = null
         if (core instanceof OpenCPWXCore) {
