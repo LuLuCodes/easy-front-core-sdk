@@ -18,7 +18,7 @@ export interface MsgParseRes {
   outMsg: string
 }
 export class OpenCPWX {
-  private msgAdapter = new MsgAdapter()
+  private static msgAdapter = new MsgAdapter()
   /**
    *  服务商验签
    *  @param openCPWXCore
@@ -71,8 +71,8 @@ export class OpenCPWX {
    *  @param nonce
    */
   public static handleMsg(core: OpenCPWXCore | Suite, msgXml: string, msgSignature?: string, timestamp?: string, nonce?: string): Promise<MsgParseRes> {
-    return new Promise(function (resolve, reject) {
-      parseString(msgXml, { explicitArray: false }, async function (err, res) {
+    return new Promise((resolve, reject) => {
+      parseString(msgXml, { explicitArray: false }, async (err, res) => {
         if (err) {
           reject(`xml 数据解析错误:${err}`)
           console.debug(err)
