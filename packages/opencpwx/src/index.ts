@@ -9,4 +9,4 @@ export { OutTextMsg } from './entity/message/output/OutTextMsg'
 
 export { InMsgParser } from './InMsgParser'
 export { MsgAdapter } from './MsgAdapter'
-export { OpenCPWX } from './OpenCPWX'
+export { OpenCPWX, MsgParseRes } from './OpenCPWX'

@@ -13,7 +13,12 @@ import { OutMsg } from './entity/message/output/OutMsg'
 import { InMsgParser } from './InMsgParser'
 import { MsgAdapter } from './MsgAdapter'
 
+export interface MsgParseRes {
+  inMsg: BaseMsg
+  outMsg: string
+}
 export class OpenCPWX {
+  private msgAdapter = new MsgAdapter()
   /**
    *  服务商验签
    *  @param openCPWXCore
@@ -48,7 +53,7 @@ export class OpenCPWX {
    *  @param timestamp
    *  @param nonce
    */
-  public static handleMsg(core: OpenCPWXCore | Suite, msgXml: string, msgSignature?: string, timestamp?: string, nonce?: string): Promise<any> {
+  public static handleMsg(core: OpenCPWXCore | Suite, msgXml: string, msgSignature?: string, timestamp?: string, nonce?: string): Promise<MsgParseRes> {
     return new Promise(function (resolve, reject) {
       parseString(msgXml, { explicitArray: false }, async function (err, res) {
         if (err) {
@@ -80,12 +85,11 @@ export class OpenCPWX {
         let inMsg: BaseMsg = InMsgParser.parse(result)
         let responseMsg: string
         let outMsg: OutMsg | string
-        const msgAdapter = new MsgAdapter()
         // 处理接收的消息
         if (inMsg instanceof InSuiteTicket) {
-          outMsg = await msgAdapter.processInSuiteTicketMsg(<InSuiteTicket>inMsg)
+          outMsg = await this.msgAdapter.processInSuiteTicketMsg(<InSuiteTicket>inMsg)
         } else if (inMsg instanceof InNotDefinedMsg) {
-          outMsg = await msgAdapter.processIsNotDefinedMsg(<InNotDefinedMsg>inMsg)
+          outMsg = await this.msgAdapter.processIsNotDefinedMsg(<InNotDefinedMsg>inMsg)
         }
 
         // 处理发送的消息
@@ -101,7 +105,7 @@ export class OpenCPWX {
         }
         responseMsg = cryptoKit.encryptMsg(responseMsg)
         //返回给微信服务器
-        resolve({ inMsg, responseMsg })
+        resolve({ inMsg, outMsg: responseMsg })
       })
     })
   }
