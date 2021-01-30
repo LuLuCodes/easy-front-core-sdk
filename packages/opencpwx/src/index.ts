@@ -10,3 +10,5 @@ export { OutTextMsg } from './entity/message/output/OutTextMsg'
 export { InMsgParser } from './InMsgParser'
 export { MsgAdapter } from './MsgAdapter'
 export { OpenCPWX, MsgParseRes } from './OpenCPWX'
+
+export { OpenCPWXAPI } from './api/OpenCPWXAPI'
