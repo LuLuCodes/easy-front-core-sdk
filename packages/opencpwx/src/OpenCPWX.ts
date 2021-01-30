@@ -1,4 +1,4 @@
-import { OpenCPWXCore, IApiConfig, Suite } from './OpenCPWXCore'
+import { OpenCPWXCore, IApiConfig, OpenCPWXSuite, ISuiteConfig } from './OpenCPWXCore'
 import { MsgCrypto, MsgCryptoConfig } from './MsgCrypto'
 import { Cryptogram } from '@easy-front-core-sdk/kits'
 import { parseString } from 'xml2js'
@@ -27,14 +27,14 @@ export class OpenCPWX {
    *  @param nonce
    *  @param echostr
    */
-  public static checkSignature(core: OpenCPWXCore | Suite, signature: string, timestamp: string, nonce: string, echostr: string): string {
+  public static checkSignature(core: OpenCPWXCore | OpenCPWXSuite, signature: string, timestamp: string, nonce: string, echostr: string): string {
     //将 token、timestamp、nonce 三个参数进行字典序排序，并拼接成一个字符串
     let tempStr = ''
     const decode_echostr = decodeURIComponent(echostr)
     if (core instanceof OpenCPWXCore) {
       tempStr = [core.getApiConfig().token, timestamp, nonce, decode_echostr].sort().join('')
     } else {
-      tempStr = [core.token, timestamp, nonce, decode_echostr].sort().join('')
+      tempStr = [core.getSuiteConfig().token, timestamp, nonce, decode_echostr].sort().join('')
     }
     //对传入的字符串进行加密
     let tempSignature = Cryptogram.sha1(tempStr)
@@ -52,10 +52,11 @@ export class OpenCPWX {
         encodingAesKey: apiCofig.encodingAesKey,
       }
     } else {
+      const suiteCofig: ISuiteConfig = core.getSuiteConfig()
       cryptoConfig = {
-        receiveId: core.suite_id,
-        token: core.token,
-        encodingAesKey: core.encodingAesKey,
+        receiveId: suiteCofig.suite_id,
+        token: suiteCofig.token,
+        encodingAesKey: suiteCofig.encodingAesKey,
       }
     }
     cryptoKit = new MsgCrypto(cryptoConfig, signature || '', timestamp || '', nonce || '')
@@ -70,7 +71,7 @@ export class OpenCPWX {
    *  @param timestamp
    *  @param nonce
    */
-  public static handleMsg(core: OpenCPWXCore | Suite, msgXml: string, msgSignature?: string, timestamp?: string, nonce?: string): Promise<MsgParseRes> {
+  public static handleMsg(core: OpenCPWXCore | OpenCPWXSuite, msgXml: string, msgSignature?: string, timestamp?: string, nonce?: string): Promise<MsgParseRes> {
     return new Promise((resolve, reject) => {
       parseString(msgXml, { explicitArray: false }, async (err, res) => {
         if (err) {
@@ -85,7 +86,7 @@ export class OpenCPWX {
         if (core instanceof OpenCPWXCore) {
           tempStr = [core.getApiConfig().token, timestamp, nonce, decode_echostr].sort().join('')
         } else {
-          tempStr = [core.token, timestamp, nonce, decode_echostr].sort().join('')
+          tempStr = [core.getSuiteConfig().token, timestamp, nonce, decode_echostr].sort().join('')
         }
         //对传入的字符串进行加密
         let tempSignature = Cryptogram.sha1(tempStr)
@@ -104,10 +105,11 @@ export class OpenCPWX {
             encodingAesKey: apiCofig.encodingAesKey,
           }
         } else {
+          const suiteCofig: ISuiteConfig = core.getSuiteConfig()
           cryptoConfig = {
-            receiveId: core.suite_id,
-            token: core.token,
-            encodingAesKey: core.encodingAesKey,
+            receiveId: suiteCofig.suite_id,
+            token: suiteCofig.token,
+            encodingAesKey: suiteCofig.encodingAesKey,
           }
         }
         cryptoKit = new MsgCrypto(cryptoConfig, msgSignature || '', timestamp || '', nonce || '')

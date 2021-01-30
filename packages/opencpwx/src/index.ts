@@ -1,4 +1,4 @@
-export { OpenCPWXCoreFactory, OpenCPWXCore, IApiConfig, Suite } from './OpenCPWXCore'
+export { OpenCPWXCoreFactory, OpenCPWXCore, IApiConfig, OpenCPWXSuite, ISuiteConfig } from './OpenCPWXCore'
 
 export { InMsg } from './entity/message/input/InMsg'
 export { InNotDefinedMsg } from './entity/message/input/InNotDefinedMsg'
