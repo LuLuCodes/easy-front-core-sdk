@@ -91,7 +91,7 @@ export class OpenCPWXSuite {
    *  获取新的 suite acces_token 并设置缓存
    */
   public async refreshAccessToken(): Promise<string> {
-    const suite_ticket = this._cache.get(`open_cp_wx_suite_ticket_${this._suiteConfig.suite_id}`)
+    const suite_ticket = await this._cache.get(`open_cp_wx_suite_ticket_${this._suiteConfig.suite_id}`)
     if (!suite_ticket) {
       throw new Error('缺少suite_ticket')
     }
@@ -103,7 +103,7 @@ export class OpenCPWXSuite {
     if (data.errcode) {
       throw new Error(data.errmsg)
     }
-    this._cache.set(`open_cp_wx_suite_access_token_${this._suiteConfig.suite_id}`, data.suite_access_token, 'EX', data.expires_in)
+    await this._cache.set(`open_cp_wx_suite_access_token_${this._suiteConfig.suite_id}`, data.suite_access_token, 'EX', data.expires_in)
     return data.access_token
   }
   /**
@@ -117,8 +117,16 @@ export class OpenCPWXSuite {
    * 获取suite_ticket
    */
   public async getSuiteTicket(): Promise<string> {
-    const suite_ticket = this._cache.get(`open_cp_wx_suite_ticket_${this._suiteConfig.suite_id}`)
+    const suite_ticket = await this._cache.get(`open_cp_wx_suite_ticket_${this._suiteConfig.suite_id}`)
     return suite_ticket || ''
+  }
+
+  /**
+   * 设置suite_ticket
+   */
+  public async setSuiteTicket(suite_ticket: string): Promise<string> {
+    await this._cache.set(`open_cp_wx_suite_ticket_${this._suiteConfig.suite_id}`, suite_ticket)
+    return suite_ticket
   }
 }
 
@@ -178,7 +186,7 @@ export class OpenCPWXCore {
     if (data.errcode) {
       throw new Error(data.errmsg)
     }
-    this._cache.set(`open_cp_wx_provider_access_token_${corpid}`, data.provider_access_token, 'EX', data.expires_in)
+    await this._cache.set(`open_cp_wx_provider_access_token_${corpid}`, data.provider_access_token, 'EX', data.expires_in)
     return data.access_token
   }
 

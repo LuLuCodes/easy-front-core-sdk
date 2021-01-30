@@ -94,7 +94,7 @@ export class CPWXCore {
     if (data.errcode) {
       throw new Error(data.errmsg)
     }
-    this._cache.set(`cp_wx_access_token_${this._apiConfig.corpId}_${this._apiConfig.agentId}`, data.access_token, 'EX', data.expires_in - 100)
+    await this._cache.set(`cp_wx_access_token_${this._apiConfig.corpId}_${this._apiConfig.agentId}`, data.access_token, 'EX', data.expires_in - 100)
     return data.access_token
   }
 
@@ -128,7 +128,7 @@ export class CPWXCore {
     if (data.errcode) {
       throw new Error(data.errmsg)
     }
-    this._cache.set(`qywx_js_ticket_${key}`, data.ticket, 'EX', data.expires_in - 100)
+    await this._cache.set(`qywx_js_ticket_${key}`, data.ticket, 'EX', data.expires_in - 100)
     return data.ticket
   }
 }

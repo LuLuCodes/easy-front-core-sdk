@@ -97,7 +97,7 @@ export class WXCore {
     if (data.errcode) {
       throw new Error(data.errmsg)
     }
-    this._cache.set(`wx_access_token_${this._apiConfig.appId}`, data.access_token, 'EX', data.expires_in - 100)
+    await this._cache.set(`wx_access_token_${this._apiConfig.appId}`, data.access_token, 'EX', data.expires_in - 100)
     return data.access_token
   }
 
@@ -120,7 +120,7 @@ export class WXCore {
     if (data.errcode) {
       throw new Error(data.errmsg)
     }
-    this._cache.set(`wx_js_ticket_${this._apiConfig.appId}`, data.ticket, 'EX', data.expires_in - 100)
+    await this._cache.set(`wx_js_ticket_${this._apiConfig.appId}`, data.ticket, 'EX', data.expires_in - 100)
     return data.ticket
   }
 

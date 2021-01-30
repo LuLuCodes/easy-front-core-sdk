@@ -95,7 +95,7 @@ export class MPCore {
     if (data.errcode) {
       throw new Error(data.errmsg)
     }
-    this._cache.set(`mp_access_token_${this._apiConfig.appId}`, data.access_token, 'EX', data.expires_in - 100)
+    await this._cache.set(`mp_access_token_${this._apiConfig.appId}`, data.access_token, 'EX', data.expires_in - 100)
     return data.access_token
   }
 
