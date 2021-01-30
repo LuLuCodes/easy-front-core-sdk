@@ -96,7 +96,7 @@ export class OpenCPWXSuite {
       throw new Error('缺少suite_ticket')
     }
     const url = util.format(this.getSuiteTokenUrl)
-    const data = await this._http.get(url, { suite_id: this._suiteConfig.suite_id, suite_secret: this._suiteConfig.suite_secret, suite_ticket })
+    const data = await this._http.post(url, { suite_id: this._suiteConfig.suite_id, suite_secret: this._suiteConfig.suite_secret, suite_ticket })
     if (!data) {
       throw new Error('获取suite access token异常')
     }
@@ -104,7 +104,7 @@ export class OpenCPWXSuite {
       throw new Error(data.errmsg)
     }
     await this._cache.set(`open_cp_wx_suite_access_token_${this._suiteConfig.suite_id}`, data.suite_access_token, 'EX', data.expires_in)
-    return data.access_token
+    return data.suite_access_token
   }
   /**
    *  获取新的 apiConfig
