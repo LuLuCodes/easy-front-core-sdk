@@ -14,6 +14,18 @@ export interface IApiConfig {
   encodingAesKey: string
 }
 
+export interface ICropConfig {
+  suite: OpenCPWXSuite
+  corpid: string
+  permanent_code: string
+}
+
+export interface OpenCPWXBase {
+  getAccessToken(): Promise<string>
+  getAccessTokenExpiresIn(): Promise<number | undefined>
+  refreshAccessToken(): Promise<string>
+}
+
 export class OpenCPWXCoreFactory {
   private static CORE_MAP: Map<string, OpenCPWXCore> = new Map<string, OpenCPWXCore>()
 
@@ -50,7 +62,73 @@ export class OpenCPWXCoreFactory {
   }
 }
 
-export class OpenCPWXSuite {
+export class OpenCPWXCrop implements OpenCPWXBase {
+  private getCorpTokenUrl: string = 'https://qyapi.weixin.qq.com/cgi-bin/service/get_corp_token?suite_access_token=%s'
+  private _cache = null
+  private _http = Http.getInstance()
+  private _cropConfig: ICropConfig = null
+  constructor(cropConfig: ICropConfig, cache: RedisCache) {
+    this._cache = cache
+    this._cropConfig = cropConfig
+  }
+
+  /**
+   *  获取 crop acces_token
+   *  1、先从redis缓存中获取，如果可用就直接返回
+   *  2、如果缓存中的已过期就调用刷新接口来获取新的 acces_token，并存入redis
+   */
+  public async getAccessToken(): Promise<string> {
+    let accessToken: string | undefined = await this.getAvailableAccessToken()
+    if (accessToken) {
+      return accessToken
+    }
+    return await this.refreshAccessToken()
+  }
+
+  /**
+   *  通过 permanent_code 从缓存中获取 crop acces_token
+   */
+  private async getAvailableAccessToken(): Promise<string | undefined> {
+    return await this._cache.get(`open_cp_wx_crop_access_token_${this._cropConfig.permanent_code}`)
+  }
+
+  /**
+   *  通过 permanent_code 从缓存中获取 crop acces_token过期时间
+   */
+  public async getAccessTokenExpiresIn(): Promise<number | undefined> {
+    return await this._cache.ttl(`open_cp_wx_crop_access_token_${this._cropConfig.permanent_code}`)
+  }
+
+  /**
+   *  获取新的 suite acces_token 并设置缓存
+   */
+  public async refreshAccessToken(): Promise<string> {
+    const { suite, corpid, permanent_code } = this._cropConfig
+    let url = util.format(this.getCorpTokenUrl, suite.getAccessToken())
+    let data = await this._http.post(url, { auth_corpid: corpid, permanent_code })
+    if (!data) {
+      throw new Error('获取suite access token异常')
+    }
+    if (data.errcode === 40014) {
+      await suite.refreshAccessToken()
+      return await this.refreshAccessToken()
+    }
+    if (data.errcode) {
+      throw new Error(data.errmsg)
+    }
+
+    await this._cache.set(`open_cp_wx_crop_access_token_${permanent_code}`, data.access_token, 'EX', data.expires_in)
+    return data.access_token
+  }
+  /**
+   *  获取新的 apiConfig
+   */
+  public getCropConfig(): ICropConfig {
+    return this._cropConfig
+  }
+}
+
+export class OpenCPWXSuite implements OpenCPWXBase {
   private getSuiteTokenUrl: string = 'https://qyapi.weixin.qq.com/cgi-bin/service/get_suite_token'
   private _cache = null
   private _http = Http.getInstance()
@@ -84,7 +162,7 @@ export class OpenCPWXSuite {
    *  通过 suite_id 从缓存中获取suite acces_token过期时间
    */
   public async getAccessTokenExpiresIn(): Promise<number | undefined> {
-    return await this._cache.ttl(`open_cp_wx_provider_access_token_${this._suiteConfig.suite_id}`)
+    return await this._cache.ttl(`open_cp_wx_suite_access_token_${this._suiteConfig.suite_id}`)
   }
 
   /**
@@ -128,9 +206,20 @@ export class OpenCPWXSuite {
     await this._cache.set(`open_cp_wx_suite_ticket_${this._suiteConfig.suite_id}`, suite_ticket)
     return suite_ticket
   }
+
+  public async initCrop(corpid: string, permanent_code: string): Promise<OpenCPWXCrop> {
+    return new OpenCPWXCrop(
+      {
+        suite: this,
+        corpid,
+        permanent_code,
+      },
+      this._cache
+    )
+  }
 }
 
-export class OpenCPWXCore {
+export class OpenCPWXCore implements OpenCPWXBase {
   private SUITE_MAP: Map<string, OpenCPWXSuite> = new Map<string, OpenCPWXSuite>()
   private getProviderTokenUrl: string = 'https://qyapi.weixin.qq.com/cgi-bin/service/get_provider_token'
   private _cache = null

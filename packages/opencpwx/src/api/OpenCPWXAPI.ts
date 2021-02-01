@@ -1,6 +1,7 @@
 import * as util from 'util'
 import { OpenCPWXSuite, OpenCPWXCore } from '../OpenCPWXCore'
 import { Http } from '@easy-front-core-sdk/kits'
+import { AccessTokenRefresh } from './AccessTokenDecorator'
 
 /**
  * @description 企业微信开发平台 API
@@ -24,6 +25,7 @@ export class OpenCPWXAPI {
    * 获取预授权码
    * @param suite
    */
+  @AccessTokenRefresh()
   public static async getPreAuthCode(suite: OpenCPWXSuite) {
     const token = await suite.getAccessToken()
     const url = util.format(this.getPreAuthCodeUrl, token)
@@ -31,7 +33,7 @@ export class OpenCPWXAPI {
     if (!data) {
       throw new Error('接口异常')
     }
-    if (data.errcode) {
+    if (data.errcode && data.errcode !== 40014) {
       throw new Error(data.errmsg)
     }
     return data
@@ -44,6 +46,8 @@ export class OpenCPWXAPI {
    * @param authType 授权类型：0 正式授权， 1 测试授权。 默认值为0。注意，请确保应用在正式发布后的授权类型为“正式授权”
    * @param appId 允许进行授权的应用id，如1、2、3，不填或者填空数组都表示允许授权套件内所有应用（仅旧的多应用套件可传此参数，新开发者可忽略）
    */
+
+  @AccessTokenRefresh()
   public static async setSessionInfo(suite: OpenCPWXSuite, preAuthCode: string, authType = 0, appId?: Array<number>) {
     const token = await suite.getAccessToken()
     const url = util.format(this.setSessionInfoUrl, token)
@@ -57,7 +61,7 @@ export class OpenCPWXAPI {
     if (!data) {
       throw new Error('接口异常')
     }
-    if (data.errcode) {
+    if (data.errcode && data.errcode !== 40014) {
       throw new Error(data.errmsg)
     }
     return data
@@ -68,6 +72,7 @@ export class OpenCPWXAPI {
    * @param suite
    * @param authCode 临时授权码
    */
+  @AccessTokenRefresh()
   public static async getPermanentCode(suite: OpenCPWXSuite, authCode: string) {
     const token = await suite.getAccessToken()
     const url = util.format(this.getPermanentCodeUrl, token)
@@ -77,7 +82,7 @@ export class OpenCPWXAPI {
     if (!data) {
       throw new Error('接口异常')
     }
-    if (data.errcode) {
+    if (data.errcode && data.errcode !== 40014) {
       throw new Error(data.errmsg)
     }
     return data
@@ -89,6 +94,7 @@ export class OpenCPWXAPI {
    * @param authCorpId 授权方corpid
    * @param permanentCode 永久授权码
    */
+  @AccessTokenRefresh()
   public static async getAuthInfo(suite: OpenCPWXSuite, authCorpId: string, permanentCode: string) {
     const token = await suite.getAccessToken()
     const url = util.format(this.getAuthInfoUrl, token)
@@ -99,7 +105,7 @@ export class OpenCPWXAPI {
     if (!data) {
       throw new Error('接口异常')
     }
-    if (data.errcode) {
+    if (data.errcode && data.errcode !== 40014) {
       throw new Error(data.errmsg)
     }
     return data
@@ -111,6 +117,7 @@ export class OpenCPWXAPI {
    * @param authCorpId 授权方corpid
    * @param agentId 授权方安装的应用agentid
    */
+  @AccessTokenRefresh()
   public static async getAdminList(suite: OpenCPWXSuite, authCorpId: string, agentId: string) {
     const token = await suite.getAccessToken()
     const url = util.format(this.getAdminListUrl, token)
@@ -121,7 +128,7 @@ export class OpenCPWXAPI {
     if (!data) {
       throw new Error('接口异常')
     }
-    if (data.errcode) {
+    if (data.errcode && data.errcode !== 40014) {
       throw new Error(data.errmsg)
     }
     return data
@@ -137,6 +144,7 @@ export class OpenCPWXAPI {
    * @param offset 查询的偏移量
    * @param limit 查询返回的最大数量，最多为50
    */
+  @AccessTokenRefresh()
   public static async searchContact(cpWXCore: OpenCPWXCore, authCorpId: string, queryWord: string, queryType: 0, agentId?: string, offset?: number, limit?: number) {
     const token = await cpWXCore.getAccessToken()
     const url = util.format(this.searchContactUrl, token)
@@ -151,7 +159,7 @@ export class OpenCPWXAPI {
     if (!data) {
       throw new Error('接口异常')
     }
-    if (data.errcode) {
+    if (data.errcode && data.errcode !== 40014) {
       throw new Error(data.errmsg)
     }
     return data
@@ -164,6 +172,7 @@ export class OpenCPWXAPI {
    * @param queryRequestList 索请求列表,每次搜索列表数量不超过50
    * @param agentId 应用id
    */
+  @AccessTokenRefresh()
   public static async batchSearchContact(
     cpWXCore: OpenCPWXCore,
     authCorpId: string,
@@ -185,7 +194,7 @@ export class OpenCPWXAPI {
     if (!data) {
       throw new Error('接口异常')
     }
-    if (data.errcode) {
+    if (data.errcode && data.errcode !== 40014) {
       throw new Error(data.errmsg)
     }
     return data
@@ -198,6 +207,7 @@ export class OpenCPWXAPI {
    * @param filePath 文件路径
    * @param accessToken AccessToken
    */
+  @AccessTokenRefresh()
   public static async upload(cpWXCore: OpenCPWXCore, mediaType: string, filePath: string) {
     const token = await cpWXCore.getAccessToken()
     const url = util.format(this.uploadUrl, token, mediaType)
@@ -205,7 +215,7 @@ export class OpenCPWXAPI {
     if (!data) {
       throw new Error('接口异常')
     }
-    if (data.errcode) {
+    if (data.errcode && data.errcode !== 40014) {
       throw new Error(data.errmsg)
     }
     return data
@@ -218,6 +228,7 @@ export class OpenCPWXAPI {
    * @param mediaIdList 需要转译的文件的media_id列表
    * @param outputFileName 转译完打包的文件名，不需带后缀
    */
+  @AccessTokenRefresh()
   public static async contactIdTranslate(cpWXCore: OpenCPWXCore, authCorpId: string, mediaIdList: Array<string>, outputFileName?: string) {
     const token = await cpWXCore.getAccessToken()
     const url = util.format(this.contactIdTranslateUrl, token)
@@ -229,7 +240,7 @@ export class OpenCPWXAPI {
     if (!data) {
       throw new Error('接口异常')
     }
-    if (data.errcode) {
+    if (data.errcode && data.errcode !== 40014) {
       throw new Error(data.errmsg)
     }
     return data
@@ -240,6 +251,7 @@ export class OpenCPWXAPI {
    * @param cpWXCore
    * @param jobId 异步任务id
    */
+  @AccessTokenRefresh()
   public static async getBatchResult(cpWXCore: OpenCPWXCore, jobId: string) {
     const token = await cpWXCore.getAccessToken()
     const url = util.format(this.getBatchResultUrl, token, jobId)
@@ -247,7 +259,7 @@ export class OpenCPWXAPI {
     if (!data) {
       throw new Error('接口异常')
     }
-    if (data.errcode) {
+    if (data.errcode && data.errcode !== 40014) {
       throw new Error(data.errmsg)
     }
     return data
@@ -260,6 +272,7 @@ export class OpenCPWXAPI {
    * @param userIdList 要排序的userid列表，最多支持1000个
    * @param sortType 排序方式 0：根据姓名拼音升序排列，返回用户userid列表 1：根据姓名拼音降排列，返回用户userid列表
    */
+  @AccessTokenRefresh()
   public static async sortContact(cpWXCore: OpenCPWXCore, authCorpId: string, userIdList: Array<string>, sortType?: number) {
     const token = await cpWXCore.getAccessToken()
     const url = util.format(this.sortContactUrl, token)
@@ -271,7 +284,7 @@ export class OpenCPWXAPI {
     if (!data) {
       throw new Error('接口异常')
     }
-    if (data.errcode) {
+    if (data.errcode && data.errcode !== 40014) {
       throw new Error(data.errmsg)
     }
     return data
