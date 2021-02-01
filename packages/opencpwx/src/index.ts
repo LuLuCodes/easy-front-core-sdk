@@ -3,6 +3,7 @@ export { OpenCPWXCoreFactory, OpenCPWXBase, OpenCPWXCore, IApiConfig, OpenCPWXSu
 export { InMsg } from './entity/message/input/InMsg'
 export { InNotDefinedMsg } from './entity/message/input/InNotDefinedMsg'
 export { InSuiteTicket } from './entity/message/input/InSuiteTicket'
+export { InAuthEvent } from './entity/message/input/InAuthEvent'
 
 export { OutMsg } from './entity/message/output/OutMsg'
 export { OutTextMsg } from './entity/message/output/OutTextMsg'

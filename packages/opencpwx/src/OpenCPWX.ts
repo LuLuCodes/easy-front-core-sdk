@@ -6,6 +6,7 @@ import { parseString } from 'xml2js'
 import { BaseMsg } from './entity/message/BaseMsg'
 import { InNotDefinedMsg } from './entity/message/input/InNotDefinedMsg'
 import { InSuiteTicket } from './entity/message/input/InSuiteTicket'
+import { InAuthEvent } from './entity/message/input/InAuthEvent'
 
 import { OutTextMsg } from './entity/message/output/OutTextMsg'
 import { OutMsg } from './entity/message/output/OutMsg'
@@ -123,6 +124,9 @@ export class OpenCPWX {
         if (inMsg instanceof InSuiteTicket) {
           isEncrypt = false
           outMsg = await this.msgAdapter.processInSuiteTicketMsg(<InSuiteTicket>inMsg)
+        } else if (inMsg instanceof InAuthEvent) {
+          isEncrypt = false
+          outMsg = await this.msgAdapter.processInAuthEvent(<InAuthEvent>inMsg)
         } else if (inMsg instanceof InNotDefinedMsg) {
           outMsg = await this.msgAdapter.processIsNotDefinedMsg(<InNotDefinedMsg>inMsg)
         }
