@@ -5,6 +5,9 @@ export { InNotDefinedMsg } from './entity/message/input/InNotDefinedMsg'
 export { InSuiteTicket } from './entity/message/input/InSuiteTicket'
 export { InAuthEvent } from './entity/message/input/InAuthEvent'
 
+export { EventInMsg } from './entity/message/input/event/EventInMsg'
+export { InFollowEvent } from './entity/message/input/event/InFollowEvent'
+
 export { OutMsg } from './entity/message/output/OutMsg'
 export { OutTextMsg } from './entity/message/output/OutTextMsg'
 

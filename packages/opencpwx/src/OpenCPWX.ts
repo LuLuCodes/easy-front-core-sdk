@@ -7,6 +7,7 @@ import { BaseMsg } from './entity/message/BaseMsg'
 import { InNotDefinedMsg } from './entity/message/input/InNotDefinedMsg'
 import { InSuiteTicket } from './entity/message/input/InSuiteTicket'
 import { InAuthEvent } from './entity/message/input/InAuthEvent'
+import { InFollowEvent } from './entity/message/input/event/InFollowEvent'
 
 import { OutTextMsg } from './entity/message/output/OutTextMsg'
 import { OutMsg } from './entity/message/output/OutMsg'
@@ -127,6 +128,8 @@ export class OpenCPWX {
         } else if (inMsg instanceof InAuthEvent) {
           isEncrypt = false
           outMsg = await this.msgAdapter.processInAuthEvent(<InAuthEvent>inMsg)
+        } else if (inMsg instanceof InFollowEvent) {
+          outMsg = await this.msgAdapter.processInFollowEvent(<InFollowEvent>inMsg)
         } else if (inMsg instanceof InNotDefinedMsg) {
           outMsg = await this.msgAdapter.processIsNotDefinedMsg(<InNotDefinedMsg>inMsg)
         }

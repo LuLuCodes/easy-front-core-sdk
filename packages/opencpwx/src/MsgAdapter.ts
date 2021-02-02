@@ -1,6 +1,7 @@
 import { InSuiteTicket } from './entity/message/input/InSuiteTicket'
 import { InAuthEvent } from './entity/message/input/InAuthEvent'
 import { InNotDefinedMsg } from './entity/message/input/InNotDefinedMsg'
+import { InFollowEvent } from './entity/message/input/event/InFollowEvent'
 import { InMsg } from './entity/message/input/InMsg'
 import { OutMsg } from './entity/message/output/OutMsg'
 import { OutTextMsg } from './entity/message/output/OutTextMsg'
@@ -31,5 +32,10 @@ export class MsgAdapter implements IMsgAdapter {
   // 企业微信开放平台授权通知事件
   async processInAuthEvent(inAuthEvent: InAuthEvent): Promise<string> {
     return 'success'
+  }
+
+  // 处理关注、取消关注事件
+  async processInFollowEvent(inFollowEvent: InFollowEvent): Promise<OutMsg> {
+    return this.renderOutTextMsg(inFollowEvent)
   }
 }
