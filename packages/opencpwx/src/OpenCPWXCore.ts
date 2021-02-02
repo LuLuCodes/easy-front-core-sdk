@@ -216,7 +216,7 @@ export class OpenCPWXSuite implements OpenCPWXBase {
     return suite_ticket
   }
 
-  public async initCrop(corpid: string, permanent_code: string): Promise<OpenCPWXCrop> {
+  public initCrop(corpid: string, permanent_code: string): OpenCPWXCrop {
     return new OpenCPWXCrop(
       {
         suite: this,
