@@ -100,7 +100,7 @@ export class OpenCPWXCrop implements OpenCPWXBase {
   }
 
   /**
-   *  获取新的 suite acces_token 并设置缓存
+   *  获取新的 crop acces_token 并设置缓存
    */
   public async refreshAccessToken(): Promise<string> {
     const { suite, corpid, permanent_code } = this._cropConfig
@@ -120,6 +120,15 @@ export class OpenCPWXCrop implements OpenCPWXBase {
     await this._cache.set(`open_cp_wx_crop_access_token_${permanent_code}`, data.access_token, 'EX', data.expires_in)
     return data.access_token
   }
+
+  /**
+   *  设置新的 crop acces_token 并设置缓存
+   */
+  public async setAccessToken(permanent_code: string, access_token: string, expires_in: number): Promise<string> {
+    await this._cache.set(`open_cp_wx_crop_access_token_${permanent_code}`, access_token, 'EX', expires_in)
+    return access_token
+  }
+
   /**
    *  获取新的 apiConfig
    */
