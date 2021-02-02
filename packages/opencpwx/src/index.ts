@@ -13,3 +13,6 @@ export { MsgAdapter } from './MsgAdapter'
 export { OpenCPWX, MsgParseRes } from './OpenCPWX'
 
 export { OpenCPWXAPI } from './api/OpenCPWXAPI'
+export { OpenCPWXTagAPI } from './api/OpenCPWXTagAPI'
+export { OpenCPWXDepartmentAPI } from './api/OpenCPWXDepartmentAPI'
+export { OpenCPWXUserAPI } from './api/OpenCPWXUserAPI'
