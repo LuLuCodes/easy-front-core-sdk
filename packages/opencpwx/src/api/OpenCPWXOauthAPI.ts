@@ -61,7 +61,6 @@ export class OpenCPWXOauthAPI {
    * @param suite
    * @param userTicket 成员票据
    */
-
   @AccessTokenRefresh()
   public static async getUserDetail(suite: OpenCPWXSuite, userTicket: string) {
     const token = await suite.getAccessToken()
@@ -83,6 +82,7 @@ export class OpenCPWXOauthAPI {
    * @param cpWXCore
    * @param authCode oauth2.0授权企业微信管理员登录产生的code
    */
+  @AccessTokenRefresh()
   public static async getLoginInfo(cpWXCore: OpenCPWXCore, authCode: string) {
     const token = await cpWXCore.getAccessToken()
     const url = util.format(this.getLoginInfoUrl, token)

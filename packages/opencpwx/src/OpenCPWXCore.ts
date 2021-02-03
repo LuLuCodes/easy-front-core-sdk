@@ -104,7 +104,8 @@ export class OpenCPWXCrop implements OpenCPWXBase {
    */
   public async refreshAccessToken(): Promise<string> {
     const { suite, corpid, permanent_code } = this._cropConfig
-    let url = util.format(this.getCorpTokenUrl, suite.getAccessToken())
+    const token = await suite.getAccessToken()
+    let url = util.format(this.getCorpTokenUrl, token)
     let data = await this._http.post(url, { auth_corpid: corpid, permanent_code })
     if (!data) {
       throw new Error('获取suite access token异常')
@@ -277,7 +278,7 @@ export class OpenCPWXCore implements OpenCPWXBase {
   public async refreshAccessToken(): Promise<string> {
     const { corpid, provider_secret } = this._apiConfig
     const url = util.format(this.getProviderTokenUrl)
-    const data = await this._http.get(url, { corpid, provider_secret })
+    const data = await this._http.post(url, { corpid, provider_secret })
     if (!data) {
       throw new Error('获取provider access token异常')
     }
