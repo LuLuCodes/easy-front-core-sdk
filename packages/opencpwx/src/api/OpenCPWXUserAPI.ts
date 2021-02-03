@@ -125,7 +125,7 @@ export class OpenCPWXUserAPI {
    * @param fetchChild 是否递归获取子部门下面的成员：1-递归获取，0-只获取本部门
    */
   @AccessTokenRefresh()
-  public static async getDepartmentUser(base: OpenCPWXBase, departmentId: string, fetchChild = 0) {
+  public static async getDepartmentUser(base: OpenCPWXBase, departmentId: number, fetchChild = 0) {
     const token = await base.getAccessToken()
     const url = util.format(this.departmentUserUrl, token, departmentId, fetchChild)
     const data = await this._http.get(url)
