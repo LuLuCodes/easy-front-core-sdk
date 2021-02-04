@@ -44,6 +44,7 @@ export class OpenCPWXContactAPI {
    * 获取配置了客户联系功能的成员列表
    * @param base
    */
+  @AccessTokenRefresh()
   public static async getFollowUserList(base: OpenCPWXBase) {
     const token = await base.getAccessToken()
     const url = util.format(this.getFollowUserListUrl, token)
@@ -74,6 +75,7 @@ export class OpenCPWXContactAPI {
    * @param unionid 可进行临时会话的客户unionid，该参数仅在is_temp为true时有效，如不指定则不进行限制
    * @param conclusions 结束语，会话结束时自动发送给客户，可参考“结束语定义”，仅在is_temp为true时有效
    */
+  @AccessTokenRefresh()
   public static async addContactWay(
     base: OpenCPWXBase,
     type: number,
@@ -131,6 +133,7 @@ export class OpenCPWXContactAPI {
    * @param unionid 可进行临时会话的客户unionid，该参数仅在is_temp为true时有效，如不指定则不进行限制
    * @param conclusions 结束语，会话结束时自动发送给客户，可参考“结束语定义”，仅在is_temp为true时有效
    */
+  @AccessTokenRefresh()
   public static async updateContactWay(
     base: OpenCPWXBase,
     configId: string,
@@ -174,6 +177,7 @@ export class OpenCPWXContactAPI {
    * @param base
    * @param configId 联系方式的配置id
    */
+  @AccessTokenRefresh()
   public static async getContactWay(base: OpenCPWXBase, configId: string) {
     const token = await base.getAccessToken()
     const url = util.format(this.getContactWayUrl, token)
@@ -194,6 +198,7 @@ export class OpenCPWXContactAPI {
    * @param base
    * @param configId 联系方式的配置id
    */
+  @AccessTokenRefresh()
   public static async delContactWay(base: OpenCPWXBase, configId: string) {
     const token = await base.getAccessToken()
     const url = util.format(this.delContactWayUrl, token)
@@ -214,6 +219,7 @@ export class OpenCPWXContactAPI {
    * @param base
    * @param userId 企业成员的userid
    */
+  @AccessTokenRefresh()
   public static async getUserList(base: OpenCPWXBase, userId: string) {
     const token = await base.getAccessToken()
     const url = util.format(this.getUserListUrl, token, userId)
@@ -232,6 +238,7 @@ export class OpenCPWXContactAPI {
    * @param base
    * @param externalUserId 外部联系人的userid
    */
+  @AccessTokenRefresh()
   public static async getUserInfo(base: OpenCPWXBase, externalUserId: string) {
     const token = await base.getAccessToken()
     const url = util.format(this.getUserInfoUrl, token, externalUserId)
@@ -252,7 +259,7 @@ export class OpenCPWXContactAPI {
    * @param cursor 用于分页查询的游标，字符串类型，由上一次调用返回，首次调用可不填
    * @param limit 返回的最大记录数，整型，最大值100，默认值50，超过最大值时取最大值
    */
-
+  @AccessTokenRefresh()
   public static async getBatchUserInfo(base: OpenCPWXBase, userId: string, cursor?: string, limit?: number) {
     if (!limit || limit < 0 || limit > 100) {
       limit = 50
@@ -284,6 +291,7 @@ export class OpenCPWXContactAPI {
    * @param remarkMobiles
    * @param remarkPicMediaid
    */
+  @AccessTokenRefresh()
   public static async updateRemark(
     base: OpenCPWXBase,
     userId: string,
@@ -319,11 +327,13 @@ export class OpenCPWXContactAPI {
    * @param base
    * @param tagId
    */
-  public static async getCorpTagList(base: OpenCPWXBase, tagId?: Array<string>) {
+  @AccessTokenRefresh()
+  public static async getCorpTagList(base: OpenCPWXBase, tagId?: Array<string>, groupId?: Array<string>) {
     const token = await base.getAccessToken()
     const url = util.format(this.getCorpTagListUrl, token)
     const data = await this._http.post(url, {
       tag_id: tagId,
+      group_id: groupId,
     })
     if (!data) {
       throw new Error('接口异常')
@@ -342,6 +352,7 @@ export class OpenCPWXContactAPI {
    * @param order 标签组次序值
    * @param tag 标签列表
    */
+  @AccessTokenRefresh()
   public static async addCorpTag(base: OpenCPWXBase, groupId?: string, groupName?: string, order?: number, tag?: Array<{ name: string; order?: number }>) {
     const token = await base.getAccessToken()
     const url = util.format(this.addCorpTagUrl, token)
@@ -367,6 +378,7 @@ export class OpenCPWXContactAPI {
    * @param name 新的标签或标签组名称
    * @param order 标签/标签组的次序值
    */
+  @AccessTokenRefresh()
   public static async editCorpTag(base: OpenCPWXBase, id: string, name?: string, order?: number) {
     const token = await base.getAccessToken()
     const url = util.format(this.editCorpTagUrl, token)
@@ -390,6 +402,7 @@ export class OpenCPWXContactAPI {
    * @param tagId 标签的id列表
    * @param groupId 标签组的id列表
    */
+  @AccessTokenRefresh()
   public static async delCorpTag(base: OpenCPWXBase, tagId?: Array<string>, groupId?: Array<string>) {
     const token = await base.getAccessToken()
     const url = util.format(this.delCorpTagUrl, token)
@@ -414,6 +427,7 @@ export class OpenCPWXContactAPI {
    * @param addTag 要标记的标签列表
    * @param removeTag 要移除的标签列表
    */
+  @AccessTokenRefresh()
   public static async markTag(base: OpenCPWXBase, userId: string, externalUserId: string, addTag?: Array<string>, removeTag?: Array<string>) {
     const token = await base.getAccessToken()
     const url = util.format(this.markTagUrl, token)
@@ -440,6 +454,7 @@ export class OpenCPWXContactAPI {
    * @param statusFilter 群状态过滤。0 - 普通列表 1 - 离职待继承 2 - 离职继承中 3 - 离职继承完成
    * @param ownerFilter 群主过滤。如果不填，表示获取全部群主的数据
    */
+  @AccessTokenRefresh()
   public static async getGroupChatList(
     base: OpenCPWXBase,
     offset: number,
@@ -469,6 +484,7 @@ export class OpenCPWXContactAPI {
    * @param base
    * @param chatId 客户群ID
    */
+  @AccessTokenRefresh()
   public static async getGroupChat(base: OpenCPWXBase, chatId: string) {
     const token = await base.getAccessToken()
     const url = util.format(this.getGroupChatUrl, token)
@@ -495,6 +511,7 @@ export class OpenCPWXContactAPI {
    * @param link 链接消息
    * @param miniprogram 小程序消息
    */
+  @AccessTokenRefresh()
   public static async addMsgTemplate(
     base: OpenCPWXBase,
     chatType: 'single' | 'group' = 'single',
@@ -545,6 +562,7 @@ export class OpenCPWXContactAPI {
    * @param base
    * @param msgId 群发消息的id
    */
+  @AccessTokenRefresh()
   public static async getGroupMsgResult(base: OpenCPWXBase, msgId: string) {
     const token = await base.getAccessToken()
     const url = util.format(this.getGroupMsgResultUrl, token)
@@ -569,6 +587,7 @@ export class OpenCPWXContactAPI {
    * @param link 链接消息
    * @param miniprogram 小程序消息
    */
+  @AccessTokenRefresh()
   public static async sendWelcomeMsg(
     base: OpenCPWXBase,
     welcomeCode: string,
@@ -617,8 +636,8 @@ export class OpenCPWXContactAPI {
    * @param image 图片消息
    * @param link 链接消息
    * @param miniprogram 小程序消息
-
    */
+  @AccessTokenRefresh()
   public static async addGroupWelcomeTemplate(
     base: OpenCPWXBase,
     text?: {
@@ -667,6 +686,7 @@ export class OpenCPWXContactAPI {
    * @param link 链接消息
    * @param miniprogram 小程序消息
    */
+  @AccessTokenRefresh()
   public static async editGroupWelcomeTemplate(
     base: OpenCPWXBase,
     templateId: string,
@@ -713,6 +733,7 @@ export class OpenCPWXContactAPI {
    * @param base
    * @param templateId 群欢迎语的素材id
    */
+  @AccessTokenRefresh()
   public static async getGroupWelcomeTemplate(base: OpenCPWXBase, templateId: string) {
     const token = await base.getAccessToken()
     const url = util.format(this.getGroupWelcomeTemplateUrl, token)
@@ -733,6 +754,7 @@ export class OpenCPWXContactAPI {
    * @param base
    * @param templateId 群欢迎语的素材id
    */
+  @AccessTokenRefresh()
   public static async delGroupWelcomeTemplate(base: OpenCPWXBase, templateId: string) {
     const token = await base.getAccessToken()
     const url = util.format(this.delGroupWelcomeTemplateUrl, token)
@@ -756,6 +778,7 @@ export class OpenCPWXContactAPI {
    * @param takeOverUserId 接替成员的userid
    * @param transferSuccessMsg 接替成员的userid
    */
+  @AccessTokenRefresh()
   public static async transferContact(base: OpenCPWXBase, externalUserId: string, handOverUserId: string, takeOverUserId: string, transferSuccessMsg?: string) {
     const token = await base.getAccessToken()
     const url = util.format(this.transferContactUrl, token)
@@ -781,6 +804,7 @@ export class OpenCPWXContactAPI {
    * @param pageSize
    * @param cursor
    */
+  @AccessTokenRefresh()
   public static async getUnAssignedList(base: OpenCPWXBase, pageId?: number, pageSize?: number, cursor?: string) {
     if (!pageId || pageId < 0) {
       pageId = 0
@@ -811,6 +835,7 @@ export class OpenCPWXContactAPI {
    * @param handOverUserId 离职成员的userid
    * @param takeOverUserId 接替成员的userid
    */
+  @AccessTokenRefresh()
   public static async getTransferResult(base: OpenCPWXBase, externalUserId: string, handOverUserId: string, takeOverUserId: string) {
     const token = await base.getAccessToken()
     const url = util.format(this.getTransferResultUrl, token)
@@ -834,6 +859,7 @@ export class OpenCPWXContactAPI {
    * @param chatIdList 需要转群主的客户群ID列表
    * @param newOwner 新群主ID
    */
+  @AccessTokenRefresh()
   public static async transferGroupChat(base: OpenCPWXBase, chatIdList: Array<string>, newOwner: string) {
     const token = await base.getAccessToken()
     const url = util.format(this.transferGroupChatUrl, token)
@@ -858,6 +884,7 @@ export class OpenCPWXContactAPI {
    * @param userId 用户ID列表
    * @param partyId 部门ID列表
    */
+  @AccessTokenRefresh()
   public static async getUserBehaviorData(base: OpenCPWXBase, startTime: number, endTime: number, userId?: Array<string>, partyId?: Array<number>) {
     const token = await base.getAccessToken()
     const url = util.format(this.getUserBehaviorDataUrl, token)
@@ -887,8 +914,8 @@ export class OpenCPWXContactAPI {
    * @param orderAsc 是否升序。0-否；1-是。默认降序
    * @param offset 分页，偏移量, 默认为0
    * @param limit 分页，预期请求的数据量，默认为500，取值范围 1 ~ 1000
-
    */
+  @AccessTokenRefresh()
   public static async getGroupChatStatistic(
     base: OpenCPWXBase,
     dayBeginTime: number,
@@ -942,6 +969,7 @@ export class OpenCPWXContactAPI {
                        如果不填，默认同 day_begin_time（即默认取一天的数据）
    * @param ownerFilter 群主过滤，如果不填，表示获取全部群主的数据
    */
+  @AccessTokenRefresh()
   public static async getGroupChatStatisticByDay(
     base: OpenCPWXBase,
     dayBeginTime: number,
