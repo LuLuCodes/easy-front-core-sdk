@@ -27,6 +27,8 @@ export class OpenCPWXMiniAPI {
     if (data.errcode && data.errcode !== 40014) {
       throw new Error(data.errmsg)
     }
+    delete data.errcode
+    delete data.errmsg
     return data
   }
 }

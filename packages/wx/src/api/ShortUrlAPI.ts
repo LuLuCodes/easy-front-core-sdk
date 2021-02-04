@@ -28,6 +28,8 @@ export class ShortUrlAPI {
     if (data.errcode) {
       throw new Error(data.errmsg)
     }
+    delete data.errcode
+    delete data.errmsg
     return data
   }
 }
