@@ -63,7 +63,7 @@ export class MsgCrypto {
    *  微信消息解密
    *  @param encryptMsg 加密字符串
    */
-  decryptMsg(encryptMsg: string): any {
+  decryptMsg(encryptMsg: string, isXML = false): any {
     //获取签名认证
     let tempSignature = this.getMsgSignature(encryptMsg)
     //判断消息是否来自微信服务器
@@ -81,7 +81,11 @@ export class MsgCrypto {
     //对微信消息进行处理
     deEncryptedMsg = deEncryptedMsg.slice(20, -pad).replace(/<\/xml>.*/, '</xml>')
     //讲解密后的XML 转为 JSON 对象
-    return this.parseXmlToObj(deEncryptedMsg)
+    if (isXML) {
+      return this.parseXmlToObj(deEncryptedMsg)
+    } else {
+      return JSON.parse(deEncryptedMsg)
+    }
   }
 
   /**
