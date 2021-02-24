@@ -14,17 +14,13 @@ export class MP {
    *  @param nonce
    *  @param echostr
    */
-  public static checkSignature(mpCore: MPCore, signature: string, timestamp: string, nonce: string, echostr: string): string {
+  public static checkSignature(mpCore: MPCore, signature: string, timestamp: string, nonce: string, echostr: string): boolean {
     //将 token、timestamp、nonce 三个参数进行字典序排序，并拼接成一个字符串
     let tempStr = [mpCore.getApiConfig().token, timestamp, nonce].sort().join('')
     //对传入的字符串进行加密
     let tempSignature = Cryptogram.sha1(tempStr)
     //校验签名
-    if (tempSignature === signature) {
-      return echostr
-    } else {
-      return '签名异常'
-    }
+    return tempSignature !== signature
   }
 
   /**
