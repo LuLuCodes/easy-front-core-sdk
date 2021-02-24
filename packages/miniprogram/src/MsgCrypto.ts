@@ -84,7 +84,7 @@ export class MsgCrypto {
     if (isXML) {
       return this.parseXmlToObj(deEncryptedMsg)
     } else {
-      return JSON.parse(deEncryptedMsg)
+      return JSON.parse(deEncryptedMsg.substring(0, deEncryptedMsg.lastIndexOf('}') + 1))
     }
   }
 

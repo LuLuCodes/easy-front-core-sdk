@@ -20,7 +20,7 @@ export class MP {
     //对传入的字符串进行加密
     let tempSignature = Cryptogram.sha1(tempStr)
     //校验签名
-    return tempSignature !== signature
+    return tempSignature === signature
   }
 
   /**

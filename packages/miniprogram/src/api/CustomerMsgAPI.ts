@@ -48,9 +48,8 @@ export class CustomerMsgAPI {
     const token = await mpCore.getAccessToken()
     const url = util.format(this.sendUrl, token)
 
-    let obj = {
+    let obj: any = {
       touser: openId,
-      msgtype: msgType,
       text: null,
       image: null,
       link: null,
@@ -58,12 +57,16 @@ export class CustomerMsgAPI {
     }
     if (msgType === MiniProgramCustomerMsgType.TEXT) {
       obj.text = params
+      obj.msgtype = 'text'
     } else if (msgType === MiniProgramCustomerMsgType.IMAGE) {
       obj.image = params
+      obj.msgtype = 'image'
     } else if (msgType === MiniProgramCustomerMsgType.LINK) {
       obj.link = params
+      obj.msgtype = 'link'
     } else if (msgType === MiniProgramCustomerMsgType.MINIPROGRAMPAGE) {
       obj.miniprogrampage = params
+      obj.msgtype = 'miniprogrampage'
     }
 
     const data = await this._http.post(url, obj)
