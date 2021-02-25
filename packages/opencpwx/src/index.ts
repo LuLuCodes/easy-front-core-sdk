@@ -4,6 +4,7 @@ export { InMsg } from './entity/message/input/InMsg'
 export { InNotDefinedMsg } from './entity/message/input/InNotDefinedMsg'
 export { InSuiteTicket } from './entity/message/input/InSuiteTicket'
 export { InAuthEvent } from './entity/message/input/InAuthEvent'
+export { InExternalContact } from './entity/message/input/InExternalContact'
 
 export { EventInMsg } from './entity/message/input/event/EventInMsg'
 export { InFollowEvent } from './entity/message/input/event/InFollowEvent'
