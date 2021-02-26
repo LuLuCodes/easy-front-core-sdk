@@ -21,14 +21,7 @@ export class OpenCPWXSendMsgAPI {
     const token = await base.getAccessToken()
     const url = util.format(this.sendMessageUrl, token)
     const data = await this._http.post(url, msgJson)
-    if (!data) {
-      throw new Error('接口异常')
-    }
-    if (data.errcode && data.errcode !== 40014) {
-      throw new Error(data.errmsg)
-    }
-    delete data.errcode
-    delete data.errmsg
+
     return data
   }
 }

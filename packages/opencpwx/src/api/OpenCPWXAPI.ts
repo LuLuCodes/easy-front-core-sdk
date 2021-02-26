@@ -30,14 +30,6 @@ export class OpenCPWXAPI {
     const token = await suite.getAccessToken()
     const url = util.format(this.getPreAuthCodeUrl, token)
     const data = await this._http.get(url)
-    if (!data) {
-      throw new Error('接口异常')
-    }
-    if (data.errcode && data.errcode !== 40014) {
-      throw new Error(data.errmsg)
-    }
-    delete data.errcode
-    delete data.errmsg
     return data
   }
 
@@ -60,14 +52,7 @@ export class OpenCPWXAPI {
         auth_type: authType,
       },
     })
-    if (!data) {
-      throw new Error('接口异常')
-    }
-    if (data.errcode && data.errcode !== 40014) {
-      throw new Error(data.errmsg)
-    }
-    delete data.errcode
-    delete data.errmsg
+
     return data
   }
 
@@ -83,14 +68,7 @@ export class OpenCPWXAPI {
     const data = await this._http.post(url, {
       auth_code: authCode,
     })
-    if (!data) {
-      throw new Error('接口异常')
-    }
-    if (data.errcode && data.errcode !== 40014) {
-      throw new Error(data.errmsg)
-    }
-    delete data.errcode
-    delete data.errmsg
+
     return data
   }
 
@@ -108,14 +86,7 @@ export class OpenCPWXAPI {
       auth_corpid: authCorpId,
       permanent_code: permanentCode,
     })
-    if (!data) {
-      throw new Error('接口异常')
-    }
-    if (data.errcode && data.errcode !== 40014) {
-      throw new Error(data.errmsg)
-    }
-    delete data.errcode
-    delete data.errmsg
+
     return data
   }
 
@@ -133,14 +104,7 @@ export class OpenCPWXAPI {
       auth_corpid: authCorpId,
       agentid: agentId,
     })
-    if (!data) {
-      throw new Error('接口异常')
-    }
-    if (data.errcode && data.errcode !== 40014) {
-      throw new Error(data.errmsg)
-    }
-    delete data.errcode
-    delete data.errmsg
+
     return data
   }
 
@@ -166,14 +130,7 @@ export class OpenCPWXAPI {
       offset: offset,
       limit: limit,
     })
-    if (!data) {
-      throw new Error('接口异常')
-    }
-    if (data.errcode && data.errcode !== 40014) {
-      throw new Error(data.errmsg)
-    }
-    delete data.errcode
-    delete data.errmsg
+
     return data
   }
 
@@ -203,14 +160,7 @@ export class OpenCPWXAPI {
       query_request_list: queryRequestList,
       agentid: agentId,
     })
-    if (!data) {
-      throw new Error('接口异常')
-    }
-    if (data.errcode && data.errcode !== 40014) {
-      throw new Error(data.errmsg)
-    }
-    delete data.errcode
-    delete data.errmsg
+
     return data
   }
 
@@ -226,14 +176,7 @@ export class OpenCPWXAPI {
     const token = await cpWXCore.getAccessToken()
     const url = util.format(this.uploadUrl, token, mediaType)
     const data = await this._http.upload(url, filePath)
-    if (!data) {
-      throw new Error('接口异常')
-    }
-    if (data.errcode && data.errcode !== 40014) {
-      throw new Error(data.errmsg)
-    }
-    delete data.errcode
-    delete data.errmsg
+
     return data
   }
 
@@ -253,14 +196,7 @@ export class OpenCPWXAPI {
       media_id_list: mediaIdList,
       output_file_name: outputFileName,
     })
-    if (!data) {
-      throw new Error('接口异常')
-    }
-    if (data.errcode && data.errcode !== 40014) {
-      throw new Error(data.errmsg)
-    }
-    delete data.errcode
-    delete data.errmsg
+
     return data
   }
 
@@ -274,14 +210,7 @@ export class OpenCPWXAPI {
     const token = await cpWXCore.getAccessToken()
     const url = util.format(this.getBatchResultUrl, token, jobId)
     const data = await this._http.get(url)
-    if (!data) {
-      throw new Error('接口异常')
-    }
-    if (data.errcode && data.errcode !== 40014) {
-      throw new Error(data.errmsg)
-    }
-    delete data.errcode
-    delete data.errmsg
+
     return data
   }
 
@@ -301,14 +230,7 @@ export class OpenCPWXAPI {
       useridlist: userIdList,
       sort_type: sortType,
     })
-    if (!data) {
-      throw new Error('接口异常')
-    }
-    if (data.errcode && data.errcode !== 40014) {
-      throw new Error(data.errmsg)
-    }
-    delete data.errcode
-    delete data.errmsg
+
     return data
   }
 }

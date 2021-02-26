@@ -47,14 +47,7 @@ export class OpenCPWXOauthAPI {
     const token = await suite.getAccessToken()
     const url = util.format(this.getUserInfoUrl, token, code)
     const data = await this._http.get(url)
-    if (!data) {
-      throw new Error('接口异常')
-    }
-    if (data.errcode && data.errcode !== 40014) {
-      throw new Error(data.errmsg)
-    }
-    delete data.errcode
-    delete data.errmsg
+
     return data
   }
 
@@ -70,14 +63,7 @@ export class OpenCPWXOauthAPI {
     const data = await this._http.post(url, {
       user_ticket: userTicket,
     })
-    if (!data) {
-      throw new Error('接口异常')
-    }
-    if (data.errcode && data.errcode !== 40014) {
-      throw new Error(data.errmsg)
-    }
-    delete data.errcode
-    delete data.errmsg
+
     return data
   }
 
@@ -93,14 +79,7 @@ export class OpenCPWXOauthAPI {
     const data = await this._http.post(url, {
       auth_code: authCode,
     })
-    if (!data) {
-      throw new Error('接口异常')
-    }
-    if (data.errcode && data.errcode !== 40014) {
-      throw new Error(data.errmsg)
-    }
-    delete data.errcode
-    delete data.errmsg
+
     return data
   }
 }

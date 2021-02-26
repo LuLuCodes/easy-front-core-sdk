@@ -33,14 +33,7 @@ export class OpenCPWXUserAPI {
     const token = await base.getAccessToken()
     const url = util.format(this.createUrl, token)
     const data = await this._http.post(url, json)
-    if (!data) {
-      throw new Error('接口异常')
-    }
-    if (data.errcode && data.errcode !== 40014) {
-      throw new Error(data.errmsg)
-    }
-    delete data.errcode
-    delete data.errmsg
+
     return data
   }
 
@@ -54,14 +47,7 @@ export class OpenCPWXUserAPI {
     const token = await base.getAccessToken()
     const url = util.format(this.updateUrl, token)
     const data = await this._http.post(url, json)
-    if (!data) {
-      throw new Error('接口异常')
-    }
-    if (data.errcode && data.errcode !== 40014) {
-      throw new Error(data.errmsg)
-    }
-    delete data.errcode
-    delete data.errmsg
+
     return data
   }
 
@@ -75,14 +61,7 @@ export class OpenCPWXUserAPI {
     const token = await base.getAccessToken()
     const url = util.format(this.getUrl, token, userId)
     const data = await this._http.get(url)
-    if (!data) {
-      throw new Error('接口异常')
-    }
-    if (data.errcode && data.errcode !== 40014) {
-      throw new Error(data.errmsg)
-    }
-    delete data.errcode
-    delete data.errmsg
+
     return data
   }
 
@@ -96,14 +75,7 @@ export class OpenCPWXUserAPI {
     const token = await base.getAccessToken()
     const url = util.format(this.deleteUrl, token, userId)
     const data = await this._http.get(url)
-    if (!data) {
-      throw new Error('接口异常')
-    }
-    if (data.errcode && data.errcode !== 40014) {
-      throw new Error(data.errmsg)
-    }
-    delete data.errcode
-    delete data.errmsg
+
     return data
   }
 
@@ -117,14 +89,7 @@ export class OpenCPWXUserAPI {
     const token = await base.getAccessToken()
     const url = util.format(this.batchDeleteUrl, token)
     const data = await this._http.post(url, { useridlist: userIdList })
-    if (!data) {
-      throw new Error('接口异常')
-    }
-    if (data.errcode && data.errcode !== 40014) {
-      throw new Error(data.errmsg)
-    }
-    delete data.errcode
-    delete data.errmsg
+
     return data
   }
 
@@ -139,14 +104,7 @@ export class OpenCPWXUserAPI {
     const token = await base.getAccessToken()
     const url = util.format(this.departmentUserUrl, token, departmentId, fetchChild)
     const data = await this._http.get(url)
-    if (!data) {
-      throw new Error('接口异常')
-    }
-    if (data.errcode && data.errcode !== 40014) {
-      throw new Error(data.errmsg)
-    }
-    delete data.errcode
-    delete data.errmsg
+
     return data
   }
 
@@ -161,14 +119,7 @@ export class OpenCPWXUserAPI {
     const token = await base.getAccessToken()
     const url = util.format(this.departmentUserUrl, token, departmentId, fetchChild)
     const data = await this._http.get(url)
-    if (!data) {
-      throw new Error('接口异常')
-    }
-    if (data.errcode && data.errcode !== 40014) {
-      throw new Error(data.errmsg)
-    }
-    delete data.errcode
-    delete data.errmsg
+
     return data
   }
 
@@ -182,14 +133,7 @@ export class OpenCPWXUserAPI {
     const token = await base.getAccessToken()
     const url = util.format(this.userIdToOpenIdUrl, token)
     const data = await this._http.post(url, { userid: userId })
-    if (!data) {
-      throw new Error('接口异常')
-    }
-    if (data.errcode && data.errcode !== 40014) {
-      throw new Error(data.errmsg)
-    }
-    delete data.errcode
-    delete data.errmsg
+
     return data
   }
 
@@ -203,14 +147,7 @@ export class OpenCPWXUserAPI {
     const token = await base.getAccessToken()
     const url = util.format(this.openIdToUserIdUrl, token)
     const data = await this._http.post(url, { openid: openId })
-    if (!data) {
-      throw new Error('接口异常')
-    }
-    if (data.errcode && data.errcode !== 40014) {
-      throw new Error(data.errmsg)
-    }
-    delete data.errcode
-    delete data.errmsg
+
     return data
   }
 
@@ -224,14 +161,7 @@ export class OpenCPWXUserAPI {
     const token = await base.getAccessToken()
     const url = util.format(this.authSuccUrl, token, userId)
     const data = await this._http.get(url)
-    if (!data) {
-      throw new Error('接口异常')
-    }
-    if (data.errcode && data.errcode !== 40014) {
-      throw new Error(data.errmsg)
-    }
-    delete data.errcode
-    delete data.errmsg
+
     return data
   }
 
@@ -247,14 +177,7 @@ export class OpenCPWXUserAPI {
     const token = await base.getAccessToken()
     const url = util.format(this.batchInviteUrl, token)
     const data = await this._http.post(url, { user: users, party: partys, tag: tags })
-    if (!data) {
-      throw new Error('接口异常')
-    }
-    if (data.errcode && data.errcode !== 40014) {
-      throw new Error(data.errmsg)
-    }
-    delete data.errcode
-    delete data.errmsg
+
     return data
   }
 
@@ -268,14 +191,7 @@ export class OpenCPWXUserAPI {
     const token = await base.getAccessToken()
     const url = util.format(this.getJoinQrCodeUrl, token, sizeType)
     const data = await this._http.get(url)
-    if (!data) {
-      throw new Error('接口异常')
-    }
-    if (data.errcode && data.errcode !== 40014) {
-      throw new Error(data.errmsg)
-    }
-    delete data.errcode
-    delete data.errmsg
+
     return data
   }
 
@@ -290,14 +206,7 @@ export class OpenCPWXUserAPI {
     const token = await base.getAccessToken()
     const url = util.format(this.getMobileHashCodeUrl, token)
     const data = await this._http.post(url, { mobile: mobile, state: state })
-    if (!data) {
-      throw new Error('接口异常')
-    }
-    if (data.errcode && data.errcode !== 40014) {
-      throw new Error(data.errmsg)
-    }
-    delete data.errcode
-    delete data.errmsg
+
     return data
   }
 
@@ -311,14 +220,7 @@ export class OpenCPWXUserAPI {
     const token = await base.getAccessToken()
     const url = util.format(this.getUserIdUrl, token)
     const data = await this._http.post(url, { mobile: mobile })
-    if (!data) {
-      throw new Error('接口异常')
-    }
-    if (data.errcode && data.errcode !== 40014) {
-      throw new Error(data.errmsg)
-    }
-    delete data.errcode
-    delete data.errmsg
+
     return data
   }
 }

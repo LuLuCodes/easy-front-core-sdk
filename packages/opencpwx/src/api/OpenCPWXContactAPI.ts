@@ -49,14 +49,7 @@ export class OpenCPWXContactAPI {
     const token = await base.getAccessToken()
     const url = util.format(this.getFollowUserListUrl, token)
     const data = await this._http.get(url)
-    if (!data) {
-      throw new Error('接口异常')
-    }
-    if (data.errcode && data.errcode !== 40014) {
-      throw new Error(data.errmsg)
-    }
-    delete data.errcode
-    delete data.errmsg
+    
     return data
   }
 
@@ -111,14 +104,7 @@ export class OpenCPWXContactAPI {
       unionid,
       conclusions,
     })
-    if (!data) {
-      throw new Error('接口异常')
-    }
-    if (data.errcode && data.errcode !== 40014) {
-      throw new Error(data.errmsg)
-    }
-    delete data.errcode
-    delete data.errmsg
+    
     return data
   }
 
@@ -167,14 +153,7 @@ export class OpenCPWXContactAPI {
       unionid,
       conclusions,
     })
-    if (!data) {
-      throw new Error('接口异常')
-    }
-    if (data.errcode && data.errcode !== 40014) {
-      throw new Error(data.errmsg)
-    }
-    delete data.errcode
-    delete data.errmsg
+    
     return data
   }
 
@@ -190,14 +169,7 @@ export class OpenCPWXContactAPI {
     const data = await this._http.post(url, {
       config_id: configId,
     })
-    if (!data) {
-      throw new Error('接口异常')
-    }
-    if (data.errcode && data.errcode !== 40014) {
-      throw new Error(data.errmsg)
-    }
-    delete data.errcode
-    delete data.errmsg
+    
     return data
   }
 
@@ -213,14 +185,7 @@ export class OpenCPWXContactAPI {
     const data = await this._http.post(url, {
       config_id: configId,
     })
-    if (!data) {
-      throw new Error('接口异常')
-    }
-    if (data.errcode && data.errcode !== 40014) {
-      throw new Error(data.errmsg)
-    }
-    delete data.errcode
-    delete data.errmsg
+    
     return data
   }
 
@@ -234,14 +199,7 @@ export class OpenCPWXContactAPI {
     const token = await base.getAccessToken()
     const url = util.format(this.getUserListUrl, token, userId)
     const data = await this._http.get(url)
-    if (!data) {
-      throw new Error('接口异常')
-    }
-    if (data.errcode && data.errcode !== 40014) {
-      throw new Error(data.errmsg)
-    }
-    delete data.errcode
-    delete data.errmsg
+    
     return data
   }
 
@@ -255,14 +213,7 @@ export class OpenCPWXContactAPI {
     const token = await base.getAccessToken()
     const url = util.format(this.getUserInfoUrl, token, externalUserId)
     const data = await this._http.get(url)
-    if (!data) {
-      throw new Error('接口异常')
-    }
-    if (data.errcode && data.errcode !== 40014) {
-      throw new Error(data.errmsg)
-    }
-    delete data.errcode
-    delete data.errmsg
+    
     return data
   }
 
@@ -285,14 +236,7 @@ export class OpenCPWXContactAPI {
       cursor,
       limit,
     })
-    if (!data) {
-      throw new Error('接口异常')
-    }
-    if (data.errcode && data.errcode !== 40014) {
-      throw new Error(data.errmsg)
-    }
-    delete data.errcode
-    delete data.errmsg
+    
     return data
   }
 
@@ -329,14 +273,7 @@ export class OpenCPWXContactAPI {
       remark_mobiles: remarkMobiles,
       remark_mediaid: remarkPicMediaid,
     })
-    if (!data) {
-      throw new Error('接口异常')
-    }
-    if (data.errcode && data.errcode !== 40014) {
-      throw new Error(data.errmsg)
-    }
-    delete data.errcode
-    delete data.errmsg
+    
     return data
   }
 
@@ -353,14 +290,7 @@ export class OpenCPWXContactAPI {
       tag_id: tagId,
       group_id: groupId,
     })
-    if (!data) {
-      throw new Error('接口异常')
-    }
-    if (data.errcode && data.errcode !== 40014) {
-      throw new Error(data.errmsg)
-    }
-    delete data.errcode
-    delete data.errmsg
+    
     return data
   }
 
@@ -382,14 +312,7 @@ export class OpenCPWXContactAPI {
       order: order,
       tag: tag,
     })
-    if (!data) {
-      throw new Error('接口异常')
-    }
-    if (data.errcode && data.errcode !== 40014) {
-      throw new Error(data.errmsg)
-    }
-    delete data.errcode
-    delete data.errmsg
+    
     return data
   }
 
@@ -409,14 +332,7 @@ export class OpenCPWXContactAPI {
       name: name,
       order: order,
     })
-    if (!data) {
-      throw new Error('接口异常')
-    }
-    if (data.errcode && data.errcode !== 40014) {
-      throw new Error(data.errmsg)
-    }
-    delete data.errcode
-    delete data.errmsg
+    
     return data
   }
 
@@ -434,14 +350,7 @@ export class OpenCPWXContactAPI {
       tag_id: tagId,
       group_id: groupId,
     })
-    if (!data) {
-      throw new Error('接口异常')
-    }
-    if (data.errcode && data.errcode !== 40014) {
-      throw new Error(data.errmsg)
-    }
-    delete data.errcode
-    delete data.errmsg
+    
     return data
   }
 
@@ -463,14 +372,7 @@ export class OpenCPWXContactAPI {
       add_tag: addTag,
       remove_tag: removeTag,
     })
-    if (!data) {
-      throw new Error('接口异常')
-    }
-    if (data.errcode && data.errcode !== 40014) {
-      throw new Error(data.errmsg)
-    }
-    delete data.errcode
-    delete data.errmsg
+    
     return data
   }
 
@@ -498,14 +400,7 @@ export class OpenCPWXContactAPI {
       offset: offset,
       limit: limit,
     })
-    if (!data) {
-      throw new Error('接口异常')
-    }
-    if (data.errcode && data.errcode !== 40014) {
-      throw new Error(data.errmsg)
-    }
-    delete data.errcode
-    delete data.errmsg
+    
     return data
   }
 
@@ -521,14 +416,7 @@ export class OpenCPWXContactAPI {
     const data = await this._http.post(url, {
       chat_id: chatId,
     })
-    if (!data) {
-      throw new Error('接口异常')
-    }
-    if (data.errcode && data.errcode !== 40014) {
-      throw new Error(data.errmsg)
-    }
-    delete data.errcode
-    delete data.errmsg
+    
     return data
   }
 
@@ -580,14 +468,7 @@ export class OpenCPWXContactAPI {
       link: link,
       miniprogram: miniprogram,
     })
-    if (!data) {
-      throw new Error('接口异常')
-    }
-    if (data.errcode && data.errcode !== 40014) {
-      throw new Error(data.errmsg)
-    }
-    delete data.errcode
-    delete data.errmsg
+    
     return data
   }
 
@@ -603,14 +484,7 @@ export class OpenCPWXContactAPI {
     const data = await this._http.post(url, {
       msgid: msgId,
     })
-    if (!data) {
-      throw new Error('接口异常')
-    }
-    if (data.errcode && data.errcode !== 40014) {
-      throw new Error(data.errmsg)
-    }
-    delete data.errcode
-    delete data.errmsg
+    
     return data
   }
 
@@ -656,14 +530,7 @@ export class OpenCPWXContactAPI {
       link: link,
       miniprogram: miniprogram,
     })
-    if (!data) {
-      throw new Error('接口异常')
-    }
-    if (data.errcode && data.errcode !== 40014) {
-      throw new Error(data.errmsg)
-    }
-    delete data.errcode
-    delete data.errmsg
+    
     return data
   }
 
@@ -706,14 +573,7 @@ export class OpenCPWXContactAPI {
       link: link,
       miniprogram: miniprogram,
     })
-    if (!data) {
-      throw new Error('接口异常')
-    }
-    if (data.errcode && data.errcode !== 40014) {
-      throw new Error(data.errmsg)
-    }
-    delete data.errcode
-    delete data.errmsg
+    
     return data
   }
 
@@ -759,14 +619,7 @@ export class OpenCPWXContactAPI {
       link: link,
       miniprogram: miniprogram,
     })
-    if (!data) {
-      throw new Error('接口异常')
-    }
-    if (data.errcode && data.errcode !== 40014) {
-      throw new Error(data.errmsg)
-    }
-    delete data.errcode
-    delete data.errmsg
+    
     return data
   }
 
@@ -782,14 +635,7 @@ export class OpenCPWXContactAPI {
     const data = await this._http.post(url, {
       template_id: templateId,
     })
-    if (!data) {
-      throw new Error('接口异常')
-    }
-    if (data.errcode && data.errcode !== 40014) {
-      throw new Error(data.errmsg)
-    }
-    delete data.errcode
-    delete data.errmsg
+    
     return data
   }
 
@@ -805,14 +651,7 @@ export class OpenCPWXContactAPI {
     const data = await this._http.post(url, {
       template_id: templateId,
     })
-    if (!data) {
-      throw new Error('接口异常')
-    }
-    if (data.errcode && data.errcode !== 40014) {
-      throw new Error(data.errmsg)
-    }
-    delete data.errcode
-    delete data.errmsg
+    
     return data
   }
 
@@ -834,14 +673,7 @@ export class OpenCPWXContactAPI {
       takeover_userid: takeOverUserId,
       transfer_success_msg: transferSuccessMsg,
     })
-    if (!data) {
-      throw new Error('接口异常')
-    }
-    if (data.errcode && data.errcode !== 40014) {
-      throw new Error(data.errmsg)
-    }
-    delete data.errcode
-    delete data.errmsg
+    
     return data
   }
 
@@ -867,14 +699,7 @@ export class OpenCPWXContactAPI {
       page_size: pageSize,
       cursor,
     })
-    if (!data) {
-      throw new Error('接口异常')
-    }
-    if (data.errcode && data.errcode !== 40014) {
-      throw new Error(data.errmsg)
-    }
-    delete data.errcode
-    delete data.errmsg
+    
     return data
   }
 
@@ -894,14 +719,7 @@ export class OpenCPWXContactAPI {
       handover_userid: handOverUserId,
       takeover_userid: takeOverUserId,
     })
-    if (!data) {
-      throw new Error('接口异常')
-    }
-    if (data.errcode && data.errcode !== 40014) {
-      throw new Error(data.errmsg)
-    }
-    delete data.errcode
-    delete data.errmsg
+    
     return data
   }
 
@@ -919,14 +737,7 @@ export class OpenCPWXContactAPI {
       chat_id_list: chatIdList,
       new_owner: newOwner,
     })
-    if (!data) {
-      throw new Error('接口异常')
-    }
-    if (data.errcode && data.errcode !== 40014) {
-      throw new Error(data.errmsg)
-    }
-    delete data.errcode
-    delete data.errmsg
+    
     return data
   }
 
@@ -948,14 +759,7 @@ export class OpenCPWXContactAPI {
       start_time: startTime,
       end_time: endTime,
     })
-    if (!data) {
-      throw new Error('接口异常')
-    }
-    if (data.errcode && data.errcode !== 40014) {
-      throw new Error(data.errmsg)
-    }
-    delete data.errcode
-    delete data.errmsg
+    
     return data
   }
 
@@ -1008,14 +812,7 @@ export class OpenCPWXContactAPI {
       offset: offset,
       limit: limit,
     })
-    if (!data) {
-      throw new Error('接口异常')
-    }
-    if (data.errcode && data.errcode !== 40014) {
-      throw new Error(data.errmsg)
-    }
-    delete data.errcode
-    delete data.errmsg
+    
     return data
   }
 
@@ -1044,14 +841,7 @@ export class OpenCPWXContactAPI {
       day_end_time: dayEndTime,
       owner_filter: ownerFilter,
     })
-    if (!data) {
-      throw new Error('接口异常')
-    }
-    if (data.errcode && data.errcode !== 40014) {
-      throw new Error(data.errmsg)
-    }
-    delete data.errcode
-    delete data.errmsg
+    
     return data
   }
 }

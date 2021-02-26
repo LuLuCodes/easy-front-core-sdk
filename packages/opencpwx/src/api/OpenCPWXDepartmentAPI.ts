@@ -32,14 +32,7 @@ export class OpenCPWXDepartmentAPI {
       order: order,
       id: id,
     })
-    if (!data) {
-      throw new Error('接口异常')
-    }
-    if (data.errcode && data.errcode !== 40014) {
-      throw new Error(data.errmsg)
-    }
-    delete data.errcode
-    delete data.errmsg
+
     return data
   }
 
@@ -63,14 +56,7 @@ export class OpenCPWXDepartmentAPI {
       parentid: parentId,
       order: order,
     })
-    if (!data) {
-      throw new Error('接口异常')
-    }
-    if (data.errcode && data.errcode !== 40014) {
-      throw new Error(data.errmsg)
-    }
-    delete data.errcode
-    delete data.errmsg
+
     return data
   }
 
@@ -84,14 +70,7 @@ export class OpenCPWXDepartmentAPI {
     const token = await base.getAccessToken()
     const url = util.format(this.deleteUrl, token, id)
     const data = await this._http.get(url)
-    if (!data) {
-      throw new Error('接口异常')
-    }
-    if (data.errcode && data.errcode !== 40014) {
-      throw new Error(data.errmsg)
-    }
-    delete data.errcode
-    delete data.errmsg
+
     return data
   }
 
@@ -105,14 +84,7 @@ export class OpenCPWXDepartmentAPI {
     const token = await base.getAccessToken()
     const url = util.format(this.getUrl, token, id)
     const data = await this._http.get(url)
-    if (!data) {
-      throw new Error('接口异常')
-    }
-    if (data.errcode && data.errcode !== 40014) {
-      throw new Error(data.errmsg)
-    }
-    delete data.errcode
-    delete data.errmsg
+
     return data
   }
 }

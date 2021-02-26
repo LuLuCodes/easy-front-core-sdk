@@ -21,14 +21,7 @@ export class OpenCPWXMiniAPI {
     const token = await suite.getAccessToken()
     const url = util.format(this.code2sessionUrl, token, code)
     const data = await this._http.get(url)
-    if (!data) {
-      throw new Error('接口异常')
-    }
-    if (data.errcode && data.errcode !== 40014) {
-      throw new Error(data.errmsg)
-    }
-    delete data.errcode
-    delete data.errmsg
+
     return data
   }
 }
