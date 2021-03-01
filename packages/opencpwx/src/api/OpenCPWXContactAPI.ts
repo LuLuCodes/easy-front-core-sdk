@@ -37,6 +37,7 @@ export class OpenCPWXContactAPI {
   private static getUserBehaviorDataUrl = 'https://qyapi.weixin.qq.com/cgi-bin/externalcontact/get_user_behavior_data?access_token=%s'
   private static getGroupChatStatisticUrl = 'https://qyapi.weixin.qq.com/cgi-bin/externalcontact/groupchat/statistic?access_token=%s'
   private static getGroupChatStatisticByDayUrl = 'https://qyapi.weixin.qq.com/cgi-bin/externalcontact/groupchat/statistic_group_by_day?access_token=%s'
+  private static unionidToExternalUserIdUrl = 'https://qyapi.weixin.qq.com/cgi-bin/externalcontact/unionid_to_external_userid?access_token=%s'
 
   private static _http = Http.getInstance()
 
@@ -49,7 +50,7 @@ export class OpenCPWXContactAPI {
     const token = await base.getAccessToken()
     const url = util.format(this.getFollowUserListUrl, token)
     const data = await this._http.get(url)
-    
+
     return data
   }
 
@@ -104,7 +105,7 @@ export class OpenCPWXContactAPI {
       unionid,
       conclusions,
     })
-    
+
     return data
   }
 
@@ -153,7 +154,7 @@ export class OpenCPWXContactAPI {
       unionid,
       conclusions,
     })
-    
+
     return data
   }
 
@@ -169,7 +170,7 @@ export class OpenCPWXContactAPI {
     const data = await this._http.post(url, {
       config_id: configId,
     })
-    
+
     return data
   }
 
@@ -185,7 +186,7 @@ export class OpenCPWXContactAPI {
     const data = await this._http.post(url, {
       config_id: configId,
     })
-    
+
     return data
   }
 
@@ -199,7 +200,7 @@ export class OpenCPWXContactAPI {
     const token = await base.getAccessToken()
     const url = util.format(this.getUserListUrl, token, userId)
     const data = await this._http.get(url)
-    
+
     return data
   }
 
@@ -213,7 +214,7 @@ export class OpenCPWXContactAPI {
     const token = await base.getAccessToken()
     const url = util.format(this.getUserInfoUrl, token, externalUserId)
     const data = await this._http.get(url)
-    
+
     return data
   }
 
@@ -236,7 +237,7 @@ export class OpenCPWXContactAPI {
       cursor,
       limit,
     })
-    
+
     return data
   }
 
@@ -273,7 +274,7 @@ export class OpenCPWXContactAPI {
       remark_mobiles: remarkMobiles,
       remark_mediaid: remarkPicMediaid,
     })
-    
+
     return data
   }
 
@@ -290,7 +291,7 @@ export class OpenCPWXContactAPI {
       tag_id: tagId,
       group_id: groupId,
     })
-    
+
     return data
   }
 
@@ -312,7 +313,7 @@ export class OpenCPWXContactAPI {
       order: order,
       tag: tag,
     })
-    
+
     return data
   }
 
@@ -332,7 +333,7 @@ export class OpenCPWXContactAPI {
       name: name,
       order: order,
     })
-    
+
     return data
   }
 
@@ -350,7 +351,7 @@ export class OpenCPWXContactAPI {
       tag_id: tagId,
       group_id: groupId,
     })
-    
+
     return data
   }
 
@@ -372,7 +373,7 @@ export class OpenCPWXContactAPI {
       add_tag: addTag,
       remove_tag: removeTag,
     })
-    
+
     return data
   }
 
@@ -400,7 +401,7 @@ export class OpenCPWXContactAPI {
       offset: offset,
       limit: limit,
     })
-    
+
     return data
   }
 
@@ -416,7 +417,7 @@ export class OpenCPWXContactAPI {
     const data = await this._http.post(url, {
       chat_id: chatId,
     })
-    
+
     return data
   }
 
@@ -468,7 +469,7 @@ export class OpenCPWXContactAPI {
       link: link,
       miniprogram: miniprogram,
     })
-    
+
     return data
   }
 
@@ -484,7 +485,7 @@ export class OpenCPWXContactAPI {
     const data = await this._http.post(url, {
       msgid: msgId,
     })
-    
+
     return data
   }
 
@@ -530,7 +531,7 @@ export class OpenCPWXContactAPI {
       link: link,
       miniprogram: miniprogram,
     })
-    
+
     return data
   }
 
@@ -573,7 +574,7 @@ export class OpenCPWXContactAPI {
       link: link,
       miniprogram: miniprogram,
     })
-    
+
     return data
   }
 
@@ -619,7 +620,7 @@ export class OpenCPWXContactAPI {
       link: link,
       miniprogram: miniprogram,
     })
-    
+
     return data
   }
 
@@ -635,7 +636,7 @@ export class OpenCPWXContactAPI {
     const data = await this._http.post(url, {
       template_id: templateId,
     })
-    
+
     return data
   }
 
@@ -651,7 +652,7 @@ export class OpenCPWXContactAPI {
     const data = await this._http.post(url, {
       template_id: templateId,
     })
-    
+
     return data
   }
 
@@ -673,7 +674,7 @@ export class OpenCPWXContactAPI {
       takeover_userid: takeOverUserId,
       transfer_success_msg: transferSuccessMsg,
     })
-    
+
     return data
   }
 
@@ -699,7 +700,7 @@ export class OpenCPWXContactAPI {
       page_size: pageSize,
       cursor,
     })
-    
+
     return data
   }
 
@@ -719,7 +720,7 @@ export class OpenCPWXContactAPI {
       handover_userid: handOverUserId,
       takeover_userid: takeOverUserId,
     })
-    
+
     return data
   }
 
@@ -737,7 +738,7 @@ export class OpenCPWXContactAPI {
       chat_id_list: chatIdList,
       new_owner: newOwner,
     })
-    
+
     return data
   }
 
@@ -759,7 +760,7 @@ export class OpenCPWXContactAPI {
       start_time: startTime,
       end_time: endTime,
     })
-    
+
     return data
   }
 
@@ -812,7 +813,7 @@ export class OpenCPWXContactAPI {
       offset: offset,
       limit: limit,
     })
-    
+
     return data
   }
 
@@ -841,7 +842,23 @@ export class OpenCPWXContactAPI {
       day_end_time: dayEndTime,
       owner_filter: ownerFilter,
     })
-    
+
+    return data
+  }
+
+  /**
+   * 外部联系人unionid转换
+   * @param base
+   * @param unionid 微信客户的unionid
+   */
+  @AccessTokenRefresh()
+  public static async unionidToExternalUserId(base: OpenCPWXBase, unionid: string) {
+    const token = await base.getAccessToken()
+    const url = util.format(this.unionidToExternalUserIdUrl, token)
+    const data = await this._http.post(url, {
+      unionid,
+    })
+
     return data
   }
 }
