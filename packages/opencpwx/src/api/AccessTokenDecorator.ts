@@ -15,7 +15,7 @@ export const AccessTokenRefresh = (): MethodDecorator => (target: any, propertyK
       console.error(`${propertyKey} error: ${JSON.stringify(result)}`)
       const errmsg = ErrorMsg[result.errcode]
       if (errmsg) {
-        throw new Error(result.errmsg)
+        throw new Error(errmsg)
       } else {
         throw new Error('接口异常(未知错误)')
       }
