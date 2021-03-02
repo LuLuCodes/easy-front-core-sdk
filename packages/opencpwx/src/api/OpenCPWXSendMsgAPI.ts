@@ -7,7 +7,7 @@ import { AccessTokenRefresh } from './AccessTokenDecorator'
  * @description 主动发送消息
  */
 export class OpenCPWXSendMsgAPI {
-  private static sendMessageUrl: string = 'https://api.weixin.qq.com/cgi-bin/message/send?access_token=%s'
+  private static sendMessageUrl: string = 'https://qyapi.weixin.qq.com/cgi-bin/message/send?access_token=%s'
 
   private static _http = Http.getInstance()
 
