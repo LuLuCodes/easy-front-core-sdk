@@ -13,8 +13,8 @@ export class InUpdateUser extends BaseMsg {
   private timestamp: number
   private changetype: string
   private userid: string
-  private openUserId: string
-  private newUserId: string
+  private openuserid: string
+  private newuserid: string
   private name: string
   private department: string
   private mainDepartment: string
@@ -59,8 +59,8 @@ export class InUpdateUser extends BaseMsg {
     this.timestamp = timeStamp
     this.changetype = changeType
     this.userid = userId
-    this.openUserId = openUserId
-    this.newUserId = newUserId
+    this.openuserid = openUserId
+    this.newuserid = newUserId
     this.name = name
     this.department = department
     this.mainDepartment = mainDepartment
@@ -122,6 +122,22 @@ export class InUpdateUser extends BaseMsg {
 
   public set userId(userId: string) {
     this.userid = userId
+  }
+
+  public get openUserId(): string {
+    return this.openuserid
+  }
+
+  public set openUserId(openuserid: string) {
+    this.openuserid = openuserid
+  }
+
+  public get newUserId(): string {
+    return this.newuserid
+  }
+
+  public set newUserId(newuserid: string) {
+    this.newuserid = newuserid
   }
 
   public get getName(): string {
