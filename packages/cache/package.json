@@ -2,15 +2,8 @@
   "name": "@easy-front-core-sdk/cache",
   "version": "1.0.1",
   "description": "核心模块-缓存",
-  "main": "dist/index.js",
-  "types": "dist/index.d.ts",
-  "scripts": {
-    "tsc": "tsc",
-    "watch": "tsc --watch",
-    "prettier": "prettier --check 'src/**/*.ts'",
-    "test": "jest --passWithNoTests"
-  },
   "author": "qian.qing@aliyun.com <qian.qing@aliyun.com>",
+  "homepage": "https://github.com/LuLuCodes/easy-front-core-sdk#readme",
   "license": "MIT",
   "repository": {
     "type": "git",
@@ -18,6 +11,14 @@
   },
   "bugs": {
     "url": "https://github.com/LuLuCodes/easy-front-core-sdk/issues"
+  },
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "tsc": "tsc",
+    "watch": "tsc --watch",
+    "prettier": "prettier --check 'src/**/*.ts'",
+    "test": "jest --passWithNoTests"
   },
   "dependencies": {
     "ioredis": "^4.19.2"

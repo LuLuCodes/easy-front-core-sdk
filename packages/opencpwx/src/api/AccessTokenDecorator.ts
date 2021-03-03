@@ -12,7 +12,8 @@ export const AccessTokenRefresh = (): MethodDecorator => (target: any, propertyK
       result = await originalMethod.apply(this, args)
     }
     if (result.errcode) {
-      console.error(`${propertyKey} error: ${JSON.stringify(result)}`)
+      console.error(`${propertyKey} error info: ${JSON.stringify(result)}`)
+      console.error(`${propertyKey} request data: ${JSON.stringify(args)}`)
       const errmsg = ErrorMsg[result.errcode]
       if (errmsg) {
         throw new Error(errmsg)
