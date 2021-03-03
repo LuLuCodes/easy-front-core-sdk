@@ -4,6 +4,7 @@ import { InNotDefinedMsg } from './entity/message/input/InNotDefinedMsg'
 import { InSuiteTicket } from './entity/message/input/InSuiteTicket'
 import { InAuthEvent } from './entity/message/input/InAuthEvent'
 import { InExternalContact } from './entity/message/input/InExternalContact'
+import { InUpdateUser } from './entity/message/input/InUpdateUser'
 import { InFollowEvent } from './entity/message/input/event/InFollowEvent'
 import { InNotDefinedEvent } from './entity/message/input/event/InNotDefinedEvent'
 
@@ -17,6 +18,7 @@ export class InMsgParser {
     if (InSuiteTicket.INFO_TYPE === obj.InfoType) return this.parseInSuiteTicket(obj)
     if (InAuthEvent.CREATE_AUTH === obj.InfoType || InAuthEvent.CHANGE_AUTH === obj.InfoType || InAuthEvent.CANCEL_AUTH === obj.InfoType) return this.InAuthEvent(obj)
     if (InExternalContact.INFO_TYPE === obj.InfoType) return this.parseInExternalContact(obj)
+    if (InUpdateUser.INFO_TYPE === obj.InfoType) return this.parseInUpdateUser(obj)
     return new InNotDefinedMsg(obj.ToUserName, obj.FromUserName, obj.CreateTime, obj.MsgType)
   }
 
@@ -33,6 +35,33 @@ export class InMsgParser {
   }
 
   // 外部联系人事件
+  private static parseInUpdateUser(obj: any): BaseMsg {
+    return new InUpdateUser(
+      obj.SuiteId,
+      obj.AuthCorpId,
+      obj.InfoType,
+      obj.TimeStamp,
+      obj.ChangeType,
+      obj.UserID,
+      obj.OpenUserID,
+      obj.NewUserID,
+      obj.Name,
+      obj.Department,
+      obj.MainDepartment,
+      obj.IsLeaderInDept,
+      obj.Position,
+      obj.Mobile,
+      obj.Gender,
+      obj.Email,
+      obj.Status,
+      obj.Avatar,
+      obj.Alias,
+      obj.Telephone,
+      obj.ExtAttr
+    )
+  }
+
+  // 通讯录事件
   private static parseInExternalContact(obj: any): BaseMsg {
     return new InExternalContact(obj.SuiteId, obj.AuthCorpId, obj.InfoType, obj.TimeStamp, obj.ChangeType, obj.UserID, obj.ExternalUserID, obj.WelcomeCode)
   }

@@ -1,6 +1,7 @@
 import { InSuiteTicket } from './entity/message/input/InSuiteTicket'
 import { InAuthEvent } from './entity/message/input/InAuthEvent'
 import { InExternalContact } from './entity/message/input/InExternalContact'
+import { InUpdateUser } from './entity/message/input/InUpdateUser'
 import { InNotDefinedMsg } from './entity/message/input/InNotDefinedMsg'
 import { InFollowEvent } from './entity/message/input/event/InFollowEvent'
 import { InMsg } from './entity/message/input/InMsg'
@@ -38,6 +39,11 @@ export class MsgAdapter implements IMsgAdapter {
   async processInExternalContact(inExternalContact: InExternalContact): Promise<string> {
     return 'success'
   }
+
+  async processInUpdateUser(inUpdateUser: InUpdateUser): Promise<string> {
+    return 'success'
+  }
+
   // 处理关注、取消关注事件
   async processInFollowEvent(inFollowEvent: InFollowEvent): Promise<OutMsg> {
     return this.renderOutTextMsg(inFollowEvent)

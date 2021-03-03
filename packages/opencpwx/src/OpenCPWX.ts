@@ -8,6 +8,7 @@ import { InNotDefinedMsg } from './entity/message/input/InNotDefinedMsg'
 import { InSuiteTicket } from './entity/message/input/InSuiteTicket'
 import { InAuthEvent } from './entity/message/input/InAuthEvent'
 import { InExternalContact } from './entity/message/input/InExternalContact'
+import { InUpdateUser } from './entity/message/input/InUpdateUser'
 import { InFollowEvent } from './entity/message/input/event/InFollowEvent'
 
 import { OutTextMsg } from './entity/message/output/OutTextMsg'
@@ -133,6 +134,8 @@ export class OpenCPWX {
           outMsg = await this.msgAdapter.processInFollowEvent(<InFollowEvent>inMsg)
         } else if (inMsg instanceof InExternalContact) {
           outMsg = await this.msgAdapter.processInExternalContact(<InExternalContact>inMsg)
+        } else if (inMsg instanceof InUpdateUser) {
+          outMsg = await this.msgAdapter.processInUpdateUser(<InUpdateUser>inMsg)
         } else if (inMsg instanceof InNotDefinedMsg) {
           outMsg = await this.msgAdapter.processIsNotDefinedMsg(<InNotDefinedMsg>inMsg)
         }
