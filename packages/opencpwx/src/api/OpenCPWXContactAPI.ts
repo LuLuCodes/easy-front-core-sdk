@@ -30,14 +30,17 @@ export class OpenCPWXContactAPI {
   private static editGroupWelcomeTemplateUrl = 'https://qyapi.weixin.qq.com/cgi-bin/externalcontact/group_welcome_template/edit?access_token=%s'
   private static getGroupWelcomeTemplateUrl = 'https://qyapi.weixin.qq.com/cgi-bin/externalcontact/group_welcome_template/get?access_token=%s'
   private static delGroupWelcomeTemplateUrl = 'https://qyapi.weixin.qq.com/cgi-bin/externalcontact/group_welcome_template/del?access_token=%s'
-  private static getUnAssignedListUrl = 'https://qyapi.weixin.qq.com/cgi-bin/externalcontact/get_unassigned_list?access_token=%s'
-  private static getTransferResultUrl = 'https://qyapi.weixin.qq.com/cgi-bin/externalcontact/get_transfer_result?access_token=%s'
-  private static transferContactUrl = 'https://qyapi.weixin.qq.com/cgi-bin/externalcontact/transfer?access_token=%s'
-  private static transferGroupChatUrl = 'https://qyapi.weixin.qq.com/cgi-bin/externalcontact/groupchat/transfer?access_token=%s'
   private static getUserBehaviorDataUrl = 'https://qyapi.weixin.qq.com/cgi-bin/externalcontact/get_user_behavior_data?access_token=%s'
   private static getGroupChatStatisticUrl = 'https://qyapi.weixin.qq.com/cgi-bin/externalcontact/groupchat/statistic?access_token=%s'
   private static getGroupChatStatisticByDayUrl = 'https://qyapi.weixin.qq.com/cgi-bin/externalcontact/groupchat/statistic_group_by_day?access_token=%s'
   private static unionidToExternalUserIdUrl = 'https://qyapi.weixin.qq.com/cgi-bin/externalcontact/unionid_to_external_userid?access_token=%s'
+
+  private static transferCustomerUrl = 'https://qyapi.weixin.qq.com/cgi-bin/externalcontact/transfer_customer?access_token=%s'
+  private static getTransferResultUrl = 'https://qyapi.weixin.qq.com/cgi-bin/externalcontact/transfer_result?access_token=%s'
+  private static getUnassignedListUrl = 'https://qyapi.weixin.qq.com/cgi-bin/externalcontact/get_unassigned_list?access_token=%s'
+  private static transferResignedCustomerUrl = 'https://qyapi.weixin.qq.com/cgi-bin/externalcontact/resigned/transfer_customer?access_token=%s'
+  private static getTransferResignedResultUrl = 'https://qyapi.weixin.qq.com/cgi-bin/externalcontact/resigned/transfer_result?access_token=%s'
+  private static transferGroupChatUrl = 'https://qyapi.weixin.qq.com/cgi-bin/externalcontact/groupchat/transfer?access_token=%s'
 
   private static _http = Http.getInstance()
 
@@ -657,92 +660,6 @@ export class OpenCPWXContactAPI {
   }
 
   /**
-   * 外部联系人再分配
-   * @param base
-   * @param externalUserId 外部联系人的userid，注意不是企业成员的帐号
-   * @param handOverUserId 离职成员的userid
-   * @param takeOverUserId 接替成员的userid
-   * @param transferSuccessMsg 接替成员的userid
-   */
-  @AccessTokenRefresh()
-  public static async transferContact(base: OpenCPWXBase, externalUserId: string, handOverUserId: string, takeOverUserId: string, transferSuccessMsg?: string) {
-    const token = await base.getAccessToken()
-    const url = util.format(this.transferContactUrl, token)
-    const data = await this._http.post(url, {
-      external_userid: externalUserId,
-      handover_userid: handOverUserId,
-      takeover_userid: takeOverUserId,
-      transfer_success_msg: transferSuccessMsg,
-    })
-
-    return data
-  }
-
-  /**
-   * 获取离职成员的客户列表
-   * @param base
-   * @param pageId
-   * @param pageSize
-   * @param cursor
-   */
-  @AccessTokenRefresh()
-  public static async getUnAssignedList(base: OpenCPWXBase, pageId?: number, pageSize?: number, cursor?: string) {
-    if (!pageId || pageId < 0) {
-      pageId = 0
-    }
-    if (!pageSize || pageSize < 0) {
-      pageId = 100
-    }
-    const token = await base.getAccessToken()
-    const url = util.format(this.getUnAssignedListUrl, token)
-    const data = await this._http.post(url, {
-      page_id: pageId,
-      page_size: pageSize,
-      cursor,
-    })
-
-    return data
-  }
-
-  /**
-   * 查询客户接替结果
-   * @param base
-   * @param externalUserId 外部联系人的userid，注意不是企业成员的帐号
-   * @param handOverUserId 离职成员的userid
-   * @param takeOverUserId 接替成员的userid
-   */
-  @AccessTokenRefresh()
-  public static async getTransferResult(base: OpenCPWXBase, externalUserId: string, handOverUserId: string, takeOverUserId: string) {
-    const token = await base.getAccessToken()
-    const url = util.format(this.getTransferResultUrl, token)
-    const data = await this._http.post(url, {
-      external_userid: externalUserId,
-      handover_userid: handOverUserId,
-      takeover_userid: takeOverUserId,
-    })
-
-    return data
-  }
-
-  /**
-   * 离职成员的群再分配
-   * @param base
-   * @param chatIdList 需要转群主的客户群ID列表
-   * @param newOwner 新群主ID
-   */
-  @AccessTokenRefresh()
-  public static async transferGroupChat(base: OpenCPWXBase, chatIdList: Array<string>, newOwner: string) {
-    const token = await base.getAccessToken()
-    const url = util.format(this.transferGroupChatUrl, token)
-    const data = await this._http.post(url, {
-      chat_id_list: chatIdList,
-      new_owner: newOwner,
-    })
-
-    return data
-  }
-
-  /**
    * 获取联系客户统计数据
    * @param base
    * @param startTime 数据起始时间
@@ -857,6 +774,132 @@ export class OpenCPWXContactAPI {
     const url = util.format(this.unionidToExternalUserIdUrl, token)
     const data = await this._http.post(url, {
       unionid,
+    })
+
+    return data
+  }
+
+  /**
+   * 分配在职成员的客户
+   * @param base
+   * @param handover_userid 原跟进成员的userid
+   * @param takeover_userid 接替成员的userid
+   * @param external_userid 客户的external_userid列表，每次最多分配100个客户
+   * @param transfer_success_msg 转移成功后发给客户的消息，最多200个字符，不填则使用默认文案
+   */
+  @AccessTokenRefresh()
+  public static async transferCustomer(base: OpenCPWXBase, handover_userid: string, takeover_userid: string, external_userid: Array<string>, transfer_success_msg?: string) {
+    const token = await base.getAccessToken()
+    const url = util.format(this.transferCustomerUrl, token)
+    const data = await this._http.post(url, {
+      handover_userid,
+      takeover_userid,
+      external_userid,
+      transfer_success_msg,
+    })
+
+    return data
+  }
+
+  /**
+   * 查询客户接替状态
+   * @param base
+   * @param handover_userid 原跟进成员的userid
+   * @param takeover_userid 接替成员的userid
+   * @param cursor 页查询的cursor，每个分页返回的数据不会超过1000条；不填或为空表示获取第一个分页；
+   */
+  @AccessTokenRefresh()
+  public static async getTransferResult(base: OpenCPWXBase, handover_userid: string, takeover_userid: string, cursor?: string) {
+    const token = await base.getAccessToken()
+    const url = util.format(this.getTransferResultUrl, token)
+    const data = await this._http.post(url, {
+      handover_userid,
+      takeover_userid,
+      cursor,
+    })
+
+    return data
+  }
+
+  /**
+   * 获取待分配的离职成员的客户列表
+   * @param base
+   * @param page_id 分页查询，要查询页号，从0开始
+   * @param page_size 每次返回的最大记录数，默认为1000，最大值为1000
+   * @param cursor 分页查询游标，字符串类型，适用于数据量较大的情况，如果使用该参数则无需填写page_id，该参数由上一次调用返回
+   */
+  @AccessTokenRefresh()
+  public static async getUnassignedList(base: OpenCPWXBase, pageId = 0, pageSize?: number, cursor?: string) {
+    if (!pageId || pageId < 0) {
+      pageId = 0
+    }
+    if (!pageSize || pageSize < 0) {
+      pageId = 100
+    }
+    const token = await base.getAccessToken()
+    const url = util.format(this.getUnassignedListUrl, token)
+    const data = await this._http.post(url, {
+      page_id: pageId,
+      page_size: pageSize,
+      cursor,
+    })
+
+    return data
+  }
+
+  /**
+   * 分配离职成员的客户
+   * @param base
+   * @param handover_userid 原跟进成员的userid
+   * @param takeover_userid 接替成员的userid
+   * @param external_userid 客户的external_userid列表，每次最多分配100个客户
+   */
+  @AccessTokenRefresh()
+  public static async transferResignedCustomer(base: OpenCPWXBase, handover_userid: string, takeover_userid: string, external_userid: Array<string>) {
+    const token = await base.getAccessToken()
+    const url = util.format(this.transferResignedCustomerUrl, token)
+    const data = await this._http.post(url, {
+      handover_userid,
+      takeover_userid,
+      external_userid,
+    })
+
+    return data
+  }
+
+  /**
+   * 查询客户接替状态(离职员工)
+   * @param base
+   * @param handover_userid 原跟进成员的userid
+   * @param takeover_userid 接替成员的userid
+   * @param cursor 页查询的cursor，每个分页返回的数据不会超过1000条；不填或为空表示获取第一个分页；
+   */
+  @AccessTokenRefresh()
+  public static async getTransferResignedResult(base: OpenCPWXBase, handover_userid: string, takeover_userid: string, cursor?: string) {
+    const token = await base.getAccessToken()
+    const url = util.format(this.getTransferResignedResultUrl, token)
+    const data = await this._http.post(url, {
+      handover_userid,
+      takeover_userid,
+      cursor,
+    })
+
+    return data
+  }
+
+  /**
+   * 离职成员的群再分配
+   * @param base
+   * @param chatIdList 需要转群主的客户群ID列表
+   * @param newOwner 新群主ID
+   */
+  @AccessTokenRefresh()
+  public static async transferGroupChat(base: OpenCPWXBase, chatIdList: Array<string>, newOwner: string) {
+    const token = await base.getAccessToken()
+    const url = util.format(this.transferGroupChatUrl, token)
+    const data = await this._http.post(url, {
+      chat_id_list: chatIdList,
+      new_owner: newOwner,
     })
 
     return data
