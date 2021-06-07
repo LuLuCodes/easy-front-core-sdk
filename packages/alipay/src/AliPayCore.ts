@@ -297,6 +297,16 @@ export interface TransOrderQueryParams {
   order_id?: string
 }
 
+/** 查询对账单下载地址
+ * @param out_biz_no        商户转账唯一订单号
+ * @param order_id          支付宝转账单据号
+
+ */
+export interface BillDownloadurlQueryParams {
+  bill_type?: string
+  bill_date?: string
+}
+
 // App支付同步通知状态码
 export enum PaymentResponseCode {
   SUCCESS = '9000',
@@ -345,6 +355,7 @@ export type APIParams =
   | TradeSettleParams
   | UniTransferParams
   | TransOrderQueryParams
+  | BillDownloadurlQueryParams
 
 export const ResponseMessage = {
   0: '请求成功',
@@ -688,6 +699,12 @@ export class AliPayCore {
 
   public async transOrderQuery(apiParams: TransOrderQueryParams, publicParams?: PublicParams) {
     const url = this.makeRequest(MethodType.FUND_TRANS_ORDER_QUERY, apiParams, publicParams)
+    const data = await this._http.get(url)
+    return this.makeResponse(data, publicParams)
+  }
+
+  public async billDownloadurlQuery(apiParams: BillDownloadurlQueryParams, publicParams?: PublicParams) {
+    const url = this.makeRequest(MethodType.BILL_DOWNLOAD_URL_QUERY, apiParams, publicParams)
     const data = await this._http.get(url)
     return this.makeResponse(data, publicParams)
   }

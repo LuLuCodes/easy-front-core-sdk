@@ -16,6 +16,7 @@ export {
   TradeSettleParams,
   UniTransferParams,
   TransOrderQueryParams,
+  BillDownloadurlQueryParams,
   PaymentResponseCode,
   VerifyPamentResult,
   VerifyPamentParams,

@@ -122,7 +122,7 @@ export class Cryptogram {
     if (encode) {
       return crypto
         .createSign('RSA-SHA256')
-        .update(data, <crypto.Utf8AsciiLatin1Encoding>encode)
+        .update(data, <crypto.CharacterEncoding>encode)
         .sign(privatekey, 'base64')
     } else {
       return crypto.createSign('RSA-SHA256').update(data).sign(privatekey, 'base64')
@@ -138,7 +138,7 @@ export class Cryptogram {
     if (encode) {
       return crypto
         .createSign('RSA-SHA1')
-        .update(data, <crypto.Utf8AsciiLatin1Encoding>encode)
+        .update(data, <crypto.CharacterEncoding>encode)
         .sign(privatekey, 'base64')
     } else {
       return crypto.createSign('RSA-SHA1').update(data).sign(privatekey, 'base64')
@@ -155,7 +155,7 @@ export class Cryptogram {
     if (encode) {
       return crypto
         .createVerify('RSA-SHA256')
-        .update(data, <crypto.Utf8AsciiLatin1Encoding>encode)
+        .update(data, <crypto.CharacterEncoding>encode)
         .verify(publicKey, signature, 'base64')
     } else {
       return crypto.createVerify('RSA-SHA256').update(data).verify(publicKey, signature, 'base64')
@@ -172,7 +172,7 @@ export class Cryptogram {
     if (encode) {
       return crypto
         .createVerify('RSA-SHA1')
-        .update(data, <crypto.Utf8AsciiLatin1Encoding>encode)
+        .update(data, <crypto.CharacterEncoding>encode)
         .verify(publicKey, signature, 'base64')
     } else {
       return crypto.createVerify('RSA-SHA1').update(data).verify(publicKey, signature, 'base64')
