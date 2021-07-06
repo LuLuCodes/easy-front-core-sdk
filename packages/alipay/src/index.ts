@@ -17,6 +17,7 @@ export {
   UniTransferParams,
   TransOrderQueryParams,
   BillDownloadurlQueryParams,
+  FundTransCommonQueryParams,
   PaymentResponseCode,
   VerifyPamentResult,
   VerifyPamentParams,

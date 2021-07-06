@@ -21,6 +21,7 @@ export enum MethodType {
   TRADE_REFUND_QUERY = 'alipay.trade.fastpay.refund.query',
   BILL_DOWNLOAD_QUERY = 'alipay.data.dataservice.bill.downloadurl.query',
   FUND_TRANS_UNI_TRANSFER = 'alipay.fund.trans.uni.transfer',
+  FUND_TRANS_COMMON_QUERY = 'alipay.fund.trans.common.query',
   FUND_TRANS_ORDER_QUERY = 'alipay.fund.trans.order.query',
   BILL_DOWNLOAD_URL_QUERY = 'alipay.data.dataservice.bill.downloadurl.query',
 

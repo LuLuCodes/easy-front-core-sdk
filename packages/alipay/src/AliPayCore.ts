@@ -298,13 +298,27 @@ export interface TransOrderQueryParams {
 }
 
 /** 查询对账单下载地址
- * @param out_biz_no        商户转账唯一订单号
- * @param order_id          支付宝转账单据号
-
+ * @param bill_type        账单类型
+ * @param bill_date          账单时间
  */
 export interface BillDownloadurlQueryParams {
   bill_type?: string
   bill_date?: string
+}
+
+/** 转账单据查询
+ * @param order_id        支付宝转账单据号
+ * @param pay_fund_order_id          支付宝支付资金流水号
+ * @param out_biz_no              商户转账唯一订单号
+ * @param product_code             产品码
+ * @param biz_scene             描述特定的业务场景
+ */
+export interface FundTransCommonQueryParams {
+  order_id?: string
+  pay_fund_order_id?: string
+  out_biz_no?: string
+  product_code?: string
+  biz_scene?: string
 }
 
 // App支付同步通知状态码
@@ -356,6 +370,7 @@ export type APIParams =
   | UniTransferParams
   | TransOrderQueryParams
   | BillDownloadurlQueryParams
+  | FundTransCommonQueryParams
 
 export const ResponseMessage = {
   0: '请求成功',
@@ -390,6 +405,7 @@ export enum APIList {
   'alipay.trade.fastpay.refund.query' = '交易退款查询',
   'alipay.trade.app.pay' = '生成创建订单所需参数',
   'alipay.fund.trans.uni.transfer' = '单笔转账到支付宝账户接口',
+  'alipay.fund.trans.common.query' = '转账单据查询',
   'alipay.fund.trans.order.query' = '查询转账订单接口',
   'alipay.data.dataservice.bill.downloadurl.query' = '查询账单下载地址接口',
   'async.notify' = '异步通知', // 自定义
@@ -705,6 +721,12 @@ export class AliPayCore {
 
   public async billDownloadurlQuery(apiParams: BillDownloadurlQueryParams, publicParams?: PublicParams) {
     const url = this.makeRequest(MethodType.BILL_DOWNLOAD_URL_QUERY, apiParams, publicParams)
+    const data = await this._http.get(url)
+    return this.makeResponse(data, publicParams)
+  }
+
+  public async fundTransCommonQuery(apiParams: FundTransCommonQueryParams, publicParams?: PublicParams) {
+    const url = this.makeRequest(MethodType.FUND_TRANS_COMMON_QUERY, apiParams, publicParams)
     const data = await this._http.get(url)
     return this.makeResponse(data, publicParams)
   }
